@@ -491,7 +491,9 @@
       border-radius: 20px;
       background: linear-gradient(130deg, rgba(var(--accent-2-rgb), .10), rgba(var(--accent-rgb), .07)), rgba(8,15,29,.64);
     }
-    .active-merchant-top { display: flex; justify-content: space-between; gap: 12px; align-items: flex-start; }
+    .active-merchant-top { display: grid; grid-template-columns: minmax(0, 1fr) minmax(360px, 480px); gap: 18px; align-items: start; }
+    .active-merchant-copy { min-width: 0; }
+    .active-merchant-copy .merchant-summary-grid { margin-top: 12px; }
     .active-merchant h2 { margin: 3px 0 0; font-size: 20px; line-height: 1.08; letter-spacing: -.045em; }
     .active-meta { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 9px; }
     .merchant-summary-grid { display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(230px, .85fr); gap: 10px; margin-top: 12px; }
@@ -1953,7 +1955,7 @@
       aspect-ratio: 1 / 1 !important;
       flex-basis: 94px !important;
       padding: 0 !important;
-      border-radius: 24px !important;
+      border-radius: 22px !important;
       margin: 0 auto !important;
     }
     body.sidebar-collapsed .brand-copy { max-width: 94px !important; }
@@ -2705,6 +2707,8 @@
       .context-recommendation { grid-row: auto; }
       .wallpaper-grid, .palette-presets { grid-template-columns: repeat(2,minmax(0,1fr)); }
       .profile-drop { grid-template-columns: 1fr; }
+      body.desktop-x .active-merchant-top { grid-template-columns: 1fr; }
+      body.desktop-x .merchant-photo-panel { max-width: 100%; justify-self: stretch; }
     }
     @media (max-width: 620px) {
       .nav-list { grid-template-columns: repeat(2,minmax(0,1fr)); }
@@ -3066,14 +3070,14 @@
     body.desktop-x .queue-pagination { min-height:36px; margin-top:8px; padding-top:8px; }
     body.desktop-x .queue-page-meta { font-size:8px; }
     body.desktop-x .queue-page-btn { width:26px; height:26px; border-radius:7px; font-size:8px; }
-    body.desktop-x .active-merchant { position:sticky; top:66px; z-index:8; margin:-16px -16px 0; padding:15px 16px 14px; background:rgba(13,18,24,.985); border-bottom:1px solid var(--x-line); }
+    body.desktop-x .active-merchant { position:relative; top:auto; z-index:8; margin:0 0 16px; padding:15px 16px 14px; background:rgba(13,18,24,.985); border-bottom:1px solid var(--x-line); }
     body.desktop-x .active-merchant h2 { font-size:20px; }
-    body.desktop-x .active-merchant-top { align-items:flex-start; }
+    body.desktop-x .active-merchant-top { display:grid; grid-template-columns:minmax(0,1fr) minmax(360px,480px); gap:12px; align-items:flex-start; }
     body.desktop-x .merchant-summary-grid { grid-template-columns:1fr 1fr; margin-top:11px; }
     body.desktop-x .merchant-summary-card { padding:9px 10px; background:rgba(148,163,184,.032); }
     body.desktop-x .merchant-summary-card span { font-size:7px; }
     body.desktop-x .merchant-summary-card.big strong { font-size:13px; }
-    body.desktop-x .hub-tabs { position:sticky; top:191px; z-index:7; margin:0 -16px 14px; padding:0 16px; background:rgba(13,18,24,.985); }
+    body.desktop-x .hub-tabs { position:relative; top:auto; z-index:7; margin:0 0 14px; padding:0 16px; background:rgba(13,18,24,.985); }
     body.desktop-x .hub-tab { min-height:41px; font-size:10px; }
     body.desktop-x .context-panel { padding:12px; border-radius:10px; }
     body.desktop-x .context-recommendation h3 { font-size:15px; }
@@ -3194,6 +3198,284 @@
       body.desktop-x .calendar-shell { grid-template-columns:minmax(0,1.62fr) 390px !important; }
     }
 
+
+
+    /* Merchant photos for Work Hub */
+    body.desktop-x .queue-scroll.call-board-page {
+      grid-auto-rows: auto !important;
+      gap: 6px !important;
+    }
+    body.desktop-x .queue-scroll.call-board-page .merchant-row {
+      height: auto !important;
+      min-height: 88px !important;
+      padding: 10px !important;
+      display: grid !important;
+      grid-template-columns: minmax(0, 1fr) 128px !important;
+      gap: 10px !important;
+      align-items: stretch !important;
+    }
+    body.desktop-x .merchant-row-main {
+      appearance: none;
+      -webkit-appearance: none;
+      width: 100%;
+      min-width: 0;
+      padding: 0;
+      border: 0;
+      background: transparent;
+      color: var(--x-text);
+      text-align: left;
+      display: grid;
+      align-content: center;
+      gap: 4px;
+    }
+    body.desktop-x .merchant-row-main strong {
+      display: block;
+      font-size: 11px;
+      font-weight: 650;
+      line-height: 1.25;
+      letter-spacing: -.02em;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    body.desktop-x .merchant-row-sub {
+      display: block;
+      color: var(--x-muted);
+      font-size: 8px;
+      line-height: 1.35;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    body.desktop-x .merchant-photo-slot {
+      display: grid;
+      grid-template-columns: 34px minmax(0, 1fr) auto;
+      gap: 8px;
+      align-items: center;
+      min-width: 0;
+      padding: 8px 10px;
+      border: 1px dashed var(--x-line-strong);
+      border-radius: 10px;
+      background: rgba(148,163,184,.03);
+      color: var(--x-text);
+      text-align: left;
+      transition: border-color 140ms var(--v30-ease), background 140ms var(--v30-ease), transform 140ms var(--v30-ease);
+    }
+    body.desktop-x .merchant-photo-slot:hover {
+      transform: translateY(-1px);
+      border-color: color-mix(in srgb, var(--accent) 38%, var(--x-line-strong));
+      background: rgba(var(--accent-rgb), .06);
+    }
+    body.desktop-x .merchant-photo-slot.dragging {
+      border-color: color-mix(in srgb, var(--accent-2) 62%, var(--accent));
+      background: rgba(var(--accent-2-rgb), .09);
+    }
+    body.desktop-x .merchant-photo-slot.has-photo {
+      border-style: solid;
+      border-color: rgba(var(--accent-rgb), .22);
+      background: rgba(var(--accent-rgb), .06);
+    }
+    body.desktop-x .merchant-photo-img,
+    body.desktop-x .merchant-photo-fallback {
+      width: 34px;
+      height: 34px;
+      border-radius: 8px;
+      overflow: hidden;
+      border: 1px solid var(--x-line);
+      flex: 0 0 34px;
+    }
+    body.desktop-x .merchant-photo-img {
+      display: block;
+      object-fit: cover;
+      background: var(--x-panel-soft);
+    }
+    body.desktop-x .merchant-photo-fallback {
+      display: grid;
+      place-items: center;
+      background: rgba(148,163,184,.055);
+      color: var(--x-muted);
+      font-size: 10px;
+      font-weight: 760;
+      letter-spacing: -.02em;
+    }
+    body.desktop-x .merchant-photo-copy {
+      min-width: 0;
+      display: grid;
+      gap: 2px;
+    }
+    body.desktop-x .merchant-photo-copy strong {
+      display: block;
+      font-size: 10px;
+      line-height: 1.15;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    body.desktop-x .merchant-photo-copy span {
+      display: block;
+      color: var(--x-muted-2);
+      font-size: 8px;
+      line-height: 1.3;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    body.desktop-x .merchant-photo-btn {
+      justify-self: end;
+      white-space: nowrap;
+    }
+    body.desktop-x .merchant-row.selected .merchant-photo-slot {
+      border-color: rgba(var(--accent-rgb), .40);
+      background: rgba(var(--accent-rgb), .09);
+    }
+    body.desktop-x .merchant-photo-panel {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr);
+      gap: 10px;
+      align-items: start;
+      margin-top: 0;
+      padding: 14px;
+      border: 1px solid var(--x-line);
+      border-radius: 12px;
+      background: rgba(148,163,184,.035);
+      min-width: 0;
+      width: 100%;
+      max-width: 420px;
+      justify-self: end;
+    }
+    body.desktop-x .merchant-photo-panel.dragging {
+      border-color: color-mix(in srgb, var(--accent-2) 60%, var(--accent));
+      background: rgba(var(--accent-rgb), .07);
+    }
+    body.desktop-x .merchant-photo-preview {
+      width: 100%;
+      aspect-ratio: 16 / 10;
+      display: grid;
+      place-items: center;
+      overflow: hidden;
+      border-radius: 10px;
+      border: 1px solid var(--x-line);
+      background: rgba(8,11,16,.8);
+      position: relative;
+    }
+    body.desktop-x .merchant-photo-preview img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+    body.desktop-x .merchant-photo-empty {
+      padding: 10px;
+      text-align: center;
+      color: var(--x-muted);
+      font-size: 10px;
+      line-height: 1.4;
+    }
+    body.desktop-x .merchant-photo-panel-copy {
+      display: none;
+    }
+    body.desktop-x .merchant-photo-panel .button-row {
+      display: none;
+    }
+    body.desktop-x .merchant-photo-mini-btn {
+      position: absolute;
+      right: 10px;
+      bottom: 10px;
+      z-index: 2;
+      padding-inline: 10px;
+      border-radius: 999px;
+      box-shadow: 0 8px 18px rgba(0,0,0,.18);
+    }
+    body.desktop-x .merchant-photo-panel.has-photo .merchant-photo-mini-btn {
+      background: rgba(13,18,24,.86) !important;
+      border-color: rgba(var(--accent-rgb), .38) !important;
+    }
+
+
+    /* Large header photo treatment */
+    body.desktop-x .queue-scroll.call-board-page .merchant-row {
+      min-height: 48px !important;
+      padding: 8px 10px !important;
+      display: block !important;
+    }
+    body.desktop-x .queue-scroll.call-board-page .merchant-row-main {
+      width: 100% !important;
+    }
+    body.desktop-x .merchant-photo-slot {
+      display: none !important;
+    }
+    body.desktop-x .merchant-photo-panel {
+      margin-top: 2px !important;
+      padding: 0 !important;
+      border: 1px solid var(--x-line) !important;
+      border-radius: 22px !important;
+      background: rgba(148,163,184,.02) !important;
+      width: 100% !important;
+      max-width: none !important;
+      min-height: 260px !important;
+      overflow: hidden !important;
+      box-shadow: 0 14px 36px rgba(0,0,0,.18) !important;
+      justify-self: stretch !important;
+      align-self: start !important;
+    }
+    body.desktop-x .merchant-photo-hero {
+      position: relative !important;
+      width: 100% !important;
+      height: 100% !important;
+      min-height: 260px !important;
+      display: block !important;
+    }
+    body.desktop-x .merchant-photo-preview {
+      width: 100% !important;
+      height: 100% !important;
+      min-height: 260px !important;
+      display: grid !important;
+      place-items: center !important;
+      overflow: hidden !important;
+      border-radius: 22px !important;
+      border: 0 !important;
+      background: rgba(8,11,16,.8) !important;
+      position: relative !important;
+    }
+    body.desktop-x .merchant-photo-preview img {
+      width: 100% !important;
+      height: 100% !important;
+      object-fit: cover !important;
+      display: block !important;
+    }
+    body.desktop-x .merchant-photo-empty {
+      padding: 16px !important;
+      text-align: center !important;
+      color: var(--x-muted) !important;
+      font-size: 11px !important;
+      line-height: 1.4 !important;
+    }
+    body.desktop-x .merchant-photo-empty strong {
+      display: block !important;
+      color: var(--x-text) !important;
+      font-size: 13px !important;
+      font-weight: 700 !important;
+    }
+    body.desktop-x .merchant-photo-empty span {
+      display: block !important;
+      margin-top: 4px !important;
+      color: var(--x-muted-2) !important;
+      font-size: 9px !important;
+    }
+    body.desktop-x .merchant-photo-mini-btn {
+      position: absolute !important;
+      right: 14px !important;
+      bottom: 14px !important;
+      z-index: 2 !important;
+      min-height: 34px !important;
+      padding: 7px 12px !important;
+      border-radius: 999px !important;
+      font-size: 11px !important;
+      white-space: nowrap !important;
+      box-shadow: 0 10px 24px rgba(0,0,0,.24) !important;
+      backdrop-filter: blur(10px) !important;
+    }
+
 </style>
 </head>
 <body data-motion="smooth" class="focus-mode density-comfort desktop-x">
@@ -3263,6 +3545,7 @@
   <input id="callsCsvInput" type="file" accept=".csv,text/csv" hidden />
   <input id="profileImageInput" type="file" accept="image/gif,image/*" hidden />
   <input id="backupInput" type="file" accept="application/json,.json" hidden />
+  <input id="merchantPhotoInput" type="file" accept="image/*" hidden />
   <input id="wallpaperInput" type="file" accept="image/*" multiple hidden />
   <input id="gifWallpaperInput" type="file" accept="image/gif" hidden />
 
@@ -3834,7 +4117,8 @@ const FOLLOWUP_DELETE_SOUND_DATA_URL = "data:audio/wav;base64,UklGRsqKAABXQVZFZm
         followupFilters: { merchant:"all", reason:"all", status:"open" },
         resourceFilters: { q:"", type:"all", sort:"favorites" },
         linkFilters: { q:"", category:"all", sort:"favorites" },
-        saleRecordEditorId: ""
+        saleRecordEditorId: "",
+        photoTargetUid: ""
       },
       notifiedFollowups: {}
     };
@@ -5653,12 +5937,51 @@ const FOLLOWUP_DELETE_SOUND_DATA_URL = "data:audio/wav;base64,UklGRsqKAABXQVZFZm
     toast("Call CSV exported");
   }
 
+  function merchantPhotoAsset(merchant) {
+    const st = merchantState(merchant?.uid);
+    return {
+      src: String(st.merchantPhoto || ""),
+      name: String(st.merchantPhotoName || ""),
+      updatedAt: String(st.merchantPhotoUpdatedAt || "")
+    };
+  }
+
+  function merchantPhotoInitials(merchant) {
+    return String(merchant?.store_name || merchant?.business_name || merchant?.dm_name || "M")
+      .split(/\s+/)
+      .filter(Boolean)
+      .slice(0, 2)
+      .map(part => part[0])
+      .join("")
+      .toUpperCase() || "M";
+  }
+
+  function renderMerchantPhotoSlot(merchant, variant = "row") {
+    if (!merchant) return "";
+    const photo = merchantPhotoAsset(merchant);
+    const initials = merchantPhotoInitials(merchant);
+    const hasPhoto = !!photo.src;
+    if (variant === "hero") {
+      return `<section class="merchant-photo-panel ${hasPhoto ? "has-photo" : "empty"}" data-merchant-photo-drop="${attr(merchant.uid)}">
+        <div class="merchant-photo-hero">
+          <div class="merchant-photo-preview">${hasPhoto ? `<img src="${attr(photo.src)}" alt="${attr(merchant.store_name)} merchant photo" />` : `<div class="merchant-photo-empty"><strong>Drop merchant photo</strong><span>JPG, PNG or GIF</span></div>`}</div>
+          <button class="btn small blue merchant-photo-mini-btn" type="button" data-merchant-photo-pick="${attr(merchant.uid)}">${hasPhoto ? "Replace photo" : "Add photo"}</button>
+        </div>
+      </section>`;
+    }
+    return "";
+  }
+
   function merchantRowHTML(item, openView = "") {
     const d = item.merchant ? item : deriveMerchant(item);
     const m = d.merchant;
-    return `<button class="merchant-row ${state.selectedUid === m.uid ? "selected" : ""}" type="button" data-select-merchant="${attr(m.uid)}" data-open-view="${attr(openView)}">
-      <strong>${esc(m.store_name)}</strong>
-    </button>`;
+    const rowMeta = [m.market_name, d.local?.time !== "—" ? `${d.local.time} · ${d.local.label}` : ""].filter(Boolean).join(" · ");
+    return `<div class="merchant-row ${state.selectedUid === m.uid ? "selected" : ""}">
+      <button class="merchant-row-main" type="button" data-select-merchant="${attr(m.uid)}" data-open-view="${attr(openView)}">
+        <strong>${esc(m.store_name)}</strong>
+        <span class="merchant-row-sub">${esc(rowMeta)}</span>
+      </button>
+    </div>`;
   }
 
   function buildWeeklyChart(items) {
@@ -6073,7 +6396,7 @@ const FOLLOWUP_DELETE_SOUND_DATA_URL = "data:audio/wav;base64,UklGRsqKAABXQVZFZm
     const businessName = String(merchant.business_name || merchant.store_name || 'N/A').trim() || 'N/A';
     return `<div class="active-merchant">
       <div class="active-merchant-top">
-        <div>
+        <div class="active-merchant-copy">
           <div class="card-kicker">Active merchant</div>
           <h2>${esc(merchant.store_name)}</h2>
           <div class="active-meta">
@@ -6094,11 +6417,7 @@ const FOLLOWUP_DELETE_SOUND_DATA_URL = "data:audio/wav;base64,UklGRsqKAABXQVZFZm
             </div>
           </div>
         </div>
-        <div class="contact-actions">
-          ${phones[0] ? `<button class="btn small ghost" type="button" data-copy="${attr(phones[0])}">Copy phone</button><button class="btn small green" type="button" data-outreach-call="${attr(normalizedTelNumber(phones[0]))}" aria-label="Open Outreach dialer for ${attr(phones[0])}" title="Open Outreach and copy the number">${phoneIconSvg()}Call</button>` : ""}
-          ${emails[0] ? `<button class="btn small ghost" type="button" data-copy="${attr(emails[0])}">Copy email</button><a class="btn small blue" href="${attr(merchantGmailComposeUrl(merchant, emails[0]))}" target="_blank" rel="noopener noreferrer" aria-label="Open Gmail for ${attr(emails[0])}">${mailIconSvg()}Email</a>` : ""}
-          <button class="btn small purple" type="button" data-nav="profile">Full profile</button>
-        </div>
+        ${renderMerchantPhotoSlot(merchant, "hero")}
       </div>
     </div>`;
   }
@@ -7474,6 +7793,7 @@ const FOLLOWUP_DELETE_SOUND_DATA_URL = "data:audio/wav;base64,UklGRsqKAABXQVZFZm
     });
     const profileDrop=document.getElementById("profileDropzone");
     if(profileDrop){profileDrop.addEventListener("dragover",e=>{e.preventDefault();profileDrop.classList.add("dragging");});profileDrop.addEventListener("dragleave",()=>profileDrop.classList.remove("dragging"));profileDrop.addEventListener("drop",e=>{e.preventDefault();profileDrop.classList.remove("dragging");const file=e.dataTransfer.files?.[0];if(file)processProfileImage(file).then(()=>playStompSound()).catch(()=>{});});}
+    document.querySelectorAll("[data-merchant-photo-drop]").forEach(el=>{el.addEventListener("dragover",e=>{e.preventDefault();el.classList.add("dragging");});el.addEventListener("dragleave",()=>el.classList.remove("dragging"));el.addEventListener("drop",e=>{e.preventDefault();el.classList.remove("dragging");const uid=el.dataset.merchantPhotoDrop||"";const file=e.dataTransfer.files?.[0];if(file&&uid)processMerchantPhotoFile(file,uid).then(()=>playStompSound()).catch(()=>{});});});
   }
 
   function debouncedRender() {
@@ -7490,6 +7810,8 @@ const FOLLOWUP_DELETE_SOUND_DATA_URL = "data:audio/wav;base64,UklGRsqKAABXQVZFZm
     if(copy){copyText(copy.dataset.copy);return;}
     const select=e.target.closest("[data-select-merchant]");
     if(select){selectMerchant(select.dataset.selectMerchant,select.dataset.openView||"");return;}
+    const photoPick=e.target.closest("[data-merchant-photo-pick]");
+    if(photoPick){const uid=photoPick.dataset.merchantPhotoPick||"";if(uid){state.ui.photoTargetUid=uid;selectMerchant(uid,"workhub");document.getElementById("merchantPhotoInput")?.click();}return;}
     const lane=e.target.closest("[data-toggle-lane]");
     if(lane){const key=lane.dataset.toggleLane;state.ui.laneOpen[key]=state.ui.laneOpen[key]===false?true:false;scheduleSave();renderApp();return;}
     const tab=e.target.closest("[data-workhub-tab]");
@@ -7537,6 +7859,7 @@ const FOLLOWUP_DELETE_SOUND_DATA_URL = "data:audio/wav;base64,UklGRsqKAABXQVZFZm
 
   document.getElementById("merchantCsvInput").addEventListener("change",e=>{const file=e.target.files?.[0];if(file)handleCsvFile(file,"merchants");e.target.value="";});
   document.getElementById("callsCsvInput").addEventListener("change",e=>{const file=e.target.files?.[0];if(file)handleCsvFile(file,"calls");e.target.value="";});
+  document.getElementById("merchantPhotoInput").addEventListener("change",e=>{const file=e.target.files?.[0];const uid=state.ui.photoTargetUid||selectedMerchant()?.uid||"";state.ui.photoTargetUid="";if(file&&uid)processMerchantPhotoFile(file,uid).catch(()=>{});e.target.value="";});
   document.getElementById("profileImageInput").addEventListener("change",e=>{const file=e.target.files?.[0];if(file)processProfileImage(file);e.target.value="";});
   document.getElementById("wallpaperInput").addEventListener("change",e=>{const files=[...(e.target.files||[])];if(files.length)processWallpaperFiles(files);e.target.value="";});
   document.getElementById("gifWallpaperInput").addEventListener("change",e=>{const file=e.target.files?.[0];if(file)processGifWallpaperFiles([file]);e.target.value="";});
@@ -7589,6 +7912,7 @@ const FOLLOWUP_DELETE_SOUND_DATA_URL = "data:audio/wav;base64,UklGRsqKAABXQVZFZm
       clearLinkFilters: () => {state.ui.linkFilters={q:"",category:"all",sort:"favorites"};scheduleSave();renderApp();},
       chooseMerchantCsv: () => document.getElementById("merchantCsvInput").click(),
       chooseCallsCsv: () => document.getElementById("callsCsvInput").click(),
+      chooseMerchantPhoto: () => { const merchant = selectedMerchant(); if (!merchant) return toast("Select a merchant first"); state.ui.photoTargetUid = merchant.uid; document.getElementById("merchantPhotoInput")?.click(); },
       undoImport: undoLastImport,
       resetPortfolio,
       chooseProfileImage: () => document.getElementById("profileImageInput").click(),
@@ -7597,6 +7921,7 @@ const FOLLOWUP_DELETE_SOUND_DATA_URL = "data:audio/wav;base64,UklGRsqKAABXQVZFZm
       resetWallpaperSelection: () => { state.profile.customWallpaperId=""; state.profile.gifWallpaperId=""; state.profile.wallpaperPreset = resolvePaletteKey(state.profile.palettePreset || "aurora"); scheduleSave(); renderApp(); toast("Theme wallpaper restored"); },
       resetGifWallpaperSelection: () => { state.profile.gifWallpaperId=""; scheduleSave(); renderApp(); toast("GIF wallpaper cleared"); },
       removeProfileImage,
+      clearMerchantPhoto: () => { const merchant = selectedMerchant(); if (!merchant) return toast("Select a merchant first"); setMerchantState(merchant.uid, { merchantPhoto: "", merchantPhotoName: "", merchantPhotoUpdatedAt: "" }); scheduleSave(); renderApp(); toast("Merchant photo removed"); },
       useProfileGif: () => applyProfileGifHistory(element?.dataset?.useProfileGif || ""),
       useGifWallpaper: () => applyGifWallpaper(element?.dataset?.useGifWallpaper || ""),
       removeGifWallpaper: () => removeGifWallpaperEntry(element?.dataset?.removeGifWallpaper || ""),
@@ -8102,6 +8427,56 @@ const FOLLOWUP_DELETE_SOUND_DATA_URL = "data:audio/wav;base64,UklGRsqKAABXQVZFZm
     const dataUrl=await fileToDataUrl(file);state.profile.avatar=dataUrl;state.profile.avatarName=file.name.replace(/\.[^.]+$/,"")||file.name||"Workspace GIF";
     try{const colors=await extractPalette(dataUrl);state.profile.accent=colors[0];state.profile.accent2=colors[1];state.profile.palettePreset="custom";}catch(err){console.warn(err);}
     scheduleSave();renderApp();toast("Workspace GIF and palette updated");
+  }
+
+  function loadImageFromDataUrl(src) {
+    return new Promise((resolve, reject) => {
+      const img = new Image();
+      img.onload = () => resolve(img);
+      img.onerror = reject;
+      img.src = src;
+    });
+  }
+
+  async function optimizeMerchantPhotoSource(file, source) {
+    if (!file?.type?.startsWith("image/")) return source;
+    if (file.type === "image/gif") return source;
+    try {
+      const img = await loadImageFromDataUrl(source);
+      const maxDim = 1200;
+      const scale = Math.min(1, maxDim / Math.max(img.width || maxDim, img.height || maxDim));
+      const width = Math.max(1, Math.round((img.width || maxDim) * scale));
+      const height = Math.max(1, Math.round((img.height || maxDim) * scale));
+      const canvas = document.createElement("canvas");
+      canvas.width = width;
+      canvas.height = height;
+      const ctx = canvas.getContext("2d");
+      if (!ctx) return source;
+      ctx.fillStyle = "#0d1218";
+      ctx.fillRect(0, 0, width, height);
+      ctx.drawImage(img, 0, 0, width, height);
+      return canvas.toDataURL("image/jpeg", 0.86);
+    } catch (err) {
+      console.warn(err);
+      return source;
+    }
+  }
+
+  async function processMerchantPhotoFile(file, uidValue) {
+    if (!file?.type?.startsWith("image/")) return toast("Choose an image file");
+    const merchant = getMerchant(uidValue);
+    if (!merchant) return toast("Select a merchant first");
+    if (file.size > 12_000_000) return toast("Use an image smaller than 12 MB");
+    const source = await fileToDataUrl(file);
+    const optimized = await optimizeMerchantPhotoSource(file, source);
+    setMerchantState(merchant.uid, {
+      merchantPhoto: optimized,
+      merchantPhotoName: file.name.replace(/\.[^.]+$/, "") || file.name || "Merchant photo",
+      merchantPhotoUpdatedAt: new Date().toISOString()
+    });
+    scheduleSave();
+    renderApp();
+    toast(`Photo saved for ${merchant.store_name}`);
   }
 
   async function processWallpaperFiles(files) {
