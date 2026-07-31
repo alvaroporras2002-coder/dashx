@@ -3476,6 +3476,271 @@
       backdrop-filter: blur(10px) !important;
     }
 
+
+
+    /* ==================================================================
+       Work Hub redesign — tri-pane, profile-first, readability pass
+       ================================================================== */
+    body.desktop-x .hub-layout {
+      display: grid !important;
+      grid-template-columns: minmax(280px, .72fr) minmax(660px, 1.36fr) minmax(290px, .66fr) !important;
+      gap: 14px !important;
+      align-items: start !important;
+    }
+    body.desktop-x .hub-queue,
+    body.desktop-x .hub-context-stack {
+      top: 74px !important;
+      max-height: calc(100vh - 88px) !important;
+      overflow: auto !important;
+    }
+    body.desktop-x .hub-queue {
+      padding: 16px !important;
+      border-radius: 16px !important;
+    }
+    body.desktop-x .hub-main {
+      padding: 16px !important;
+      min-width: 0 !important;
+    }
+    body.desktop-x .active-merchant {
+      padding: 0 0 16px !important;
+      margin: 0 0 14px !important;
+      border: 0 !important;
+      border-bottom: 1px solid var(--x-line) !important;
+      background: transparent !important;
+    }
+    body.desktop-x .active-merchant-top {
+      grid-template-columns: minmax(0, 1.18fr) minmax(320px, .82fr) !important;
+      gap: 14px !important;
+      align-items: start !important;
+    }
+    body.desktop-x .active-merchant-copy { min-width: 0 !important; }
+    body.desktop-x .active-merchant h2 {
+      margin-top: 5px !important;
+      font-size: 28px !important;
+      line-height: 1.02 !important;
+      letter-spacing: -.05em !important;
+    }
+    body.desktop-x .active-meta { margin-top: 10px !important; gap: 7px !important; }
+    body.desktop-x .merchant-summary-grid { grid-template-columns: repeat(2, minmax(0, 1fr)) !important; margin-top: 14px !important; gap: 10px !important; }
+    body.desktop-x .merchant-summary-card { padding: 14px 14px 13px !important; min-height: 82px !important; }
+    body.desktop-x .merchant-summary-card span { font-size: 8px !important; letter-spacing: .10em !important; }
+    body.desktop-x .merchant-summary-card strong { font-size: 16px !important; line-height: 1.22 !important; }
+    body.desktop-x .merchant-summary-card.big strong { font-size: 18px !important; }
+    body.desktop-x .merchant-last-touch {
+      margin-top: 14px !important;
+      padding: 14px 15px !important;
+      border: 1px solid color-mix(in srgb, var(--accent) 22%, var(--x-line)) !important;
+      border-radius: 14px !important;
+      background: linear-gradient(145deg, rgba(var(--accent-rgb), .09), rgba(13,18,24,.95)) !important;
+      box-shadow: 0 12px 28px rgba(0,0,0,.12) !important;
+    }
+    body.desktop-x .merchant-last-touch-head {
+      display: flex !important;
+      justify-content: space-between !important;
+      gap: 12px !important;
+      align-items: center !important;
+    }
+    body.desktop-x .merchant-last-touch-head span:first-child {
+      color: var(--x-muted-2) !important;
+      font-size: 8px !important;
+      font-weight: 760 !important;
+      letter-spacing: .12em !important;
+      text-transform: uppercase !important;
+    }
+    body.desktop-x .merchant-last-touch-chip {
+      min-height: 21px !important;
+      display: inline-flex !important;
+      align-items: center !important;
+      padding: 3px 7px !important;
+      border-radius: 7px !important;
+      background: rgba(148,163,184,.06) !important;
+      color: #dbeafe !important;
+      font-size: 8px !important;
+      font-weight: 760 !important;
+      white-space: nowrap !important;
+    }
+    body.desktop-x .merchant-last-touch strong {
+      display: block !important;
+      margin-top: 8px !important;
+      font-size: 16px !important;
+      line-height: 1.25 !important;
+      letter-spacing: -.03em !important;
+    }
+    body.desktop-x .merchant-last-touch p {
+      margin: 8px 0 0 !important;
+      color: var(--x-text) !important;
+      font-size: 12px !important;
+      line-height: 1.55 !important;
+    }
+    body.desktop-x .merchant-last-touch-meta {
+      margin-top: 8px !important;
+      color: var(--x-muted-2) !important;
+      font-size: 9px !important;
+      line-height: 1.4 !important;
+    }
+    body.desktop-x .merchant-photo-panel {
+      max-width: none !important;
+      width: 100% !important;
+      align-self: start !important;
+      padding: 14px !important;
+      border-radius: 22px !important;
+      background: rgba(13,18,24,.965) !important;
+      box-shadow: 0 14px 34px rgba(0,0,0,.18) !important;
+    }
+    body.desktop-x .merchant-photo-hero {
+      display: grid !important;
+      grid-template-columns: 1fr !important;
+      gap: 12px !important;
+      align-items: start !important;
+      min-height: 0 !important;
+    }
+    body.desktop-x .merchant-photo-preview.merchant-photo-avatar {
+      width: 100% !important;
+      aspect-ratio: 1 / 1 !important;
+      min-height: 380px !important;
+      border-radius: 22px !important;
+      background: rgba(8,11,16,.92) !important;
+      border: 1px solid var(--x-line) !important;
+      overflow: hidden !important;
+      position: relative !important;
+    }
+    body.desktop-x .merchant-photo-preview.merchant-photo-avatar img {
+      width: 100% !important;
+      height: 100% !important;
+      object-fit: cover !important;
+    }
+    body.desktop-x .merchant-photo-preview.merchant-photo-avatar .merchant-photo-empty {
+      display: grid !important;
+      place-items: center !important;
+      align-content: center !important;
+      gap: 6px !important;
+      height: 100% !important;
+      padding: 14px !important;
+      text-align: center !important;
+    }
+    body.desktop-x .merchant-photo-preview.merchant-photo-avatar .merchant-photo-empty strong {
+      display: block !important;
+      font-size: 42px !important;
+      line-height: 1 !important;
+      letter-spacing: -.06em !important;
+      color: var(--x-text) !important;
+    }
+    body.desktop-x .merchant-photo-preview.merchant-photo-avatar .merchant-photo-empty span {
+      display: block !important;
+      color: var(--x-muted) !important;
+      font-size: 10px !important;
+    }
+    body.desktop-x .merchant-photo-profile-copy {
+      display: block !important;
+      min-width: 0 !important;
+      padding: 0 2px 4px !important;
+    }
+    body.desktop-x .merchant-photo-kicker {
+      color: var(--x-muted-2) !important;
+      font-size: 8px !important;
+      font-weight: 760 !important;
+      letter-spacing: .12em !important;
+      text-transform: uppercase !important;
+    }
+    body.desktop-x .merchant-photo-profile-name {
+      margin-top: 4px !important;
+      font-size: 18px !important;
+      line-height: 1.08 !important;
+      letter-spacing: -.045em !important;
+      font-weight: 760 !important;
+    }
+    body.desktop-x .merchant-photo-profile-sub {
+      margin-top: 3px !important;
+      color: var(--x-muted) !important;
+      font-size: 10px !important;
+      line-height: 1.45 !important;
+    }
+    body.desktop-x .merchant-photo-profile-metrics,
+    body.desktop-x .merchant-photo-mini-stat { display: none !important; }
+    body.desktop-x .merchant-photo-mini-btn {
+      right: 14px !important;
+      bottom: 14px !important;
+      min-height: 32px !important;
+      padding: 7px 12px !important;
+      font-size: 10px !important;
+      backdrop-filter: blur(8px) !important;
+    }
+    body.desktop-x .queue-scroll.call-board-page {
+      min-height: 0 !important;
+      grid-auto-rows: auto !important;
+      gap: 8px !important;
+      overflow: auto !important;
+    }
+    body.desktop-x .queue-scroll.call-board-page .merchant-row {
+      min-height: 76px !important;
+      height: auto !important;
+      padding: 11px 12px !important;
+      display: block !important;
+      border-radius: 14px !important;
+    }
+    body.desktop-x .merchant-row-main {
+      display: grid !important;
+      gap: 4px !important;
+    }
+    body.desktop-x .merchant-row strong {
+      font-size: 13px !important;
+      font-weight: 700 !important;
+      letter-spacing: -.02em !important;
+      white-space: nowrap !important;
+      overflow: hidden !important;
+      text-overflow: ellipsis !important;
+    }
+    body.desktop-x .merchant-row-sub,
+    body.desktop-x .merchant-row-sub-2 {
+      display: block !important;
+      color: var(--x-muted) !important;
+      font-size: 9px !important;
+      line-height: 1.4 !important;
+      white-space: normal !important;
+      overflow: visible !important;
+      text-overflow: clip !important;
+    }
+    body.desktop-x .merchant-row-sub-2 {
+      color: color-mix(in srgb, var(--x-muted) 86%, white) !important;
+    }
+    body.desktop-x .hub-tabs {
+      padding: 0 !important;
+      margin-top: 0 !important;
+      margin-bottom: 14px !important;
+      gap: 10px !important;
+      border-bottom: 1px solid var(--x-line) !important;
+      background: transparent !important;
+    }
+    body.desktop-x .hub-tab {
+      min-height: 42px !important;
+      font-size: 10px !important;
+      padding: 0 2px !important;
+    }
+    body.desktop-x .status-select-card,
+    body.desktop-x .content-tracker-panel,
+    body.desktop-x .tracker-filter-panel,
+    body.desktop-x .email-recap-card,
+    body.desktop-x .promo-suite,
+    body.desktop-x .ad-calculator {
+      background: rgba(8,12,17,.58) !important;
+    }
+    body.desktop-x .content-tracker-head strong,
+    body.desktop-x .records-box-head strong,
+    body.desktop-x .card-head h3,
+    body.desktop-x .email-recap-title strong,
+    body.desktop-x .context-heading h3,
+    body.desktop-x .surface-heading h3 {
+      font-weight: 700 !important;
+      letter-spacing: -.03em !important;
+    }
+    body.desktop-x .call-back-summary,
+    body.desktop-x .manual-note-hint,
+    body.desktop-x .tracker-summary span,
+    body.desktop-x .record-item span,
+    body.desktop-x .context-contact-list span,
+    body.desktop-x .context-line span {
+      font-size: 9px !important;
+    }
 </style>
 </head>
 <body data-motion="smooth" class="focus-mode density-comfort desktop-x">
@@ -3568,7 +3833,7 @@
   <script>
   "use strict";
 
-  const APP_VERSION = 9;
+  const APP_VERSION = 10;
   const STORAGE_KEY = "dashwork_state_v1";
   const DB_NAME = "dashwork_local_db";
   const DB_STORE = "workspace";
@@ -5962,10 +6227,19 @@ const FOLLOWUP_DELETE_SOUND_DATA_URL = "data:audio/wav;base64,UklGRsqKAABXQVZFZm
     const initials = merchantPhotoInitials(merchant);
     const hasPhoto = !!photo.src;
     if (variant === "hero") {
+      const photoAlt = `${merchant.store_name} merchant photo`;
+      const profileSub = [merchant.market_name, merchant.store_id ? `Store ${merchant.store_id}` : ""].filter(Boolean).join(" · ") || "No store ID";
       return `<section class="merchant-photo-panel ${hasPhoto ? "has-photo" : "empty"}" data-merchant-photo-drop="${attr(merchant.uid)}">
         <div class="merchant-photo-hero">
-          <div class="merchant-photo-preview">${hasPhoto ? `<img src="${attr(photo.src)}" alt="${attr(merchant.store_name)} merchant photo" />` : `<div class="merchant-photo-empty"><strong>Drop merchant photo</strong><span>JPG, PNG or GIF</span></div>`}</div>
-          <button class="btn small blue merchant-photo-mini-btn" type="button" data-merchant-photo-pick="${attr(merchant.uid)}">${hasPhoto ? "Replace photo" : "Add photo"}</button>
+          <div class="merchant-photo-preview merchant-photo-avatar ${hasPhoto ? "has-photo" : "empty"}">
+            ${hasPhoto ? `<img src="${attr(photo.src)}" alt="${attr(photoAlt)}" />` : `<div class="merchant-photo-empty"><strong>${esc(initials)}</strong><span>No photo yet</span></div>`}
+            <button class="btn small blue merchant-photo-mini-btn" type="button" data-merchant-photo-pick="${attr(merchant.uid)}">${hasPhoto ? "Replace photo" : "Add photo"}</button>
+          </div>
+          <div class="merchant-photo-caption">
+            <div class="merchant-photo-kicker">Merchant profile</div>
+            <div class="merchant-photo-profile-name">${esc(merchant.store_name)}</div>
+            <div class="merchant-photo-profile-sub">${esc(profileSub)}</div>
+          </div>
         </div>
       </section>`;
     }
@@ -5975,11 +6249,21 @@ const FOLLOWUP_DELETE_SOUND_DATA_URL = "data:audio/wav;base64,UklGRsqKAABXQVZFZm
   function merchantRowHTML(item, openView = "") {
     const d = item.merchant ? item : deriveMerchant(item);
     const m = d.merchant;
+    const st = merchantState(m.uid);
+    const recall = merchantCallBackInfo(m);
+    const content = resolvedContentStatuses(m.uid);
     const rowMeta = [m.market_name, d.local?.time !== "—" ? `${d.local.time} · ${d.local.label}` : ""].filter(Boolean).join(" · ");
+    const rowDetail = [
+      st.status && st.status !== "Active" ? st.status : d.lane,
+      content.photo ? `Photo ${content.photo}` : "",
+      content.contact ? `Contact ${content.contact}` : "",
+      recall ? `Recall ${callBackCountdownLabel(recall)}` : ""
+    ].filter(Boolean).join(" · ");
     return `<div class="merchant-row ${state.selectedUid === m.uid ? "selected" : ""}">
       <button class="merchant-row-main" type="button" data-select-merchant="${attr(m.uid)}" data-open-view="${attr(openView)}">
         <strong>${esc(m.store_name)}</strong>
-        <span class="merchant-row-sub">${esc(rowMeta)}</span>
+        <span class="merchant-row-sub">${esc(rowMeta || m.store_id || "No market")}</span>
+        <span class="merchant-row-sub merchant-row-sub-2">${esc(rowDetail || "Ready to work")}</span>
       </button>
     </div>`;
   }
@@ -6394,6 +6678,15 @@ const FOLLOWUP_DELETE_SOUND_DATA_URL = "data:audio/wav;base64,UklGRsqKAABXQVZFZm
     const phones = splitMulti(merchant.dm_phone);
     const decisionMakerName = String(merchant.dm_name || '').trim() || 'N/A';
     const businessName = String(merchant.business_name || merchant.store_name || 'N/A').trim() || 'N/A';
+    const st = merchantState(merchant.uid);
+    const calls = callsFor(merchant.uid).sort((a,b)=>String(b.completedAt).localeCompare(String(a.completedAt)));
+    const lastCall = calls[0] || null;
+    const lastCallNote = String(lastCall?.note || '').trim();
+    const lastCallTitle = lastCall ? `${lastCall.disposition || lastCall.state || 'Call'} · ${formatDateTime(lastCall.completedAt)}` : 'No call history yet';
+    const lastCallMeta = lastCall ? `Real ${mmss(lastCall.durationSec)} · Credited ${mmss(lastCall.creditedSec)}` : 'Use the call console to register the first attempt.';
+    const lastInteractionText = lastCallNote || st.note || 'No note saved yet.';
+    const currentStatusText = st.status || 'Active';
+    const currentRecallText = recall ? callBackCountdownLabel(recall) : 'No recall set';
     return `<div class="active-merchant">
       <div class="active-merchant-top">
         <div class="active-merchant-copy">
@@ -6403,9 +6696,20 @@ const FOLLOWUP_DELETE_SOUND_DATA_URL = "data:audio/wav;base64,UklGRsqKAABXQVZFZm
             ${merchant.store_id ? `<span class="pill">Store ${esc(merchant.store_id)}</span>` : `<span class="pill red">No Store ID</span>`}
             ${merchant.market_name ? `<span class="pill">${esc(merchant.market_name)}</span>` : ""}
             ${d.local.time !== "—" ? `<span class="pill ${d.local.cls}">${esc(d.local.time)} · ${esc(d.local.label)}</span>` : ""}
-            ${recall ? `<span class="pill ${recall.daysRemaining < 0 ? "red" : recall.daysRemaining === 0 ? "orange" : "green"}">Recall ${esc(callBackCountdownLabel(recall))}</span>` : ""}
+            ${recall ? `<span class="pill ${recall.daysRemaining < 0 ? "red" : recall.daysRemaining === 0 ? "orange" : "green"}">Recall ${esc(currentRecallText)}</span>` : ""}
             ${statusPill(d.lane,d.laneClass)}
           </div>
+
+          <div class="merchant-last-touch">
+            <div class="merchant-last-touch-head">
+              <span>Last interaction</span>
+              <span class="merchant-last-touch-chip">${esc(currentStatusText)}</span>
+            </div>
+            <strong>${esc(lastCallTitle)}</strong>
+            <p>${esc(lastInteractionText)}</p>
+            <div class="merchant-last-touch-meta">${esc(lastCallMeta)}</div>
+          </div>
+
           <div class="merchant-summary-grid">
             <div class="merchant-summary-card big">
               <span>Business name</span>
