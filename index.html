@@ -5151,16 +5151,10 @@ const FOLLOWUP_DELETE_SOUND_DATA_URL = "data:audio/wav;base64,UklGRsqKAABXQVZFZm
     return callsFor(merchant.uid).some(c => callIsRecent(c, now));
   }
 
-  function merchantIsUntouched(merchant) {
-    const uid = merchant?.uid;
-    const st = merchantState(uid);
-    const hasMeaningfulState = Object.keys(st || {}).some(key => key !== "updatedAt" && st[key] !== undefined && st[key] !== null && String(st[key]).trim() !== "");
-    return !hasMeaningfulState &&
-      callsFor(uid).length === 0 &&
-      followupsFor(uid).length === 0 &&
-      photosFor(uid).length === 0 &&
-      salesFor(uid).length === 0 &&
-      creditsFor(uid).length === 0;
+  function merchantIsUntouched(merchant, now = new Date()) {
+    // "Uncalled" should mean the merchant has not been called recently.
+    // Do not hide merchants just because they already have other saved data.
+    return !merchantCalledRecently(merchant, now);
   }
   function merchantCalledToday(merchant, now = new Date()) {
     const today = dateKeyInZone(now);
@@ -6594,17 +6588,18 @@ const FOLLOWUP_DELETE_SOUND_DATA_URL = "data:audio/wav;base64,UklGRsqKAABXQVZFZm
       state.selectedUid = selected.uid;
     }
     const markets = unique(activeMerchants.map(m=>m.market_name)).sort();
-    const queue = activeMerchants.map(m=>{
+    const baseQueue = activeMerchants.map(m=>{
       const d = deriveMerchant(m, now);
       return { ...d, recall: merchantCallBackInfo(m, now) };
-    }).filter(d => {
+    });
+    const q = normalizeText(filters.q);
+    const buildQueue = (ignoreView = false) => baseQueue.filter(d => {
       const m = d.merchant;
       const st = merchantState(m.uid);
       const content = resolvedContentStatuses(m.uid);
-      const q = normalizeText(filters.q);
       const hay = normalizeText([m.store_name,m.business_name,m.store_id,m.market_name,m.submarket_name,m.dm_name,m.dm_email,m.dm_phone].join(" "));
-      const viewOk = filters.view === "all" || filters.view === "az" ||
-        (filters.view === "uncalled" && merchantIsUntouched(m)) ||
+      const viewOk = ignoreView || filters.view === "all" || filters.view === "az" ||
+        (filters.view === "uncalled" && merchantIsUntouched(m, now)) ||
         (filters.view === "called" && d.calledRecently) ||
         (filters.view === "due" && !!d.due) ||
         (filters.view === "photo" && (content.photo === "Approved" || !!st.hasPhotos)) ||
@@ -6618,7 +6613,8 @@ const FOLLOWUP_DELETE_SOUND_DATA_URL = "data:audio/wav;base64,UklGRsqKAABXQVZFZm
         (filters.contact === "all" || content.contact === filters.contact) &&
         recallOk &&
         viewOk;
-    })
+    });
+    let queue = buildQueue(false)
       .sort((a, b) => {
         if (filters.view === "az" || filters.sort === "az") {
           return a.merchant.store_name.localeCompare(b.merchant.store_name, undefined, { sensitivity: "base" });
@@ -6627,6 +6623,17 @@ const FOLLOWUP_DELETE_SOUND_DATA_URL = "data:audio/wav;base64,UklGRsqKAABXQVZFZm
         if (scoreDiff !== 0) return scoreDiff;
         return a.merchant.store_name.localeCompare(b.merchant.store_name, undefined, { sensitivity: "base" });
       });
+    if (filters.view === "uncalled" && queue.length === 0) {
+      queue = buildQueue(true)
+        .sort((a, b) => {
+          if (filters.view === "az" || filters.sort === "az") {
+            return a.merchant.store_name.localeCompare(b.merchant.store_name, undefined, { sensitivity: "base" });
+          }
+          const scoreDiff = b.score - a.score;
+          if (scoreDiff !== 0) return scoreDiff;
+          return a.merchant.store_name.localeCompare(b.merchant.store_name, undefined, { sensitivity: "base" });
+        });
+    }
 
     const totalPages = Math.max(1, Math.ceil(queue.length / WORK_HUB_PAGE_SIZE));
     const requestedPage = Math.max(1, Math.floor(Number(state.ui.workHubPage || 1)));
