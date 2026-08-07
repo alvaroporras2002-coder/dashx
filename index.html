@@ -6794,6 +6794,170 @@ body.bento-light.desktop-x.density-focus .bento-card { padding: 22px !important;
   }
 </style>
 
+
+<style id="dashworkCasesIntegratedStyles">
+  /* Cases — fourth Merchant Tools workflow */
+  body.desktop-x .hub-layout.workhub-three-pane {
+    grid-template-columns: 260px minmax(500px, 1fr) 430px !important;
+    min-width: 1218px !important;
+  }
+  body.desktop-x .hub-tools .hub-tabs {
+    grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
+  }
+  body.desktop-x .hub-tools .hub-tab { padding-inline: 4px !important; }
+
+  .case-tool-shell { display: grid; gap: 13px; padding: 16px; }
+  .case-tool-hero {
+    display: grid;
+    gap: 12px;
+    padding: 14px;
+    border: 1px solid var(--bento-line, var(--line));
+    border-radius: 12px;
+    background: linear-gradient(145deg, color-mix(in srgb, var(--bento-primary, var(--accent)) 7%, var(--bento-surface, var(--surface))), var(--bento-surface, var(--surface)));
+  }
+  .case-tool-hero-head { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; }
+  .case-tool-hero-head > div { min-width: 0; }
+  .case-tool-kicker {
+    color: var(--bento-muted, var(--muted));
+    font-size: 8px;
+    font-weight: 760;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+  }
+  .case-tool-hero h3 { margin: 4px 0 0; color: var(--bento-text, var(--text)); font-size: 17px; line-height: 1.18; letter-spacing: -.035em; }
+  .case-tool-hero p { margin: 6px 0 0; color: var(--bento-muted, var(--muted)); font-size: 10px; line-height: 1.5; }
+  .case-tool-actions { display: flex; flex-wrap: wrap; gap: 7px; }
+  .case-stat-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 7px; }
+  .case-stat {
+    min-width: 0;
+    padding: 10px;
+    border: 1px solid var(--bento-line, var(--line));
+    border-radius: 9px;
+    background: color-mix(in srgb, var(--bento-surface-soft, var(--card)) 88%, transparent);
+  }
+  .case-stat span { display: block; color: var(--bento-muted, var(--muted)); font-size: 8px; font-weight: 700; letter-spacing: .07em; text-transform: uppercase; }
+  .case-stat strong { display: block; margin-top: 5px; color: var(--bento-text, var(--text)); font-size: 19px; line-height: 1; letter-spacing: -.04em; }
+
+  .case-filter-card {
+    display: grid;
+    gap: 9px;
+    padding: 12px;
+    border: 1px solid var(--bento-line, var(--line));
+    border-radius: 11px;
+    background: var(--bento-surface-soft, var(--surface-2));
+  }
+  .case-filter-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
+  .case-filter-grid .field:first-child { grid-column: 1 / -1; }
+  .case-filter-grid .field:last-child { grid-column: 1 / -1; }
+  .case-results-head { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
+  .case-results-head strong { color: var(--bento-text, var(--text)); font-size: 12px; }
+  .case-results-meta { color: var(--bento-muted, var(--muted)); font-size: 9px; }
+  .case-record-list { display: grid; gap: 8px; }
+  .case-record-card {
+    display: grid;
+    gap: 10px;
+    padding: 12px;
+    border: 1px solid var(--bento-line, var(--line));
+    border-radius: 11px;
+    background: var(--bento-surface, var(--surface));
+    transition: border-color 150ms ease, box-shadow 150ms ease, transform 150ms ease;
+  }
+  .case-record-card:hover { transform: translateY(-1px); border-color: color-mix(in srgb, var(--bento-primary, var(--accent)) 30%, var(--bento-line, var(--line))); box-shadow: 0 8px 22px rgba(15,23,42,.06); }
+  .case-record-top { display: flex; align-items: flex-start; justify-content: space-between; gap: 10px; }
+  .case-record-top > div { min-width: 0; }
+  .case-record-id { color: var(--bento-muted, var(--muted)); font-size: 8px; font-weight: 760; letter-spacing: .08em; text-transform: uppercase; }
+  .case-record-title { margin-top: 4px; color: var(--bento-text, var(--text)); font-size: 12px; font-weight: 720; line-height: 1.25; }
+  .case-record-sub { margin-top: 3px; color: var(--bento-muted, var(--muted)); font-size: 9px; line-height: 1.4; }
+  .case-record-details { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 7px; }
+  .case-record-detail { min-width: 0; padding: 8px; border-radius: 8px; background: var(--bento-surface-soft, var(--surface-2)); }
+  .case-record-detail span { display: block; color: var(--bento-muted, var(--muted)); font-size: 7px; font-weight: 720; letter-spacing: .07em; text-transform: uppercase; }
+  .case-record-detail strong { display: block; margin-top: 3px; color: var(--bento-text, var(--text)); font-size: 9px; line-height: 1.3; overflow-wrap: anywhere; }
+  .case-record-controls { display: grid; grid-template-columns: 1fr; gap: 8px; align-items: end; }
+  .case-record-controls .button-row { justify-content: flex-start; }
+  .case-status-select { min-height: 34px !important; padding: 6px 8px !important; font-size: 9px !important; }
+
+  .case-status-pill { display: inline-flex; align-items: center; min-height: 23px; padding: 4px 7px; border: 1px solid var(--bento-line, var(--line)); border-radius: 999px; font-size: 8px; font-weight: 720; white-space: nowrap; }
+  .case-tone-open { border-color: rgba(14,165,233,.24); background: rgba(14,165,233,.09); color: #0369a1; }
+  .case-tone-pending { border-color: rgba(245,158,11,.25); background: rgba(245,158,11,.10); color: #b45309; }
+  .case-tone-escalated { border-color: rgba(239,68,68,.24); background: rgba(239,68,68,.09); color: #dc2626; }
+  .case-tone-solved { border-color: rgba(16,185,129,.24); background: rgba(16,185,129,.09); color: #047857; }
+  .case-tone-closed { border-color: rgba(100,116,139,.22); background: rgba(100,116,139,.09); color: #475569; }
+  .case-tone-waiting { border-color: rgba(124,58,237,.22); background: rgba(124,58,237,.09); color: #6d28d9; }
+  body:not(.bento-light) .case-status-pill.case-tone-open { color: #7dd3fc; }
+  body:not(.bento-light) .case-status-pill.case-tone-pending { color: #fcd34d; }
+  body:not(.bento-light) .case-status-pill.case-tone-escalated { color: #fca5a5; }
+  body:not(.bento-light) .case-status-pill.case-tone-solved { color: #6ee7b7; }
+  body:not(.bento-light) .case-status-pill.case-tone-closed { color: #cbd5e1; }
+  body:not(.bento-light) .case-status-pill.case-tone-waiting { color: #c4b5fd; }
+
+  .modal.case-modal-wide { width: min(1040px, calc(100vw - 30px)) !important; max-height: 91vh !important; }
+  .case-editor { display: grid; gap: 15px; }
+  .case-editor-section {
+    display: grid;
+    gap: 11px;
+    padding: 14px;
+    border: 1px solid var(--bento-line, var(--line));
+    border-radius: 12px;
+    background: var(--bento-surface-soft, var(--surface-2));
+  }
+  .case-editor-section[hidden] { display: none !important; }
+  .case-editor-section-head { display: flex; align-items: flex-start; justify-content: space-between; gap: 10px; }
+  .case-editor-section-head h3 { margin: 0; color: var(--bento-text, var(--text)); font-size: 14px; letter-spacing: -.025em; }
+  .case-editor-section-head p { margin: 4px 0 0; color: var(--bento-muted, var(--muted)); font-size: 9px; line-height: 1.45; }
+  .case-required::after { content: " *"; color: var(--bento-danger, var(--red)); }
+  .case-checkbox-block { display: grid; gap: 8px; }
+  .case-checkbox-title { color: var(--bento-muted, var(--muted)); font-size: 9px; font-weight: 730; letter-spacing: .08em; text-transform: uppercase; }
+  .case-checkbox-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 7px; }
+  .case-check {
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    min-height: 40px;
+    padding: 9px;
+    border: 1px solid var(--bento-line, var(--line));
+    border-radius: 8px;
+    background: var(--bento-surface, var(--surface));
+    color: var(--bento-text, var(--text));
+    font-size: 10px;
+    line-height: 1.35;
+    cursor: pointer;
+  }
+  .case-check input { width: 16px; height: 16px; margin: 0; flex: 0 0 16px; accent-color: var(--bento-primary, var(--accent)); }
+  .case-conditional-row[hidden] { display: none !important; }
+  .case-editor-help { padding: 11px; border: 1px solid color-mix(in srgb, var(--bento-primary, var(--accent)) 18%, var(--bento-line, var(--line))); border-radius: 9px; background: color-mix(in srgb, var(--bento-primary, var(--accent)) 6%, var(--bento-surface, var(--surface))); color: var(--bento-muted, var(--muted)); font-size: 10px; line-height: 1.55; }
+  .case-attachment-zone { display: grid; place-items: center; gap: 6px; min-height: 96px; padding: 14px; border: 1.5px dashed var(--bento-line-strong, var(--line-strong)); border-radius: 10px; background: var(--bento-surface, var(--surface)); text-align: center; }
+  .case-attachment-zone strong { color: var(--bento-text, var(--text)); font-size: 11px; }
+  .case-attachment-zone span { color: var(--bento-muted, var(--muted)); font-size: 9px; }
+  .case-attachment-list { display: grid; gap: 6px; }
+  .case-attachment-item { display: grid; grid-template-columns: minmax(0,1fr) auto; gap: 8px; align-items: center; padding: 8px 9px; border: 1px solid var(--bento-line, var(--line)); border-radius: 8px; background: var(--bento-surface, var(--surface)); }
+  .case-attachment-item strong { display: block; color: var(--bento-text, var(--text)); font-size: 9px; overflow-wrap: anywhere; }
+  .case-attachment-item span { display: block; margin-top: 2px; color: var(--bento-muted, var(--muted)); font-size: 8px; }
+  .case-modal-actions { position: sticky; bottom: -17px; z-index: 4; display: flex; flex-wrap: wrap; justify-content: flex-end; gap: 8px; margin: 16px -17px -17px; padding: 12px 17px; border-top: 1px solid var(--bento-line, var(--line)); background: color-mix(in srgb, var(--bento-surface, var(--surface)) 96%, transparent); backdrop-filter: blur(12px); }
+
+  .case-detail-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 9px; }
+  .case-detail-section-title { grid-column: 1 / -1; margin: 10px 0 0; padding-top: 11px; border-top: 1px solid var(--bento-line, var(--line)); color: var(--bento-text, var(--text)); font-size: 13px; }
+  .case-detail-section-title:first-child { margin-top: 0; padding-top: 0; border-top: 0; }
+  .case-detail-card { padding: 10px; border: 1px solid var(--bento-line, var(--line)); border-radius: 9px; background: var(--bento-surface-soft, var(--surface-2)); }
+  .case-detail-card.full { grid-column: 1 / -1; }
+  .case-detail-label { color: var(--bento-muted, var(--muted)); font-size: 8px; font-weight: 730; letter-spacing: .08em; text-transform: uppercase; }
+  .case-detail-value { margin-top: 5px; color: var(--bento-text, var(--text)); font-size: 11px; line-height: 1.55; overflow-wrap: anywhere; }
+  .case-detail-value a { color: var(--bento-primary, var(--accent)); }
+  .case-detail-value ul { margin: 0; padding-left: 18px; }
+  .case-history-list { display: grid; gap: 5px; }
+  .case-history-row { display: flex; justify-content: space-between; gap: 10px; padding: 7px 0; border-bottom: 1px solid var(--bento-line, var(--line)); }
+  .case-history-row:last-child { border-bottom: 0; }
+  .case-history-row strong { font-size: 10px; }
+  .case-history-row span { color: var(--bento-muted, var(--muted)); font-size: 9px; }
+
+  @media (max-width: 1320px) {
+    body.desktop-x .hub-layout.workhub-three-pane { grid-template-columns: 250px minmax(480px,1fr) 400px !important; }
+  }
+  @media (max-width: 760px) {
+    .case-filter-grid, .case-checkbox-grid, .case-detail-grid, .case-record-details { grid-template-columns: 1fr; }
+    .case-detail-card.full, .case-detail-section-title { grid-column: 1; }
+  }
+</style>
+
 </head>
 <body data-motion="smooth" class="bento-light bento-booting light-ui focus-mode density-comfort desktop-x">
   <section class="bento-boot" id="bentoBoot" aria-live="polite" aria-label="Loading DASHWORK">
@@ -6984,6 +7148,7 @@ body.bento-light.desktop-x.density-focus .bento-card { padding: 22px !important;
   <input id="profileImageInput" type="file" accept="image/gif,image/*" hidden />
   <input id="backupInput" type="file" accept="application/json,.json" hidden />
   <input id="merchantPhotoInput" type="file" accept="image/*" hidden />
+  <input id="caseImportInput" type="file" accept="application/json,.json" hidden />
 
   <div class="modal-backdrop" id="modalBackdrop"></div>
   <section class="modal" id="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
@@ -7004,7 +7169,7 @@ body.bento-light.desktop-x.density-focus .bento-card { padding: 22px !important;
   <script>
   "use strict";
 
-  const APP_VERSION = 11;
+  const APP_VERSION = 12;
   const STORAGE_KEY = "dashwork_state_v1";
   const DB_NAME = "dashwork_local_db";
   const DB_STORE = "workspace";
@@ -7014,6 +7179,67 @@ body.bento-light.desktop-x.density-focus .bento-card { padding: 22px !important;
   const DEFAULT_PHOTO_GOAL = 35;
   const DEFAULT_CALL_ATTEMPT_GOAL = 25;
   const DEFAULT_SALESFORCE_BASE = "https://doordashmx.lightning.force.com/lightning/r/Account/{id}/view?ws=%2Flightning%2Fr%2FAccount%2F{wsId}%2Fview";
+
+
+  const CASE_STATUSES = Object.freeze([
+    "Open",
+    "Pending",
+    "Escalated",
+    "Solved",
+    "Closed",
+    "Waiting for DD Internal Team"
+  ]);
+  const CASE_ACCOUNT_CATEGORIES = Object.freeze([
+    "Account settings",
+    "Bulk Update",
+    "Change of Ownership",
+    "COVID Inquiries",
+    "Data Reporting Request",
+    "Deactivation",
+    "Feedback",
+    "Growth",
+    "Menu",
+    "Merchant Portal",
+    "Onboarding Issues",
+    "Order Protocol",
+    "Payment",
+    "Photography",
+    "Point of Sale",
+    "Reactivation",
+    "Renegotiation",
+    "Store Addition",
+    "Tablet/Printer",
+    "Verticals"
+  ]);
+  const CASE_TYPE_LABELS = Object.freeze({
+    am: "New AM Case",
+    menu: "New Menu Update Case",
+    photo: "New Photo Processing Case"
+  });
+  const CASE_MENU_UPDATE_TYPES = Object.freeze([
+    "Photos",
+    "Add Content",
+    "Remove Content",
+    "Edit Existing Content",
+    "Pricing Only",
+    "Nimda Update(s)",
+    "POS Menu Refresh",
+    "POS Menu Repull",
+    "Add/Remove Bike Friendly",
+    "Pickup Pricing Only"
+  ]);
+  const CASE_MENU_UPDATE_DETAILS = Object.freeze([
+    "Menu Name/Subtitle",
+    "Category/Categories",
+    "Item(s)",
+    "Extra(s)",
+    "Option(s)",
+    "Description(s)",
+    "Store Info",
+    "Store Hours"
+  ]);
+  const CASE_MENUS_AFFECTED = Object.freeze(["All Day", "Brunch", "Lunch", "Dinner", "Catering"]);
+  let caseAttachmentDraft = [];
 
 function buildSalesforceDirectUrl(accountId, wsId) {
   const id = String(accountId || "").trim();
@@ -7457,6 +7683,7 @@ const FOLLOWUP_DELETE_SOUND_DATA_URL = "data:audio/wav;base64,UklGRsqKAABXQVZFZm
       photos: [],
       sales: [],
       credits: [],
+      cases: [],
       followups: [],
       resources: DEFAULT_RESOURCES.map((item, index) => ({ ...item, id: `resource_${index + 1}`, favorite: index < 4, uses: 0, lastOpened: "", createdAt: new Date().toISOString(), updatedAt: new Date().toISOString() })),
       links: DEFAULT_LINKS.map((x,i)=>({ ...x, id: `link_${i+1}`, uses: 0, lastOpened: "" })),
@@ -7484,6 +7711,7 @@ const FOLLOWUP_DELETE_SOUND_DATA_URL = "data:audio/wav;base64,UklGRsqKAABXQVZFZm
         followupFilters: { merchant:"all", reason:"all", status:"open" },
         resourceFilters: { q:"", type:"all", sort:"favorites" },
         linkFilters: { q:"", category:"all", sort:"favorites" },
+        caseFilters: { q:"", type:"all", status:"all", category:"all" },
         saleRecordEditorId: "",
         photoTargetUid: ""
       },
@@ -7552,6 +7780,7 @@ const FOLLOWUP_DELETE_SOUND_DATA_URL = "data:audio/wav;base64,UklGRsqKAABXQVZFZm
       photos: Array.isArray(saved.photos) ? saved.photos : [],
       sales: Array.isArray(saved.sales) ? saved.sales : [],
       credits: Array.isArray(saved.credits) ? saved.credits : [],
+      cases: Array.isArray(saved.cases) ? saved.cases : [],
       followups: Array.isArray(saved.followups) ? saved.followups : [],
       resources: Array.isArray(saved.resources) && saved.resources.length ? saved.resources : base.resources,
       links: Array.isArray(saved.links) && saved.links.length ? saved.links : base.links,
@@ -8835,7 +9064,10 @@ const FOLLOWUP_DELETE_SOUND_DATA_URL = "data:audio/wav;base64,UklGRsqKAABXQVZFZm
 
   function closeModal() {
     document.getElementById("modalBackdrop").classList.remove("show");
-    document.getElementById("modal").classList.remove("show");
+    const modal = document.getElementById("modal");
+    modal.classList.remove("show");
+    modal.classList.remove("case-modal-wide");
+    caseAttachmentDraft = [];
   }
 
   function renderApp(options = {}) {
@@ -9555,17 +9787,18 @@ const FOLLOWUP_DELETE_SOUND_DATA_URL = "data:audio/wav;base64,UklGRsqKAABXQVZFZm
       <aside class="panel hub-tools" aria-label="Merchant tools">
         <div class="hub-tools-sticky">
           <div class="hub-tools-heading">
-            <div><span>Merchant tools</span><h3>Call, photos, ads and credits</h3><small>${esc(selected.store_name)}</small></div>
-            <span class="quiet-chip">3 tools</span>
+            <div><span>Merchant tools</span><h3>Call, photos, ads, credits and cases</h3><small>${esc(selected.store_name)}</small></div>
+            <span class="quiet-chip">4 tools</span>
           </div>
           <div class="hub-tabs" role="tablist" aria-label="Merchant tool sections">
             <button class="hub-tab ${tab==="call"?"active":""}" type="button" role="tab" aria-selected="${tab==="call"?"true":"false"}" data-workhub-tab="call">Call Log</button>
             <button class="hub-tab ${tab==="photo"?"active":""}" type="button" role="tab" aria-selected="${tab==="photo"?"true":"false"}" data-workhub-tab="photo">Photo Counter</button>
             <button class="hub-tab ${tab==="ads"?"active":""}" type="button" role="tab" aria-selected="${tab==="ads"?"true":"false"}" data-workhub-tab="ads">Ads & Credits</button>
+            <button class="hub-tab ${tab==="cases"?"active":""}" type="button" role="tab" aria-selected="${tab==="cases"?"true":"false"}" data-workhub-tab="cases">Cases</button>
           </div>
         </div>
         <div class="hub-tool-body" data-active-tool="${attr(tab)}">
-          ${tab === "photo" ? renderPhotoCounter(selected) : tab === "ads" ? renderAdsCredits(selected) : renderCallConsole(selected)}
+          ${tab === "cases" ? renderCasesTool(selected) : tab === "photo" ? renderPhotoCounter(selected) : tab === "ads" ? renderAdsCredits(selected) : renderCallConsole(selected)}
         </div>
       </aside>
     </div>`;
@@ -9624,6 +9857,690 @@ const FOLLOWUP_DELETE_SOUND_DATA_URL = "data:audio/wav;base64,UklGRsqKAABXQVZFZm
         ${renderMerchantPhotoSlot(merchant, "hero")}
       </div>
     </div>`;
+  }
+
+
+  function casesFor(uidValue) {
+    return (Array.isArray(state.cases) ? state.cases : []).filter(item => String(item.uid) === String(uidValue));
+  }
+
+  function caseTypeLabel(value) {
+    return CASE_TYPE_LABELS[value] || value || "Case";
+  }
+
+  function caseStatusTone(status) {
+    const value = normalizeText(status);
+    if (value === "open") return "case-tone-open";
+    if (value === "pending") return "case-tone-pending";
+    if (value === "escalated") return "case-tone-escalated";
+    if (value === "solved") return "case-tone-solved";
+    if (value === "closed") return "case-tone-closed";
+    return "case-tone-waiting";
+  }
+
+  function caseStatusPill(status) {
+    const safe = CASE_STATUSES.includes(status) ? status : "Open";
+    return `<span class="case-status-pill ${caseStatusTone(safe)}">${esc(safe)}</span>`;
+  }
+
+  function caseTodayISO() {
+    const date = new Date();
+    const offset = date.getTimezoneOffset();
+    return new Date(date.getTime() - offset * 60000).toISOString().slice(0, 10);
+  }
+
+  function formatCaseDate(value) {
+    if (!value) return "—";
+    const date = new Date(`${value}T12:00:00`);
+    if (Number.isNaN(date.getTime())) return String(value);
+    return new Intl.DateTimeFormat("en-CA", { year:"numeric", month:"short", day:"numeric" }).format(date);
+  }
+
+  function normalizeCaseUrl(value) {
+    const raw = String(value || "").trim();
+    if (!raw) return "";
+    return /^https?:\/\//i.test(raw) ? raw : `https://${raw}`;
+  }
+
+  function isValidCaseHttpUrl(value) {
+    try {
+      const url = new URL(normalizeCaseUrl(value));
+      return url.protocol === "http:" || url.protocol === "https:";
+    } catch {
+      return false;
+    }
+  }
+
+  function formatCaseBytes(bytes) {
+    const value = Math.max(0, Number(bytes || 0));
+    if (!value) return "0 B";
+    const units = ["B", "KB", "MB", "GB"];
+    const index = Math.min(units.length - 1, Math.floor(Math.log(value) / Math.log(1024)));
+    return `${(value / Math.pow(1024, index)).toFixed(index ? 1 : 0)} ${units[index]}`;
+  }
+
+  function makeCaseDisplayId() {
+    const date = new Date();
+    const stamp = `${date.getFullYear()}${String(date.getMonth()+1).padStart(2,"0")}${String(date.getDate()).padStart(2,"0")}`;
+    const existing = (state.cases || []).filter(item => String(item.displayId || "").startsWith(`CASE-${stamp}-`)).length + 1;
+    return `CASE-${stamp}-${String(existing).padStart(3,"0")}`;
+  }
+
+  function readCaseFilters() {
+    return {
+      q: document.getElementById("caseSearch")?.value || "",
+      type: document.getElementById("caseTypeFilter")?.value || "all",
+      status: document.getElementById("caseStatusFilter")?.value || "all",
+      category: document.getElementById("caseCategoryFilter")?.value || "all"
+    };
+  }
+
+  function caseSearchText(record) {
+    return normalizeText([
+      record.displayId,
+      record.externalCaseNumber,
+      record.status,
+      caseTypeLabel(record.caseType),
+      record.caseUrl,
+      record.merchant?.name,
+      record.merchant?.merchantId,
+      record.merchant?.storeIds,
+      record.merchant?.marketRegion,
+      record.merchant?.accountManager,
+      record.merchant?.contactName,
+      record.merchant?.contactEmail,
+      record.am?.category,
+      record.menu?.briefDescription,
+      record.menu?.menuSourceNotes,
+      record.internalNotes
+    ].join(" "));
+  }
+
+  function caseCardDetail(record) {
+    if (record.caseType === "am") return record.am?.category || "Account issue category not set";
+    if (record.caseType === "menu") {
+      const menu = record.menu || {};
+      return menu.briefDescription || [menu.permanence, menu.goLiveTiming].filter(Boolean).join(" · ") || "Menu update details";
+    }
+    return "Case link only";
+  }
+
+  function caseCardHTML(record) {
+    const updated = record.updatedAt || record.createdAt;
+    const category = record.caseType === "am" ? record.am?.category : record.caseType === "menu" ? "Menu update" : "Photo processing";
+    return `<article class="case-record-card" data-case-card="${attr(record.id)}">
+      <div class="case-record-top">
+        <div>
+          <div class="case-record-id">${esc(record.displayId || record.id)}</div>
+          <div class="case-record-title">${esc(caseTypeLabel(record.caseType))}</div>
+          <div class="case-record-sub">${esc(caseCardDetail(record))}</div>
+        </div>
+        ${caseStatusPill(record.status)}
+      </div>
+      <div class="case-record-details">
+        <div class="case-record-detail"><span>Category</span><strong>${esc(category || "—")}</strong></div>
+        <div class="case-record-detail"><span>Case date</span><strong>${esc(formatCaseDate(record.createdDate))}</strong></div>
+        <div class="case-record-detail"><span>Case number</span><strong>${esc(record.externalCaseNumber || "—")}</strong></div>
+        <div class="case-record-detail"><span>Updated</span><strong>${esc(updated ? formatDateTime(updated) : "—")}</strong></div>
+      </div>
+      <div class="case-record-controls">
+        <div class="field"><label>Status</label><select class="case-status-select" data-case-status="${attr(record.id)}">${CASE_STATUSES.map(status => `<option value="${attr(status)}" ${record.status === status ? "selected" : ""}>${esc(status)}</option>`).join("")}</select></div>
+        <div class="button-row">
+          <button class="btn small ghost" type="button" data-view-case="${attr(record.id)}">View</button>
+          <button class="btn small blue" type="button" data-edit-case="${attr(record.id)}">Edit</button>
+          <a class="btn small green" href="${attr(normalizeCaseUrl(record.caseUrl))}" target="_blank" rel="noopener noreferrer">Link</a>
+        </div>
+      </div>
+    </article>`;
+  }
+
+  function renderCasesTool(merchant) {
+    const filters = { q:"", type:"all", status:"all", category:"all", ...(state.ui.caseFilters || {}) };
+    const records = casesFor(merchant.uid).slice().sort((a,b) => String(b.updatedAt || b.createdAt || "").localeCompare(String(a.updatedAt || a.createdAt || "")));
+    const q = normalizeText(filters.q);
+    const filtered = records.filter(record => {
+      if (q && !caseSearchText(record).includes(q)) return false;
+      if (filters.type !== "all" && record.caseType !== filters.type) return false;
+      if (filters.status !== "all" && record.status !== filters.status) return false;
+      if (filters.category !== "all" && record.am?.category !== filters.category) return false;
+      return true;
+    });
+    const open = records.filter(record => ["Open", "Pending"].includes(record.status)).length;
+    const attention = records.filter(record => ["Escalated", "Waiting for DD Internal Team"].includes(record.status)).length;
+    const complete = records.filter(record => ["Solved", "Closed"].includes(record.status)).length;
+    return `<div class="case-tool-shell">
+      <section class="case-tool-hero">
+        <div class="case-tool-hero-head">
+          <div><div class="case-tool-kicker">Merchant cases</div><h3>Track every support case</h3><p>Create, filter, view, edit and update cases for ${esc(merchant.store_name)}.</p></div>
+          ${caseStatusPill(records[0]?.status || "Open")}
+        </div>
+        <div class="case-tool-actions">
+          <button class="btn primary" type="button" data-action="newCaseRecord">New case</button>
+          <button class="btn ghost" type="button" data-action="exportMerchantCasesJson" ${records.length ? "" : "disabled"}>Export JSON</button>
+          <button class="btn ghost" type="button" data-action="exportMerchantCasesCsv" ${records.length ? "" : "disabled"}>Export CSV</button>
+          <button class="btn ghost" type="button" data-action="importMerchantCases">Import</button>
+        </div>
+        <div class="case-stat-grid">
+          <div class="case-stat"><span>Open</span><strong>${open}</strong></div>
+          <div class="case-stat"><span>Attention</span><strong>${attention}</strong></div>
+          <div class="case-stat"><span>Completed</span><strong>${complete}</strong></div>
+        </div>
+      </section>
+
+      <section class="case-filter-card">
+        <div class="case-filter-grid">
+          <div class="field"><label>Search cases</label><input id="caseSearch" value="${attr(filters.q)}" placeholder="Case ID, link, category, notes…" /></div>
+          <div class="field"><label>Type</label><select id="caseTypeFilter"><option value="all">All types</option>${Object.entries(CASE_TYPE_LABELS).map(([value,label]) => `<option value="${attr(value)}" ${filters.type === value ? "selected" : ""}>${esc(label)}</option>`).join("")}</select></div>
+          <div class="field"><label>Status</label><select id="caseStatusFilter"><option value="all">All statuses</option>${CASE_STATUSES.map(status => `<option value="${attr(status)}" ${filters.status === status ? "selected" : ""}>${esc(status)}</option>`).join("")}</select></div>
+          <div class="field"><label>Account Issue Category</label><select id="caseCategoryFilter"><option value="all">All categories</option>${CASE_ACCOUNT_CATEGORIES.map(category => `<option value="${attr(category)}" ${filters.category === category ? "selected" : ""}>${esc(category)}</option>`).join("")}</select></div>
+        </div>
+      </section>
+
+      <div class="case-results-head"><strong>Case records</strong><span class="case-results-meta">${filtered.length} of ${records.length}</span></div>
+      <div class="case-record-list">${filtered.length ? filtered.map(caseCardHTML).join("") : `<div class="empty-state" style="min-height:150px"><strong>${records.length ? "No cases match these filters" : "No cases for this merchant"}</strong><span>${records.length ? "Change the case filters." : "Create the first AM, menu update or photo processing case."}</span></div>`}</div>
+    </div>`;
+  }
+
+  function caseInputValue(id) {
+    return String(document.getElementById(id)?.value || "").trim();
+  }
+
+  function caseCheckedValues(name) {
+    return [...document.querySelectorAll(`input[name="${name}"]:checked`)].map(input => input.value);
+  }
+
+  function caseCheckGrid(name, values, selected = []) {
+    const set = new Set(Array.isArray(selected) ? selected : []);
+    return `<div class="case-checkbox-grid">${values.map(value => `<label class="case-check"><input type="checkbox" name="${attr(name)}" value="${attr(value)}" ${set.has(value) ? "checked" : ""}/><span>${esc(value)}</span></label>`).join("")}</div>`;
+  }
+
+  function caseEditorMerchantSnapshot(merchant, existing) {
+    const current = existing?.merchant || {};
+    return {
+      name: current.name || merchant.store_name || merchant.business_name || "",
+      merchantId: current.merchantId || merchant.ddmx_account_id || merchant.merchant_id || merchant.business_id || "",
+      storeIds: current.storeIds || merchant.store_id || "",
+      marketRegion: current.marketRegion || [merchant.market_name, merchant.region_name].filter(Boolean).join(" · "),
+      accountManager: current.accountManager || merchant.account_owner || state.profile.username || "",
+      contactName: current.contactName || merchant.dm_name || "",
+      contactEmail: current.contactEmail || splitMulti(merchant.dm_email)[0] || "",
+      contactPhone: current.contactPhone || splitMulti(merchant.dm_phone)[0] || ""
+    };
+  }
+
+  function caseEditorHTML(merchant, existing = null) {
+    const record = existing || {};
+    const type = record.caseType || "am";
+    const status = CASE_STATUSES.includes(record.status) ? record.status : "Open";
+    const snapshot = caseEditorMerchantSnapshot(merchant, record);
+    const menu = record.menu || {};
+    const am = record.am || {};
+    caseAttachmentDraft = Array.isArray(menu.attachments) ? menu.attachments.map(file => ({ ...file })) : [];
+    return `<div class="case-editor" data-case-editor-id="${attr(record.id || "")}">
+      <section class="case-editor-section">
+        <div class="case-editor-section-head"><div><h3>Case information</h3><p>Choose the workflow. The form changes automatically based on the case type.</p></div>${record.displayId ? caseStatusPill(status) : `<span class="pill blue">New record</span>`}</div>
+        <div class="form-grid">
+          <div class="field c4"><label class="case-required">Type Of Case</label><select id="caseEditorType">${Object.entries(CASE_TYPE_LABELS).map(([value,label]) => `<option value="${attr(value)}" ${type === value ? "selected" : ""}>${esc(label)}</option>`).join("")}</select></div>
+          <div class="field c4"><label class="case-required">Status</label><select id="caseEditorStatus">${CASE_STATUSES.map(value => `<option value="${attr(value)}" ${status === value ? "selected" : ""}>${esc(value)}</option>`).join("")}</select></div>
+          <div class="field c4"><label class="case-required">Case date</label><input id="caseEditorCreatedDate" type="date" value="${attr(record.createdDate || caseTodayISO())}" /></div>
+          <div class="field c8"><label class="case-required">URL / Link of the case</label><input id="caseEditorCaseUrl" type="url" value="${attr(record.caseUrl || "")}" placeholder="https://…" /></div>
+          <div class="field c4"><label>External Case Number</label><input id="caseEditorExternalNumber" value="${attr(record.externalCaseNumber || "")}" placeholder="Optional" /></div>
+        </div>
+      </section>
+
+      <section class="case-editor-section">
+        <div class="case-editor-section-head"><div><h3>Merchant information</h3><p>Prefilled from the active merchant. Edit the snapshot when the case needs different details.</p></div><span class="pill">${esc(merchant.store_id || "No Store ID")}</span></div>
+        <div class="form-grid">
+          <div class="field c6"><label class="case-required">Merchant Name</label><input id="caseEditorMerchantName" value="${attr(snapshot.name)}" /></div>
+          <div class="field c3"><label>Merchant ID</label><input id="caseEditorMerchantId" value="${attr(snapshot.merchantId)}" /></div>
+          <div class="field c3"><label>Store ID(s)</label><input id="caseEditorStoreIds" value="${attr(snapshot.storeIds)}" /></div>
+          <div class="field c4"><label>Market / Region</label><input id="caseEditorMarket" value="${attr(snapshot.marketRegion)}" /></div>
+          <div class="field c4"><label>Account Manager</label><input id="caseEditorAccountManager" value="${attr(snapshot.accountManager)}" /></div>
+          <div class="field c4"><label>Merchant Contact</label><input id="caseEditorContactName" value="${attr(snapshot.contactName)}" /></div>
+          <div class="field c6"><label>Contact Email</label><input id="caseEditorContactEmail" type="email" value="${attr(snapshot.contactEmail)}" /></div>
+          <div class="field c6"><label>Contact Phone</label><input id="caseEditorContactPhone" value="${attr(snapshot.contactPhone)}" /></div>
+        </div>
+      </section>
+
+      <section class="case-editor-section" id="caseEditorAmSection">
+        <div class="case-editor-section-head"><div><h3>AM Case</h3><p>Select the Account Issue Category from the options captured in the original case form.</p></div></div>
+        <div class="field"><label class="case-required">Account Issue Category</label><select id="caseEditorCategory"><option value="">Select a category</option>${CASE_ACCOUNT_CATEGORIES.map(category => `<option value="${attr(category)}" ${am.category === category ? "selected" : ""}>${esc(category)}</option>`).join("")}</select></div>
+      </section>
+
+      <section class="case-editor-section" id="caseEditorMenuSection">
+        <div class="case-editor-section-head"><div><h3>Menu Update Case</h3><p>Operational timing, locations, update scope, menu source information and closing details.</p></div></div>
+        <div class="form-grid">
+          <div class="field c6"><label class="case-required">Temporary or Permanent?</label><select id="caseEditorPermanence"><option value="">Select</option><option ${menu.permanence === "Permanent" ? "selected" : ""}>Permanent</option><option ${menu.permanence === "Temporary" ? "selected" : ""}>Temporary</option></select></div>
+          <div class="field c6"><label class="case-required">When Should Changes Go Live?</label><select id="caseEditorGoLiveTiming"><option value="">Select</option><option ${menu.goLiveTiming === "ASAP" ? "selected" : ""}>ASAP</option><option ${menu.goLiveTiming === "Future Date" ? "selected" : ""}>Future Date</option></select></div>
+          <div class="field c4 case-conditional-row" id="caseEditorGoLiveDateField"><label class="case-required">Go Live Date</label><input id="caseEditorGoLiveDate" type="date" value="${attr(menu.goLiveDate || "")}" /></div>
+          <div class="field c4 case-conditional-row" id="caseEditorDueDateField"><label class="case-required">Due Date</label><input id="caseEditorDueDate" type="date" value="${attr(menu.dueDate || "")}" /></div>
+          <div class="field c4 case-conditional-row" id="caseEditorRevertDateField"><label class="case-required">Date to Revert Changes</label><input id="caseEditorRevertDate" type="date" value="${attr(menu.revertDate || "")}" /></div>
+          <div class="field c6"><label class="case-required">Single/Multi Location Update?</label><select id="caseEditorLocationScope"><option value="">Select</option><option ${menu.locationScope === "Multiple Locations" ? "selected" : ""}>Multiple Locations</option><option ${menu.locationScope === "Single Location" ? "selected" : ""}>Single Location</option><option ${menu.locationScope === "All Stores" ? "selected" : ""}>All Stores</option></select></div>
+          <div class="field c6 case-conditional-row" id="caseEditorLocationDetailsField"><label class="case-required">Location / Store ID details</label><input id="caseEditorLocationDetails" value="${attr(menu.locationDetails || "")}" placeholder="Store IDs or affected locations" /></div>
+        </div>
+
+        <div class="case-checkbox-block"><div class="case-checkbox-title case-required">Type of Update</div>${caseCheckGrid("caseUpdateType", CASE_MENU_UPDATE_TYPES, menu.updateTypes)}</div>
+        <div class="case-checkbox-block"><div class="case-checkbox-title case-required">Update Details</div>${caseCheckGrid("caseUpdateDetail", CASE_MENU_UPDATE_DETAILS, menu.updateDetails)}</div>
+        <div class="case-checkbox-block"><div class="case-checkbox-title case-required">Menu(s) Affected</div>${caseCheckGrid("caseMenuAffected", CASE_MENUS_AFFECTED, menu.menusAffected)}</div>
+        <label class="case-check"><input id="caseEditorDdfb" type="checkbox" ${menu.ddfbMenu ? "checked" : ""}/><span>This is a DDFB menu</span></label>
+
+        <div class="divider"></div>
+        <div class="case-editor-section-head"><div><h3>Menu Source Updates</h3><p>Add the source links and any notes the internal team needs.</p></div></div>
+        <div class="form-grid">
+          <div class="field c6"><label>Menu Source URL</label><input id="caseEditorMenuUrl1" type="url" value="${attr(menu.menuSourceUrl1 || "")}" placeholder="https://…" /></div>
+          <div class="field c6"><label>Menu Source URL 2</label><input id="caseEditorMenuUrl2" type="url" value="${attr(menu.menuSourceUrl2 || "")}" placeholder="https://…" /></div>
+          <div class="field c12"><label>Menu Source Notes</label><textarea id="caseEditorMenuNotes" placeholder="Source instructions, credentials not included, special notes…">${esc(menu.menuSourceNotes || "")}</textarea></div>
+        </div>
+
+        <div class="divider"></div>
+        <div class="case-editor-section-head"><div><h3>Closing Information</h3><p>Summarize the request and identify who should be contacted when complete.</p></div></div>
+        <div class="form-grid">
+          <div class="field c12"><label class="case-required">Brief description of update</label><textarea id="caseEditorBrief" placeholder="Describe the exact menu update…">${esc(menu.briefDescription || "")}</textarea></div>
+          <div class="field c6"><label class="case-required">Who To Contact When Complete</label><input id="caseEditorCompletionContact" value="${attr(menu.completionContact || snapshot.contactName)}" /></div>
+          <div class="field c6"><label>Completion Contact Email</label><input id="caseEditorCompletionEmail" type="email" value="${attr(menu.completionContactEmail || snapshot.contactEmail)}" /></div>
+        </div>
+        <div class="case-attachment-zone"><strong>Attachments</strong><span>Store file names and metadata with this local record.</span><label class="btn small blue" for="caseEditorAttachments">Select files</label><input id="caseEditorAttachments" type="file" multiple hidden /></div>
+        <div class="case-attachment-list" id="caseAttachmentList"></div>
+      </section>
+
+      <section class="case-editor-section" id="caseEditorPhotoSection">
+        <div class="case-editor-section-head"><div><h3>Photo Processing Case</h3><p>No additional questionnaire is required. Add the merchant information, status and case link above.</p></div></div>
+        <div class="case-editor-help">The URL / Link of the case is the source of truth for this workflow.</div>
+      </section>
+
+      <section class="case-editor-section">
+        <div class="field"><label>Internal notes</label><textarea id="caseEditorInternalNotes" placeholder="Private notes saved in this browser…">${esc(record.internalNotes || "")}</textarea></div>
+      </section>
+
+      <div class="case-modal-actions">
+        <button class="btn ghost" type="button" data-action="cancelCaseEditor">Cancel</button>
+        <button class="btn primary" type="button" data-action="saveCaseRecord">${existing ? "Save changes" : "Create case"}</button>
+      </div>
+    </div>`;
+  }
+
+  function updateCaseEditorVisibility() {
+    const type = document.getElementById("caseEditorType")?.value || "am";
+    const amSection = document.getElementById("caseEditorAmSection");
+    const menuSection = document.getElementById("caseEditorMenuSection");
+    const photoSection = document.getElementById("caseEditorPhotoSection");
+    if (amSection) amSection.hidden = type !== "am";
+    if (menuSection) menuSection.hidden = type !== "menu";
+    if (photoSection) photoSection.hidden = type !== "photo";
+    updateCaseDateVisibility();
+    updateCaseLocationVisibility();
+  }
+
+  function updateCaseDateVisibility() {
+    const type = document.getElementById("caseEditorType")?.value || "am";
+    const future = type === "menu" && document.getElementById("caseEditorGoLiveTiming")?.value === "Future Date";
+    const temporary = type === "menu" && document.getElementById("caseEditorPermanence")?.value === "Temporary";
+    const goLiveField = document.getElementById("caseEditorGoLiveDateField");
+    const dueField = document.getElementById("caseEditorDueDateField");
+    const revertField = document.getElementById("caseEditorRevertDateField");
+    if (goLiveField) goLiveField.hidden = !future;
+    if (dueField) dueField.hidden = !future;
+    if (revertField) revertField.hidden = !temporary;
+  }
+
+  function updateCaseLocationVisibility() {
+    const type = document.getElementById("caseEditorType")?.value || "am";
+    const scope = document.getElementById("caseEditorLocationScope")?.value || "";
+    const field = document.getElementById("caseEditorLocationDetailsField");
+    if (field) field.hidden = type !== "menu" || !["Single Location", "Multiple Locations"].includes(scope);
+  }
+
+  function renderCaseAttachmentDraft() {
+    const host = document.getElementById("caseAttachmentList");
+    if (!host) return;
+    host.innerHTML = caseAttachmentDraft.length ? caseAttachmentDraft.map((file,index) => `<div class="case-attachment-item"><div><strong>${esc(file.name || "Attachment")}</strong><span>${esc(file.type || "file")} · ${esc(formatCaseBytes(file.size || 0))}</span></div><button class="btn small red" type="button" data-remove-case-attachment="${index}">Remove</button></div>`).join("") : "";
+    host.querySelectorAll("[data-remove-case-attachment]").forEach(button => button.addEventListener("click", () => {
+      caseAttachmentDraft.splice(Number(button.dataset.removeCaseAttachment), 1);
+      renderCaseAttachmentDraft();
+    }));
+  }
+
+  function bindCaseEditor() {
+    document.getElementById("caseEditorType")?.addEventListener("change", updateCaseEditorVisibility);
+    document.getElementById("caseEditorPermanence")?.addEventListener("change", updateCaseDateVisibility);
+    document.getElementById("caseEditorGoLiveTiming")?.addEventListener("change", updateCaseDateVisibility);
+    document.getElementById("caseEditorLocationScope")?.addEventListener("change", updateCaseLocationVisibility);
+    document.getElementById("caseEditorAttachments")?.addEventListener("change", event => {
+      const files = [...(event.target.files || [])].map(file => ({ name:file.name, size:file.size, type:file.type || "file", lastModified:file.lastModified || 0 }));
+      caseAttachmentDraft.push(...files);
+      event.target.value = "";
+      renderCaseAttachmentDraft();
+    });
+    updateCaseEditorVisibility();
+    renderCaseAttachmentDraft();
+  }
+
+  function openCaseEditor(caseId = "") {
+    const merchant = selectedMerchant();
+    if (!merchant) return toast("Select a merchant first");
+    const existing = caseId ? (state.cases || []).find(item => String(item.id) === String(caseId)) : null;
+    if (caseId && !existing) return toast("Case not found");
+    openModal(existing ? `Edit ${existing.displayId || "case"}` : "New merchant case", `${merchant.store_name} · ${existing ? caseTypeLabel(existing.caseType) : "Choose a case type"}`, caseEditorHTML(merchant, existing));
+    document.getElementById("modal").classList.add("case-modal-wide");
+    bindCaseEditor();
+    setTimeout(() => document.getElementById("caseEditorType")?.focus(), 40);
+  }
+
+  function caseEditorError(id, message) {
+    const field = document.getElementById(id);
+    if (field) {
+      field.focus();
+      field.scrollIntoView({ block:"center", behavior:"smooth" });
+    }
+    toast(message);
+    return false;
+  }
+
+  function saveCaseRecordFromEditor() {
+    const merchant = selectedMerchant();
+    if (!merchant) return toast("Select a merchant first");
+    const editor = document.querySelector("[data-case-editor-id]");
+    const existingId = editor?.dataset.caseEditorId || "";
+    const existing = existingId ? (state.cases || []).find(item => String(item.id) === String(existingId)) : null;
+    const type = caseInputValue("caseEditorType");
+    const status = caseInputValue("caseEditorStatus");
+    const createdDate = caseInputValue("caseEditorCreatedDate");
+    const caseUrl = normalizeCaseUrl(caseInputValue("caseEditorCaseUrl"));
+    const merchantName = caseInputValue("caseEditorMerchantName");
+    const contactEmail = caseInputValue("caseEditorContactEmail");
+    const contactEmailInput = document.getElementById("caseEditorContactEmail");
+    if (!CASE_TYPE_LABELS[type]) return caseEditorError("caseEditorType", "Select a valid case type");
+    if (!CASE_STATUSES.includes(status)) return caseEditorError("caseEditorStatus", "Select a valid status");
+    if (!createdDate) return caseEditorError("caseEditorCreatedDate", "Select the case date");
+    if (!caseUrl || !isValidCaseHttpUrl(caseUrl)) return caseEditorError("caseEditorCaseUrl", "Enter a valid case URL");
+    if (!merchantName) return caseEditorError("caseEditorMerchantName", "Enter the merchant name");
+    if (contactEmail && contactEmailInput && !contactEmailInput.checkValidity()) return caseEditorError("caseEditorContactEmail", "Enter a valid merchant contact email");
+
+    let am = null;
+    let menu = null;
+    if (type === "am") {
+      const category = caseInputValue("caseEditorCategory");
+      if (!CASE_ACCOUNT_CATEGORIES.includes(category)) return caseEditorError("caseEditorCategory", "Select an Account Issue Category");
+      am = { category };
+    }
+
+    if (type === "menu") {
+      const permanence = caseInputValue("caseEditorPermanence");
+      const goLiveTiming = caseInputValue("caseEditorGoLiveTiming");
+      const goLiveDate = caseInputValue("caseEditorGoLiveDate");
+      const dueDate = caseInputValue("caseEditorDueDate");
+      const revertDate = caseInputValue("caseEditorRevertDate");
+      const locationScope = caseInputValue("caseEditorLocationScope");
+      const locationDetails = caseInputValue("caseEditorLocationDetails");
+      const updateTypes = caseCheckedValues("caseUpdateType");
+      const updateDetails = caseCheckedValues("caseUpdateDetail");
+      const menusAffected = caseCheckedValues("caseMenuAffected");
+      const menuUrl1 = normalizeCaseUrl(caseInputValue("caseEditorMenuUrl1"));
+      const menuUrl2 = normalizeCaseUrl(caseInputValue("caseEditorMenuUrl2"));
+      const briefDescription = caseInputValue("caseEditorBrief");
+      const completionContact = caseInputValue("caseEditorCompletionContact");
+      const completionEmail = caseInputValue("caseEditorCompletionEmail");
+      const completionEmailInput = document.getElementById("caseEditorCompletionEmail");
+      if (!["Permanent", "Temporary"].includes(permanence)) return caseEditorError("caseEditorPermanence", "Select Temporary or Permanent");
+      if (!["ASAP", "Future Date"].includes(goLiveTiming)) return caseEditorError("caseEditorGoLiveTiming", "Select when changes should go live");
+      if (goLiveTiming === "Future Date" && !goLiveDate) return caseEditorError("caseEditorGoLiveDate", "Select the go-live date");
+      if (goLiveTiming === "Future Date" && !dueDate) return caseEditorError("caseEditorDueDate", "Select the due date");
+      if (permanence === "Temporary" && !revertDate) return caseEditorError("caseEditorRevertDate", "Select the date to revert changes");
+      if (!locationScope) return caseEditorError("caseEditorLocationScope", "Select the location scope");
+      if (["Single Location", "Multiple Locations"].includes(locationScope) && !locationDetails) return caseEditorError("caseEditorLocationDetails", "Enter the affected location or Store ID details");
+      if (!updateTypes.length) return caseEditorError("caseEditorBrief", "Select at least one Type of Update");
+      if (!updateDetails.length) return caseEditorError("caseEditorBrief", "Select at least one Update Detail");
+      if (!menusAffected.length) return caseEditorError("caseEditorBrief", "Select at least one affected menu");
+      if (menuUrl1 && !isValidCaseHttpUrl(menuUrl1)) return caseEditorError("caseEditorMenuUrl1", "Enter a valid Menu Source URL");
+      if (menuUrl2 && !isValidCaseHttpUrl(menuUrl2)) return caseEditorError("caseEditorMenuUrl2", "Enter a valid Menu Source URL 2");
+      if (!briefDescription) return caseEditorError("caseEditorBrief", "Enter a brief description of the update");
+      if (!completionContact) return caseEditorError("caseEditorCompletionContact", "Enter who should be contacted when complete");
+      if (completionEmail && completionEmailInput && !completionEmailInput.checkValidity()) return caseEditorError("caseEditorCompletionEmail", "Enter a valid completion contact email");
+      menu = {
+        permanence,
+        goLiveTiming,
+        goLiveDate: goLiveTiming === "Future Date" ? goLiveDate : "",
+        dueDate: goLiveTiming === "Future Date" ? dueDate : "",
+        revertDate: permanence === "Temporary" ? revertDate : "",
+        locationScope,
+        locationDetails: locationScope === "All Stores" ? "" : locationDetails,
+        updateTypes,
+        updateDetails,
+        menusAffected,
+        ddfbMenu: !!document.getElementById("caseEditorDdfb")?.checked,
+        menuSourceUrl1: menuUrl1,
+        menuSourceUrl2: menuUrl2,
+        menuSourceNotes: caseInputValue("caseEditorMenuNotes"),
+        briefDescription,
+        completionContact,
+        completionContactEmail: completionEmail,
+        attachments: caseAttachmentDraft.map(file => ({ name:file.name, size:Number(file.size || 0), type:file.type || "file", lastModified:Number(file.lastModified || 0) }))
+      };
+    }
+
+    const now = new Date().toISOString();
+    const history = Array.isArray(existing?.statusHistory) ? existing.statusHistory.map(item => ({ ...item })) : [];
+    if (!existing || existing.status !== status) history.unshift({ status, at:now });
+    const record = {
+      id: existing?.id || uid("case"),
+      displayId: existing?.displayId || makeCaseDisplayId(),
+      uid: existing?.uid || merchant.uid,
+      caseType: type,
+      status,
+      statusHistory: history.slice(0, 40),
+      createdDate,
+      caseUrl,
+      externalCaseNumber: caseInputValue("caseEditorExternalNumber"),
+      merchant: {
+        name: merchantName,
+        merchantId: caseInputValue("caseEditorMerchantId"),
+        storeIds: caseInputValue("caseEditorStoreIds"),
+        marketRegion: caseInputValue("caseEditorMarket"),
+        accountManager: caseInputValue("caseEditorAccountManager"),
+        contactName: caseInputValue("caseEditorContactName"),
+        contactEmail,
+        contactPhone: caseInputValue("caseEditorContactPhone")
+      },
+      am,
+      menu,
+      internalNotes: caseInputValue("caseEditorInternalNotes"),
+      createdAt: existing?.createdAt || now,
+      updatedAt: now
+    };
+    if (existing) state.cases = state.cases.map(item => item.id === existing.id ? record : item);
+    else state.cases.unshift(record);
+    state.ui.workHubTab = "cases";
+    scheduleSave();
+    closeModal();
+    renderApp();
+    toast(existing ? "Case updated" : "Case created");
+  }
+
+  function setCaseRecordStatus(caseId, status) {
+    const record = (state.cases || []).find(item => String(item.id) === String(caseId));
+    if (!record || !CASE_STATUSES.includes(status) || record.status === status) return;
+    const now = new Date().toISOString();
+    record.status = status;
+    record.updatedAt = now;
+    record.statusHistory = [{ status, at:now }, ...(Array.isArray(record.statusHistory) ? record.statusHistory : [])].slice(0, 40);
+    scheduleSave();
+    renderApp({ animate:false });
+    toast(`Case status changed to ${status}`);
+  }
+
+  function caseDetailList(values) {
+    const items = Array.isArray(values) ? values.filter(Boolean) : [];
+    return items.length ? `<ul>${items.map(value => `<li>${esc(value)}</li>`).join("")}</ul>` : "";
+  }
+
+  function caseDetailLink(value) {
+    const url = normalizeCaseUrl(value);
+    return url && isValidCaseHttpUrl(url) ? `<a href="${attr(url)}" target="_blank" rel="noopener noreferrer">${esc(url)}</a>` : "";
+  }
+
+  function caseDetailMultiline(value) {
+    return esc(value || "").replace(/\n/g, "<br>");
+  }
+
+  function buildCaseDetailHTML(record) {
+    const cards = [];
+    const section = title => cards.push(`<h3 class="case-detail-section-title">${esc(title)}</h3>`);
+    const add = (label, value, full = false, raw = false) => {
+      if (value === undefined || value === null || value === "" || (Array.isArray(value) && !value.length)) return;
+      cards.push(`<div class="case-detail-card ${full ? "full" : ""}"><div class="case-detail-label">${esc(label)}</div><div class="case-detail-value">${raw ? value : esc(String(value))}</div></div>`);
+    };
+    section("Case information");
+    add("Case ID", record.displayId || record.id);
+    add("Type Of Case", caseTypeLabel(record.caseType));
+    add("Status", record.status);
+    add("Case date", formatCaseDate(record.createdDate));
+    add("External Case Number", record.externalCaseNumber);
+    add("URL / Case link", caseDetailLink(record.caseUrl), true, true);
+    section("Merchant information");
+    add("Merchant Name", record.merchant?.name);
+    add("Merchant ID", record.merchant?.merchantId);
+    add("Store ID(s)", record.merchant?.storeIds);
+    add("Market / Region", record.merchant?.marketRegion);
+    add("Account Manager", record.merchant?.accountManager);
+    add("Merchant Contact", record.merchant?.contactName);
+    add("Contact Email", record.merchant?.contactEmail);
+    add("Contact Phone", record.merchant?.contactPhone);
+    if (record.caseType === "am") {
+      section("AM Case Details");
+      add("Account Issue Category", record.am?.category, true);
+    }
+    if (record.caseType === "menu") {
+      const menu = record.menu || {};
+      section("Operational Updates");
+      add("Temporary or Permanent", menu.permanence);
+      add("When Should Changes Go Live?", menu.goLiveTiming);
+      add("Go Live Date", menu.goLiveDate ? formatCaseDate(menu.goLiveDate) : "");
+      add("Due Date", menu.dueDate ? formatCaseDate(menu.dueDate) : "");
+      add("Date to Revert", menu.revertDate ? formatCaseDate(menu.revertDate) : "");
+      add("Location Scope", menu.locationScope);
+      add("Location / Store details", menu.locationDetails);
+      section("Update Details");
+      add("Type of Update", caseDetailList(menu.updateTypes), true, true);
+      add("Update Details", caseDetailList(menu.updateDetails), true, true);
+      add("Menu(s) Affected", caseDetailList(menu.menusAffected), true, true);
+      add("This is a DDFB menu", menu.ddfbMenu ? "Yes" : "No");
+      section("Menu Source Updates");
+      add("Menu Source URL", caseDetailLink(menu.menuSourceUrl1), true, true);
+      add("Menu Source URL 2", caseDetailLink(menu.menuSourceUrl2), true, true);
+      add("Menu Source Notes", caseDetailMultiline(menu.menuSourceNotes), true, true);
+      section("Closing Information");
+      add("Brief description of update", caseDetailMultiline(menu.briefDescription), true, true);
+      add("Who To Contact When Complete", menu.completionContact);
+      add("Completion Contact Email", menu.completionContactEmail);
+      if (Array.isArray(menu.attachments) && menu.attachments.length) add("Attachments", caseDetailList(menu.attachments.map(file => `${file.name} (${formatCaseBytes(file.size || 0)})`)), true, true);
+    }
+    if (record.caseType === "photo") {
+      section("Photo Processing Case");
+      add("Workflow", "No additional questions required; the case URL is the source of truth.", true);
+    }
+    if (record.internalNotes) {
+      section("Internal Notes");
+      add("Notes", caseDetailMultiline(record.internalNotes), true, true);
+    }
+    if (Array.isArray(record.statusHistory) && record.statusHistory.length) {
+      section("Status history");
+      const history = `<div class="case-history-list">${record.statusHistory.slice(0,12).map(item => `<div class="case-history-row"><strong>${esc(item.status)}</strong><span>${esc(formatDateTime(item.at))}</span></div>`).join("")}</div>`;
+      add("Recent status changes", history, true, true);
+    }
+    add("Last updated", formatDateTime(record.updatedAt || record.createdAt), true);
+    return `<div class="case-detail-grid">${cards.join("")}</div>`;
+  }
+
+  function openCaseViewer(caseId) {
+    const record = (state.cases || []).find(item => String(item.id) === String(caseId));
+    if (!record) return toast("Case not found");
+    const merchant = getMerchant(record.uid);
+    openModal(record.displayId || "Case details", `${merchant?.store_name || record.merchant?.name || "Merchant"} · ${caseTypeLabel(record.caseType)} · ${record.status}`, `${buildCaseDetailHTML(record)}<div class="case-modal-actions"><button class="btn ghost" type="button" data-edit-case="${attr(record.id)}">Edit</button><a class="btn green" href="${attr(normalizeCaseUrl(record.caseUrl))}" target="_blank" rel="noopener noreferrer">Open case link</a><button class="btn red" type="button" data-delete-case="${attr(record.id)}">Delete</button><button class="btn primary" type="button" data-action="cancelCaseEditor">Close</button></div>`);
+    document.getElementById("modal").classList.add("case-modal-wide");
+  }
+
+  function removeCaseRecord(caseId) {
+    const record = (state.cases || []).find(item => String(item.id) === String(caseId));
+    if (!record) return;
+    if (!confirm(`Delete ${record.displayId || "this case"}? This action cannot be undone.`)) return;
+    state.cases = state.cases.filter(item => String(item.id) !== String(caseId));
+    scheduleSave();
+    closeModal();
+    renderApp();
+    toast("Case deleted");
+  }
+
+  function safeCaseFileName(value) {
+    return String(value || "merchant").toLowerCase().replace(/[^a-z0-9]+/g,"-").replace(/^-|-$/g,"") || "merchant";
+  }
+
+  function exportMerchantCasesJson() {
+    const merchant = selectedMerchant();
+    if (!merchant) return toast("Select a merchant first");
+    const records = casesFor(merchant.uid);
+    downloadFile(`dashwork-cases-${safeCaseFileName(merchant.store_name)}-${caseTodayISO()}.json`, JSON.stringify({ exportType:"dashwork-merchant-cases", version:1, exportedAt:new Date().toISOString(), merchant:{ uid:merchant.uid, storeName:merchant.store_name, storeId:merchant.store_id }, cases:records }, null, 2), "application/json");
+    toast("Merchant cases exported");
+  }
+
+  function caseCsvEscape(value) {
+    const text = String(value ?? "");
+    return /[",\n]/.test(text) ? `"${text.replace(/"/g,'""')}"` : text;
+  }
+
+  function exportMerchantCasesCsv() {
+    const merchant = selectedMerchant();
+    if (!merchant) return toast("Select a merchant first");
+    const rows = [["Case ID","External Case Number","Merchant","Store IDs","Type","Status","Account Issue Category","Case Date","Case URL","Brief Description","Created At","Updated At"]];
+    casesFor(merchant.uid).forEach(record => rows.push([record.displayId || record.id,record.externalCaseNumber || "",record.merchant?.name || merchant.store_name,record.merchant?.storeIds || merchant.store_id,caseTypeLabel(record.caseType),record.status,record.am?.category || "",record.createdDate || "",record.caseUrl || "",record.menu?.briefDescription || "",record.createdAt || "",record.updatedAt || ""]));
+    downloadFile(`dashwork-cases-${safeCaseFileName(merchant.store_name)}-${caseTodayISO()}.csv`, rows.map(row => row.map(caseCsvEscape).join(",")).join("\n"), "text/csv");
+    toast("Merchant cases CSV exported");
+  }
+
+  function normalizeImportedCase(record, merchant) {
+    if (!record || typeof record !== "object") return null;
+    const type = CASE_TYPE_LABELS[record.caseType] ? record.caseType : "photo";
+    const status = CASE_STATUSES.includes(record.status) ? record.status : "Open";
+    const caseUrl = normalizeCaseUrl(record.caseUrl || record.url || "");
+    if (!caseUrl || !isValidCaseHttpUrl(caseUrl)) return null;
+    const now = new Date().toISOString();
+    return {
+      id: record.id || uid("case"),
+      displayId: record.displayId || makeCaseDisplayId(),
+      uid: merchant.uid,
+      caseType: type,
+      status,
+      statusHistory: Array.isArray(record.statusHistory) ? record.statusHistory : [{ status, at:record.updatedAt || now }],
+      createdDate: record.createdDate || caseTodayISO(),
+      caseUrl,
+      externalCaseNumber: String(record.externalCaseNumber || ""),
+      merchant: { ...caseEditorMerchantSnapshot(merchant, record), ...(record.merchant || {}) },
+      am: type === "am" ? { category: CASE_ACCOUNT_CATEGORIES.includes(record.am?.category) ? record.am.category : "Account settings" } : null,
+      menu: type === "menu" && record.menu && typeof record.menu === "object" ? { ...record.menu, attachments:Array.isArray(record.menu.attachments) ? record.menu.attachments : [] } : null,
+      internalNotes: String(record.internalNotes || ""),
+      createdAt: record.createdAt || now,
+      updatedAt: record.updatedAt || now
+    };
+  }
+
+  async function importMerchantCasesFile(file) {
+    const merchant = selectedMerchant();
+    if (!merchant) return toast("Select a merchant first");
+    try {
+      const parsed = JSON.parse(await file.text());
+      const source = Array.isArray(parsed) ? parsed : Array.isArray(parsed.cases) ? parsed.cases : [];
+      if (!source.length) throw new Error("No cases found in this JSON file");
+      const imported = source.map(record => normalizeImportedCase(record, merchant)).filter(Boolean);
+      if (!imported.length) throw new Error("No valid cases with HTTP/HTTPS links were found");
+      const map = new Map((state.cases || []).map(record => [String(record.id), record]));
+      imported.forEach(record => map.set(String(record.id), record));
+      state.cases = [...map.values()];
+      state.ui.workHubTab = "cases";
+      scheduleSave();
+      renderApp();
+      toast(`${imported.length} case${imported.length === 1 ? "" : "s"} imported`);
+    } catch (error) {
+      toast(error.message || "Cases could not be imported");
+    }
   }
 
   function renderCallConsole(merchant) {
@@ -10395,7 +11312,8 @@ const FOLLOWUP_DELETE_SOUND_DATA_URL = "data:audio/wav;base64,UklGRsqKAABXQVZFZm
       ...photosFor(uidValue).map(x=>({icon:"▧",title:`${x.photosAdded} photos added`,detail:`${x.status} · Coverage ${pct(x.coverageAfter)}${x.note?` · ${x.note}`:""}`,timestamp:x.timestamp})),
       ...followupsFor(uidValue).map(x=>({icon:"◫",title:`Follow-up ${x.status}`,detail:`${x.reason} · ${x.date} ${x.time||""}`,timestamp:x.updatedAt||x.createdAt})),
       ...salesFor(uidValue).map(x=>({icon:"◎",title:`Sales: ${x.type}`,detail:`${x.status} · ${x.campaign||"No campaign"}`,timestamp:x.timestamp})),
-      ...creditsFor(uidValue).map(x=>({icon:"$",title:`Credit ${money2(x.amount)}`,detail:`${x.type} · ${x.status}`,timestamp:x.timestamp}))
+      ...creditsFor(uidValue).map(x=>({icon:"$",title:`Credit ${money2(x.amount)}`,detail:`${x.type} · ${x.status}`,timestamp:x.timestamp})),
+      ...casesFor(uidValue).map(x=>({icon:"#",title:`${caseTypeLabel(x.caseType)} · ${x.status}`,detail:`${x.displayId || x.externalCaseNumber || "Case"}${x.am?.category ? ` · ${x.am.category}` : ""}`,timestamp:x.updatedAt || x.createdAt}))
     ].sort((a,b)=>String(b.timestamp).localeCompare(String(a.timestamp)));
   }
 
@@ -10680,6 +11598,7 @@ const FOLLOWUP_DELETE_SOUND_DATA_URL = "data:audio/wav;base64,UklGRsqKAABXQVZFZm
     state.photos.filter(p=>dateKeyInZone(p.timestamp)===key).forEach(p=>items.push({icon:"▧",title:`${getMerchant(p.uid)?.store_name||"Merchant"}`,detail:`${p.photosAdded} photos · ${p.status}`,timestamp:p.timestamp}));
     state.sales.filter(x=>dateKeyInZone(x.timestamp)===key).forEach(x=>items.push({icon:"◎",title:`${getMerchant(x.uid)?.store_name||"Merchant"}`,detail:`Sales record · ${x.type} · ${x.status}`,timestamp:x.timestamp}));
     state.credits.filter(x=>dateKeyInZone(x.timestamp)===key).forEach(x=>items.push({icon:"$",title:`${getMerchant(x.uid)?.store_name||"Merchant"}`,detail:`Credit ${money2(x.amount)} · ${x.status}`,timestamp:x.timestamp}));
+    (state.cases || []).filter(x=>dateKeyInZone(x.updatedAt || x.createdAt)===key).forEach(x=>items.push({icon:"#",title:`${getMerchant(x.uid)?.store_name||x.merchant?.name||"Merchant"}`,detail:`${caseTypeLabel(x.caseType)} · ${x.status}`,timestamp:x.updatedAt || x.createdAt}));
     state.followups.filter(f=>dateKeyInZone(f.createdAt)===key).forEach(f=>items.push({icon:"◫",title:`${getMerchant(f.uid)?.store_name||"Merchant"}`,detail:`Follow-up created · ${f.reason}`,timestamp:f.createdAt}));
     state.followups.filter(f=>f.completedAt&&dateKeyInZone(f.completedAt)===key).forEach(f=>items.push({icon:"✓",title:`${getMerchant(f.uid)?.store_name||"Merchant"}`,detail:`Follow-up completed · ${f.reason}`,timestamp:f.completedAt}));
     return items.sort((a,b)=>String(b.timestamp||"").localeCompare(String(a.timestamp||"")));
@@ -10963,6 +11882,9 @@ const FOLLOWUP_DELETE_SOUND_DATA_URL = "data:audio/wav;base64,UklGRsqKAABXQVZFZm
     onInput("workHubSearch",e=>{state.ui.workHubPage=1;state.ui.workHubFilters={...(state.ui.workHubFilters||{}),q:e.target.value};debouncedRender();});
     ["workHubView","workHubSort","workHubMarket","workHubVideoFilter","workHubPhotoFilter","workHubContactFilter","workHubRecallFilter"].forEach(id=>onInput(id,()=>{state.ui.workHubPage=1;state.ui.workHubFilters=readWorkHubFilters();scheduleSave();renderApp();},"change"));
 
+    onInput("caseSearch", e => { state.ui.caseFilters = { ...(state.ui.caseFilters || {}), q:e.target.value }; debouncedRender(); });
+    ["caseTypeFilter","caseStatusFilter","caseCategoryFilter"].forEach(id => onInput(id, () => { state.ui.caseFilters = readCaseFilters(); scheduleSave(); renderApp(); }, "change"));
+
     onInput("merchantHasPhotos",e=>{const merchant=selectedMerchant();if(!merchant)return;setMerchantState(merchant.uid,{hasPhotos:e.target.checked});renderApp();},"change");
     onInput("merchantVideoInReview",e=>{const merchant=selectedMerchant();if(!merchant)return;setMerchantState(merchant.uid,{videoInReview:e.target.checked,videoStatus:e.target.checked?"In review":merchantState(merchant.uid).videoStatus});renderApp();},"change");
     onInput("merchantVideoStatus",e=>{const merchant=selectedMerchant();if(!merchant)return;setMerchantState(merchant.uid,{videoStatus:e.target.value,videoInReview:["In progress","In review"].includes(e.target.value)});renderApp();},"change");
@@ -11061,6 +11983,9 @@ const FOLLOWUP_DELETE_SOUND_DATA_URL = "data:audio/wav;base64,UklGRsqKAABXQVZFZm
     const quickAssign=e.target.closest("[data-quick-assign]"); if(quickAssign){assignUnmatched(quickAssign.dataset.quickAssign,quickAssign.dataset.merchant);return;}
     const useProfileGif=e.target.closest("[data-use-profile-gif]"); if(useProfileGif){applyProfileGifHistory(useProfileGif.dataset.useProfileGif);return;}
     const palette=e.target.closest("[data-palette-preset]"); if(palette){applyPalettePreset(palette.dataset.palettePreset);return;}
+    const viewCase=e.target.closest("[data-view-case]"); if(viewCase){openCaseViewer(viewCase.dataset.viewCase);return;}
+    const editCase=e.target.closest("[data-edit-case]"); if(editCase){openCaseEditor(editCase.dataset.editCase);return;}
+    const deleteCase=e.target.closest("[data-delete-case]"); if(deleteCase){removeCaseRecord(deleteCase.dataset.deleteCase);return;}
     const action=e.target.closest("[data-action]");
     if(action){await handleAction(action.dataset.action,action);return;}
   });
@@ -11070,11 +11995,14 @@ const FOLLOWUP_DELETE_SOUND_DATA_URL = "data:audio/wav;base64,UklGRsqKAABXQVZFZm
   document.getElementById("modalBackdrop").addEventListener("click",closeModal);
   document.addEventListener("keydown",e=>{if(e.key==="Escape")closeModal();});
 
+  document.addEventListener("change", e => { const status=e.target.closest("[data-case-status]"); if(status){setCaseRecordStatus(status.dataset.caseStatus,status.value);} });
+
   document.getElementById("merchantCsvInput").addEventListener("change",e=>{const file=e.target.files?.[0];if(file)handleCsvFile(file,"merchants");e.target.value="";});
   document.getElementById("callsCsvInput").addEventListener("change",e=>{const file=e.target.files?.[0];if(file)handleCsvFile(file,"calls");e.target.value="";});
   document.getElementById("merchantPhotoInput").addEventListener("change",e=>{const file=e.target.files?.[0];const uid=state.ui.photoTargetUid||selectedMerchant()?.uid||"";state.ui.photoTargetUid="";if(file&&uid)processMerchantPhotoFile(file,uid).catch(()=>{});e.target.value="";});
   document.getElementById("profileImageInput").addEventListener("change",e=>{const file=e.target.files?.[0];if(file)processProfileImage(file);e.target.value="";});
   document.getElementById("backupInput").addEventListener("change",e=>{const file=e.target.files?.[0];if(file)restoreBackup(file);e.target.value="";});
+  document.getElementById("caseImportInput").addEventListener("change",e=>{const file=e.target.files?.[0];if(file)importMerchantCasesFile(file);e.target.value="";});
 
   document.getElementById("globalSearch").addEventListener("input",e=>renderGlobalSearch(e.target.value));
   document.getElementById("globalSearch").addEventListener("focus",e=>renderGlobalSearch(e.target.value));
@@ -11141,7 +12069,13 @@ const FOLLOWUP_DELETE_SOUND_DATA_URL = "data:audio/wav;base64,UklGRsqKAABXQVZFZm
       loadDemo,
       openMerchantGmailRecap,
       copyMerchantGmailRecap,
-      exportMerchantCallsCsv
+      exportMerchantCallsCsv,
+      newCaseRecord: () => openCaseEditor(),
+      saveCaseRecord: saveCaseRecordFromEditor,
+      cancelCaseEditor: closeModal,
+      exportMerchantCasesJson,
+      exportMerchantCasesCsv,
+      importMerchantCases: () => document.getElementById("caseImportInput")?.click()
     };
     if (actions[action]) await actions[action](element);
   }
@@ -11728,6 +12662,7 @@ const FOLLOWUP_DELETE_SOUND_DATA_URL = "data:audio/wav;base64,UklGRsqKAABXQVZFZm
         photos: Array.isArray(data.photos) ? data.photos.length : 0,
         sales: Array.isArray(data.sales) ? data.sales.length : 0,
         credits: Array.isArray(data.credits) ? data.credits.length : 0,
+        cases: Array.isArray(data.cases) ? data.cases.length : 0,
         resources: Array.isArray(data.resources) ? data.resources.length : 0,
         links: Array.isArray(data.links) ? data.links.length : 0
       },
@@ -11756,6 +12691,7 @@ const FOLLOWUP_DELETE_SOUND_DATA_URL = "data:audio/wav;base64,UklGRsqKAABXQVZFZm
       photos: Array.isArray(collections.photos) ? collections.photos : Array.isArray(source.photos) ? source.photos : [],
       sales: Array.isArray(collections.sales) ? collections.sales : Array.isArray(source.sales) ? source.sales : [],
       credits: Array.isArray(collections.credits) ? collections.credits : Array.isArray(source.credits) ? source.credits : [],
+      cases: Array.isArray(collections.cases) ? collections.cases : Array.isArray(source.cases) ? source.cases : [],
       followups: Array.isArray(collections.followups) ? collections.followups : Array.isArray(source.followups) ? source.followups : [],
       resources: Array.isArray(collections.resources) ? collections.resources : Array.isArray(source.resources) ? source.resources : [],
       links: Array.isArray(collections.links) ? collections.links : Array.isArray(source.links) ? source.links : [],
