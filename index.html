@@ -11254,7 +11254,7 @@ const FOLLOWUP_DELETE_SOUND_DATA_URL = "data:audio/wav;base64,UklGRsqKAABXQVZFZm
         <div class="sparkline-box">${renderProfileSparkline(trendSeries, trendLabels)}</div>
       </div>
       <div class="insight-card full">
-        <div class="insight-title"><div><strong>Monitoring summary</strong><span>Use these signals to prioritize the next merchant action.</span></div><span class="pill">${timeline.length} timeline events</span></div>
+        <div class="insight-title"><div><strong>Monitoring summary</strong><span>Use these signals to prioritize the next merchant action.</span></div><div class="button-row"><button class="btn small blue" type="button" data-action="refreshInsights">Update</button><span class="pill">${timeline.length} timeline events</span></div></div>
         <div class="promo-breakdown">
           <div class="promo-breakdown-row"><div><strong>Photo coverage</strong><span>Direct visual conversion driver</span></div><strong>${pct(merchant.photo_coverage)}</strong></div>
           <div class="promo-breakdown-track"><i style="width:${clamp(Number(merchant.photo_coverage || 0),0,100)}%"></i></div>
@@ -12070,6 +12070,7 @@ const FOLLOWUP_DELETE_SOUND_DATA_URL = "data:audio/wav;base64,UklGRsqKAABXQVZFZm
       openMerchantGmailRecap,
       copyMerchantGmailRecap,
       exportMerchantCallsCsv,
+      refreshInsights: () => { renderApp({ animate:false }); updateLiveClock(); toast("Insights updated"); },
       newCaseRecord: () => openCaseEditor(),
       saveCaseRecord: saveCaseRecordFromEditor,
       cancelCaseEditor: closeModal,
