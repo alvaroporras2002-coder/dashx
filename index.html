@@ -6489,6 +6489,311 @@ body.bento-light.desktop-x.density-focus .bento-card { padding: 22px !important;
   }
 </style>
 
+
+
+<style id="dashworkWorkHubThreePaneFix">
+  /* ======================================================================
+     Work Hub — permanent three-pane workspace
+     Left: merchant queue and filters
+     Center: merchant information and operational context
+     Right: Call Log, Photo Counter and Ads & Credits tools
+     ====================================================================== */
+
+  body.desktop-x .hub-layout.workhub-three-pane {
+    display: grid !important;
+    grid-template-columns: 260px minmax(500px, 1fr) 380px !important;
+    gap: 14px !important;
+    align-items: start !important;
+    min-width: 1168px !important;
+  }
+
+  body.desktop-x .workhub-three-pane > .hub-queue {
+    grid-column: 1 !important;
+    grid-row: 1 !important;
+    position: sticky !important;
+    top: 94px !important;
+    max-height: calc(100vh - 112px) !important;
+    overflow: hidden auto !important;
+  }
+
+  body.desktop-x .workhub-three-pane > .hub-main {
+    grid-column: 2 !important;
+    grid-row: 1 !important;
+    min-width: 0 !important;
+    overflow: visible !important;
+  }
+
+  body.desktop-x .workhub-three-pane > .hub-tools {
+    grid-column: 3 !important;
+    grid-row: 1 !important;
+    position: sticky !important;
+    top: 94px !important;
+    max-height: calc(100vh - 112px) !important;
+    min-width: 0 !important;
+    padding: 0 !important;
+    overflow: hidden auto !important;
+    overscroll-behavior: contain !important;
+  }
+
+  body.desktop-x .hub-tools-sticky {
+    position: sticky !important;
+    top: 0 !important;
+    z-index: 8 !important;
+    padding: 16px 16px 12px !important;
+    border-bottom: 1px solid var(--bento-line) !important;
+    background: color-mix(in srgb, var(--bento-surface) 96%, transparent) !important;
+    backdrop-filter: blur(14px) saturate(120%) !important;
+  }
+
+  body.desktop-x .hub-tools-heading,
+  body.desktop-x .hub-center-heading {
+    display: flex !important;
+    align-items: flex-start !important;
+    justify-content: space-between !important;
+    gap: 12px !important;
+  }
+
+  body.desktop-x .hub-tools-heading > div,
+  body.desktop-x .hub-center-heading > div { min-width: 0 !important; }
+
+  body.desktop-x .hub-tools-heading > div > span,
+  body.desktop-x .hub-center-heading > div > span {
+    display: block !important;
+    color: var(--bento-muted) !important;
+    font-size: 9px !important;
+    font-weight: 720 !important;
+    letter-spacing: .10em !important;
+    text-transform: uppercase !important;
+  }
+
+  body.desktop-x .hub-tools-heading h3,
+  body.desktop-x .hub-center-heading h3 {
+    margin: 4px 0 0 !important;
+    color: var(--bento-text) !important;
+    font-size: 15px !important;
+    font-weight: 700 !important;
+    line-height: 1.25 !important;
+    letter-spacing: -.03em !important;
+  }
+
+  body.desktop-x .hub-tools-heading small {
+    display: block !important;
+    margin-top: 4px !important;
+    color: var(--bento-muted) !important;
+    font-size: 9px !important;
+    line-height: 1.35 !important;
+    white-space: nowrap !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+  }
+
+  body.desktop-x .hub-tools .hub-tabs {
+    position: relative !important;
+    top: auto !important;
+    z-index: auto !important;
+    display: grid !important;
+    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+    gap: 5px !important;
+    margin: 12px 0 0 !important;
+    padding: 4px !important;
+    border: 1px solid var(--bento-line) !important;
+    border-radius: 10px !important;
+    background: var(--bento-surface-soft) !important;
+  }
+
+  body.desktop-x .hub-tools .hub-tab {
+    min-width: 0 !important;
+    min-height: 45px !important;
+    padding: 6px 5px !important;
+    border: 0 !important;
+    border-radius: 7px !important;
+    color: var(--bento-muted) !important;
+    background: transparent !important;
+    font-size: 9px !important;
+    font-weight: 680 !important;
+    line-height: 1.2 !important;
+    white-space: normal !important;
+    text-align: center !important;
+  }
+
+  body.desktop-x .hub-tools .hub-tab:hover {
+    background: color-mix(in srgb, var(--bento-primary) 7%, var(--bento-surface)) !important;
+    color: var(--bento-text) !important;
+  }
+
+  body.desktop-x .hub-tools .hub-tab.active {
+    background: var(--bento-surface) !important;
+    color: var(--bento-primary) !important;
+    box-shadow: var(--bento-shadow) !important;
+  }
+
+  body.desktop-x .hub-tool-body {
+    min-width: 0 !important;
+    padding: 16px !important;
+  }
+
+  body.desktop-x .hub-tool-body > .card-head:first-child { margin-top: 0 !important; }
+
+  body.desktop-x .hub-tools .card-head {
+    align-items: flex-start !important;
+    flex-wrap: wrap !important;
+    gap: 9px !important;
+  }
+
+  body.desktop-x .hub-tools .card-head > div:first-child { min-width: 0 !important; }
+  body.desktop-x .hub-tools .card-hint {
+    width: 100% !important;
+    max-width: none !important;
+    text-align: left !important;
+  }
+
+  /* Compact, readable forms inside the right tools rail. */
+  body.desktop-x .hub-tools .form-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: 9px !important;
+  }
+
+  body.desktop-x .hub-tools .field.c12,
+  body.desktop-x .hub-tools .field.c8,
+  body.desktop-x .hub-tools .field.c4 {
+    grid-column: 1 / -1 !important;
+  }
+
+  body.desktop-x .hub-tools .field.c6,
+  body.desktop-x .hub-tools .field.c3 {
+    grid-column: span 1 !important;
+  }
+
+  body.desktop-x .hub-tools .status-select-card,
+  body.desktop-x .hub-tools .status-select-card.called-return {
+    grid-template-columns: minmax(0, 1fr) !important;
+    align-items: stretch !important;
+  }
+
+  body.desktop-x .hub-tools .status-preview {
+    justify-self: start !important;
+    min-height: 34px !important;
+  }
+
+  body.desktop-x .hub-tools .content-flag-grid,
+  body.desktop-x .hub-tools .content-status-grid,
+  body.desktop-x .hub-tools .contact-grid,
+  body.desktop-x .hub-tools .promo-suite-grid,
+  body.desktop-x .hub-tools .promo-type-grid,
+  body.desktop-x .hub-tools .promo-summary-bar,
+  body.desktop-x .hub-tools .promo-mini-grid,
+  body.desktop-x .hub-tools .ad-calc-inputs,
+  body.desktop-x .hub-tools .ad-calc-results {
+    grid-template-columns: minmax(0, 1fr) !important;
+  }
+
+  body.desktop-x .hub-tools .promo-fields {
+    grid-template-columns: minmax(0, 1fr) !important;
+  }
+
+  body.desktop-x .hub-tools .promo-fields .field,
+  body.desktop-x .hub-tools .promo-fields .field.w4,
+  body.desktop-x .hub-tools .promo-fields .field.w12 {
+    grid-column: 1 !important;
+  }
+
+  body.desktop-x .hub-tools .ad-calculator-head,
+  body.desktop-x .hub-tools .promo-suite-head,
+  body.desktop-x .hub-tools .email-recap-head,
+  body.desktop-x .hub-tools .content-tracker-head {
+    align-items: flex-start !important;
+    flex-wrap: wrap !important;
+  }
+
+  body.desktop-x .hub-tools .email-compose-row {
+    grid-template-columns: 58px minmax(0, 1fr) !important;
+    padding-inline: 10px !important;
+  }
+
+  body.desktop-x .hub-tools .email-compose-textarea { min-height: 170px !important; }
+  body.desktop-x .hub-tools .manual-call-note { min-height: 145px !important; }
+  body.desktop-x .hub-tools .button-row { gap: 6px !important; }
+  body.desktop-x .hub-tools .records-box { overflow: hidden !important; }
+  body.desktop-x .hub-tools .record-item { gap: 7px !important; }
+  body.desktop-x .hub-tools .ad-calc-result,
+  body.desktop-x .hub-tools .promo-stat { min-height: 0 !important; }
+
+  /* Merchant information remains in the center column. */
+  body.desktop-x .hub-main-context {
+    margin-top: 18px !important;
+    padding-top: 18px !important;
+    border-top: 1px solid var(--bento-line) !important;
+  }
+
+  body.desktop-x .hub-center-heading { margin-bottom: 12px !important; }
+
+  body.desktop-x .workhub-three-pane .hub-main-context .hub-context-stack {
+    position: relative !important;
+    top: auto !important;
+    grid-column: auto !important;
+    grid-row: auto !important;
+    display: grid !important;
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: 12px !important;
+    max-height: none !important;
+    overflow: visible !important;
+    padding: 0 !important;
+  }
+
+  body.desktop-x .workhub-three-pane .hub-main-context .hub-context-stack > .context-panel {
+    min-width: 0 !important;
+    min-height: 100% !important;
+  }
+
+  body.desktop-x .workhub-three-pane .hub-main-context .hub-context-stack > .context-panel:nth-child(1),
+  body.desktop-x .workhub-three-pane .hub-main-context .hub-context-stack > .context-panel:nth-child(2) {
+    grid-column: 1 / -1 !important;
+    grid-row: auto !important;
+  }
+
+  body.desktop-x .workhub-three-pane .hub-main-context .hub-context-stack > .context-panel:nth-child(3),
+  body.desktop-x .workhub-three-pane .hub-main-context .hub-context-stack > .context-panel:nth-child(4) {
+    grid-column: span 1 !important;
+    grid-row: auto !important;
+  }
+
+  body.desktop-x .workhub-three-pane .hub-main .active-merchant-top {
+    grid-template-columns: minmax(0, 1fr) 210px !important;
+    gap: 14px !important;
+  }
+
+  body.desktop-x .workhub-three-pane .hub-main .merchant-photo-panel {
+    width: 100% !important;
+    max-width: 210px !important;
+    justify-self: end !important;
+  }
+
+  body.desktop-x .workhub-three-pane .hub-main .merchant-photo-preview,
+  body.desktop-x .workhub-three-pane .hub-main .merchant-photo-preview.merchant-photo-avatar {
+    height: 190px !important;
+    min-height: 190px !important;
+  }
+
+  body.desktop-x .workhub-three-pane .hub-main .merchant-photo-profile-copy { padding-top: 7px !important; }
+
+  /* Keep the three-pane architecture at desktop widths. */
+  @media (max-width: 1400px) {
+    body.desktop-x .hub-layout.workhub-three-pane {
+      grid-template-columns: 250px minmax(480px, 1fr) 360px !important;
+      min-width: 1118px !important;
+    }
+    body.desktop-x .workhub-three-pane .hub-main .active-merchant-top {
+      grid-template-columns: minmax(0, 1fr) 190px !important;
+    }
+    body.desktop-x .workhub-three-pane .hub-main .merchant-photo-panel { max-width: 190px !important; }
+    body.desktop-x .workhub-three-pane .hub-main .merchant-photo-preview,
+    body.desktop-x .workhub-three-pane .hub-main .merchant-photo-preview.merchant-photo-avatar {
+      height: 175px !important;
+      min-height: 175px !important;
+    }
+  }
+</style>
+
 </head>
 <body data-motion="smooth" class="bento-light bento-booting light-ui focus-mode density-comfort desktop-x">
   <section class="bento-boot" id="bentoBoot" aria-live="polite" aria-label="Loading DASHWORK">
@@ -9214,7 +9519,7 @@ const FOLLOWUP_DELETE_SOUND_DATA_URL = "data:audio/wav;base64,UklGRsqKAABXQVZFZm
     const visibleQueue = queue.slice(pageStart, pageStart + WORK_HUB_PAGE_SIZE);
     const tab = state.ui.workHubTab || "call";
 
-    return `<div class="hub-layout">
+    return `<div class="hub-layout workhub-three-pane">
       <aside class="panel hub-queue">
         <div class="card-head"><div><div class="card-kicker">Call board</div><h3>${queue.length} merchants</h3></div><span class="pill blue">${esc(filters.view)}</span></div>
         <div class="form-grid" style="margin-bottom:10px">
@@ -9236,16 +9541,33 @@ const FOLLOWUP_DELETE_SOUND_DATA_URL = "data:audio/wav;base64,UklGRsqKAABXQVZFZm
         ${renderWorkHubPagination(currentPage, totalPages, queue.length)}
       </aside>
 
-      <section class="panel hub-main">
+      <section class="panel hub-main" aria-label="Merchant information and context">
         ${renderActiveMerchantHeader(selected)}
-        <div class="hub-tabs">
-          <button class="hub-tab ${tab==="call"?"active":""}" type="button" data-workhub-tab="call">Call Log</button>
-          <button class="hub-tab ${tab==="photo"?"active":""}" type="button" data-workhub-tab="photo">Photo Counter</button>
-          <button class="hub-tab ${tab==="ads"?"active":""}" type="button" data-workhub-tab="ads">Ads & Credits</button>
+        <div class="hub-main-context">
+          <div class="hub-center-heading">
+            <div><span>Merchant workspace</span><h3>Information and context</h3></div>
+            <span class="quiet-chip">Live merchant data</span>
+          </div>
+          ${renderWorkHubContext(selected)}
         </div>
-        ${tab === "photo" ? renderPhotoCounter(selected) : tab === "ads" ? renderAdsCredits(selected) : renderCallConsole(selected)}
       </section>
-      ${renderWorkHubContext(selected)}
+
+      <aside class="panel hub-tools" aria-label="Merchant tools">
+        <div class="hub-tools-sticky">
+          <div class="hub-tools-heading">
+            <div><span>Merchant tools</span><h3>Call, photos, ads and credits</h3><small>${esc(selected.store_name)}</small></div>
+            <span class="quiet-chip">3 tools</span>
+          </div>
+          <div class="hub-tabs" role="tablist" aria-label="Merchant tool sections">
+            <button class="hub-tab ${tab==="call"?"active":""}" type="button" role="tab" aria-selected="${tab==="call"?"true":"false"}" data-workhub-tab="call">Call Log</button>
+            <button class="hub-tab ${tab==="photo"?"active":""}" type="button" role="tab" aria-selected="${tab==="photo"?"true":"false"}" data-workhub-tab="photo">Photo Counter</button>
+            <button class="hub-tab ${tab==="ads"?"active":""}" type="button" role="tab" aria-selected="${tab==="ads"?"true":"false"}" data-workhub-tab="ads">Ads & Credits</button>
+          </div>
+        </div>
+        <div class="hub-tool-body" data-active-tool="${attr(tab)}">
+          ${tab === "photo" ? renderPhotoCounter(selected) : tab === "ads" ? renderAdsCredits(selected) : renderCallConsole(selected)}
+        </div>
+      </aside>
     </div>`;
   }
 
