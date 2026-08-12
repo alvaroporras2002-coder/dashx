@@ -10488,6 +10488,329 @@ html[data-device-mode="mobile"] body.nova-ui.desktop-x #viewHost[data-m2-view="a
 
 </style>
 
+<style id="dashwork-followup-command-center-styles">
+  /* Integrated Follow-up Command Center */
+  .fu-nova { display:grid; gap:14px; min-width:0; }
+  .fu-nova-surface {
+    min-width:0;
+    border:1px solid var(--line);
+    border-radius:22px;
+    background:color-mix(in srgb,var(--surface) 94%,transparent);
+    box-shadow:0 14px 40px rgba(0,0,0,.10),inset 0 1px 0 rgba(255,255,255,.025);
+    backdrop-filter:blur(20px) saturate(112%);
+  }
+  body.light-ui .fu-nova-surface { box-shadow:0 14px 40px rgba(31,41,55,.07),inset 0 1px 0 rgba(255,255,255,.86); }
+  .fu-nova-hero {
+    position:relative;
+    overflow:hidden;
+    display:grid;
+    grid-template-columns:minmax(0,1fr) auto;
+    gap:22px;
+    align-items:center;
+    padding:22px;
+    background:
+      radial-gradient(600px 230px at 2% 0,rgba(var(--accent-rgb),.14),transparent 72%),
+      radial-gradient(540px 230px at 100% 100%,rgba(var(--accent-2-rgb),.10),transparent 72%),
+      color-mix(in srgb,var(--surface) 95%,transparent);
+  }
+  .fu-nova-hero::after {
+    content:"";
+    position:absolute;
+    right:-92px;
+    top:-122px;
+    width:250px;
+    height:250px;
+    border-radius:50%;
+    border:1px solid color-mix(in srgb,var(--accent) 18%,transparent);
+    box-shadow:0 0 0 34px color-mix(in srgb,var(--accent-2) 3%,transparent),0 0 0 68px color-mix(in srgb,var(--accent) 2%,transparent);
+    pointer-events:none;
+  }
+  .fu-nova-hero-copy,.fu-nova-hero-actions { position:relative; z-index:1; }
+  .fu-nova-eyebrow { color:var(--accent); font-size:10px; font-weight:820; letter-spacing:.12em; text-transform:uppercase; }
+  .fu-nova-hero h2 { margin:6px 0 0; font-size:clamp(27px,3vw,39px); line-height:1.02; letter-spacing:-.055em; }
+  .fu-nova-hero p { max-width:780px; margin:10px 0 0; color:var(--muted); font-size:12px; line-height:1.62; }
+  .fu-nova-hero-actions { display:flex; flex-wrap:wrap; gap:8px; justify-content:flex-end; align-items:center; }
+  .fu-nova-range { min-width:208px; padding:9px 12px; border:1px solid var(--line); border-radius:14px; background:color-mix(in srgb,var(--card) 82%,transparent); text-align:right; }
+  .fu-nova-range span { display:block; color:var(--muted); font-size:9px; font-weight:780; letter-spacing:.09em; text-transform:uppercase; }
+  .fu-nova-range strong { display:block; margin-top:3px; font-size:12px; line-height:1.3; }
+
+  .fu-nova-metrics { display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:11px; }
+  .fu-nova-metric {
+    position:relative;
+    min-height:116px;
+    overflow:hidden;
+    padding:16px;
+    border:1px solid var(--line);
+    border-radius:18px;
+    background:color-mix(in srgb,var(--card) 84%,var(--surface));
+    color:var(--text);
+    text-align:left;
+    transition:transform var(--motion) var(--ease),border-color var(--motion),background var(--motion);
+  }
+  .fu-nova-metric:hover { transform:translateY(-2px); border-color:color-mix(in srgb,var(--accent) 36%,var(--line)); background:color-mix(in srgb,var(--accent) 5%,var(--card)); }
+  .fu-nova-metric::before { content:""; position:absolute; left:16px; top:14px; width:30px; height:3px; border-radius:999px; background:var(--accent); }
+  .fu-nova-metric.red::before { background:var(--red); }
+  .fu-nova-metric.orange::before { background:var(--orange); }
+  .fu-nova-metric.green::before { background:var(--green); }
+  .fu-nova-metric-head { display:flex; align-items:center; justify-content:space-between; gap:8px; margin-top:9px; color:var(--muted); font-size:9px; font-weight:780; letter-spacing:.08em; text-transform:uppercase; }
+  .fu-nova-metric strong { display:block; margin-top:9px; font-size:29px; line-height:1; letter-spacing:-.055em; }
+  .fu-nova-metric small { display:block; margin-top:7px; color:var(--muted); font-size:10px; }
+
+  .fu-nova-toolbar { display:grid; gap:12px; padding:14px; }
+  .fu-nova-toolbar-top { display:flex; align-items:center; justify-content:space-between; gap:12px; }
+  .fu-nova-segmented { display:inline-flex; gap:4px; padding:4px; border:1px solid var(--line); border-radius:13px; background:color-mix(in srgb,var(--card) 82%,transparent); }
+  .fu-nova-segmented button { min-height:34px; padding:6px 11px; border:1px solid transparent; border-radius:9px; background:transparent; color:var(--muted); font-size:10px; font-weight:760; }
+  .fu-nova-segmented button:hover { color:var(--text); }
+  .fu-nova-segmented button.active { border-color:color-mix(in srgb,var(--accent) 34%,var(--line)); background:color-mix(in srgb,var(--accent) 14%,var(--surface)); color:var(--text); box-shadow:0 1px 3px rgba(0,0,0,.08); }
+  .fu-nova-result-count { color:var(--muted); font-size:10px; }
+  .fu-nova-result-count strong { color:var(--text); }
+  .fu-nova-filter-grid { display:grid; grid-template-columns:minmax(220px,1.25fr) repeat(5,minmax(120px,.68fr)); gap:9px; }
+  .fu-nova-filter-grid .field input,.fu-nova-filter-grid .field select { min-height:39px; font-size:11px; }
+  .fu-nova-quick-row { display:flex; flex-wrap:wrap; gap:7px; }
+  .fu-nova-quick {
+    min-height:29px;
+    display:inline-flex;
+    align-items:center;
+    gap:6px;
+    padding:5px 9px;
+    border:1px solid var(--line);
+    border-radius:999px;
+    background:color-mix(in srgb,var(--card) 78%,transparent);
+    color:var(--muted);
+    font-size:9px;
+    font-weight:720;
+  }
+  .fu-nova-quick::before { content:""; width:6px; height:6px; border-radius:50%; background:currentColor; }
+  .fu-nova-quick:hover { border-color:color-mix(in srgb,var(--accent) 34%,var(--line)); color:var(--text); }
+  .fu-nova-quick.active { border-color:color-mix(in srgb,var(--accent) 42%,var(--line)); background:color-mix(in srgb,var(--accent) 13%,var(--card)); color:color-mix(in srgb,var(--accent) 72%,white); }
+
+  .fu-nova-main { display:grid; grid-template-columns:minmax(0,1fr) minmax(340px,390px); gap:14px; align-items:start; }
+  .fu-nova-calendar { overflow:hidden; }
+  .fu-nova-panel-head { display:flex; align-items:flex-start; justify-content:space-between; gap:12px; padding:17px 18px; border-bottom:1px solid var(--line); }
+  .fu-nova-panel-head span { display:block; color:var(--muted); font-size:9px; font-weight:780; letter-spacing:.10em; text-transform:uppercase; }
+  .fu-nova-panel-head h3 { margin:4px 0 0; font-size:18px; letter-spacing:-.035em; }
+  .fu-nova-panel-head p { margin:4px 0 0; color:var(--muted); font-size:10px; }
+  .fu-nova-calendar-body { min-width:0; padding:15px; overflow:auto; }
+  .fu-nova-focus { position:sticky; top:102px; max-height:calc(100vh - 122px); overflow:auto; }
+  .fu-nova-focus-inner { padding:16px; }
+  .fu-nova-focus-empty { min-height:480px; display:grid; place-content:center; justify-items:center; gap:10px; padding:28px; text-align:center; }
+  .fu-nova-focus-empty-icon { width:58px; height:58px; display:grid; place-items:center; border-radius:19px; background:color-mix(in srgb,var(--accent) 13%,var(--card)); color:var(--accent); font-size:24px; }
+  .fu-nova-focus-empty strong { font-size:14px; }
+  .fu-nova-focus-empty p { max-width:270px; margin:0; color:var(--muted); font-size:10px; line-height:1.55; }
+
+  .fu-nova-identity { padding:15px; border:1px solid color-mix(in srgb,var(--accent) 24%,var(--line)); border-radius:17px; background:linear-gradient(145deg,color-mix(in srgb,var(--accent) 10%,var(--card)),color-mix(in srgb,var(--surface) 80%,var(--card))); }
+  .fu-nova-identity-top { display:grid; grid-template-columns:minmax(0,1fr) auto; gap:12px; align-items:start; }
+  .fu-nova-identity .kicker { color:var(--muted); font-size:9px; font-weight:780; letter-spacing:.10em; text-transform:uppercase; }
+  .fu-nova-identity h3 { margin:5px 0 0; font-size:19px; line-height:1.12; letter-spacing:-.04em; }
+  .fu-nova-identity p { margin:6px 0 0; color:var(--muted); font-size:10px; }
+  .fu-nova-avatar { width:42px; height:42px; display:grid; place-items:center; border-radius:14px; background:var(--accent); color:#fff; font-size:11px; font-weight:850; }
+  .fu-nova-badges { display:flex; flex-wrap:wrap; gap:6px; margin-top:12px; }
+  .fu-nova-badge { min-height:24px; display:inline-flex; align-items:center; gap:5px; padding:4px 8px; border:1px solid var(--line); border-radius:999px; background:color-mix(in srgb,var(--surface) 82%,var(--card)); color:var(--muted); font-size:8px; font-weight:740; }
+  .fu-nova-badge::before { content:""; width:6px; height:6px; border-radius:50%; background:currentColor; }
+  .fu-nova-badge.red { border-color:rgba(239,68,68,.28); background:rgba(239,68,68,.09); color:#fca5a5; }
+  .fu-nova-badge.orange { border-color:rgba(245,158,11,.28); background:rgba(245,158,11,.09); color:#fcd34d; }
+  .fu-nova-badge.green { border-color:rgba(34,197,94,.28); background:rgba(34,197,94,.09); color:#86efac; }
+  .fu-nova-badge.blue { border-color:rgba(var(--accent-2-rgb),.30); background:rgba(var(--accent-2-rgb),.10); color:#bfdbfe; }
+  body.light-ui .fu-nova-badge.red { color:#b91c1c; }
+  body.light-ui .fu-nova-badge.orange { color:#b45309; }
+  body.light-ui .fu-nova-badge.green { color:#047857; }
+  body.light-ui .fu-nova-badge.blue { color:#1d4ed8; }
+
+  .fu-nova-focus-section { margin-top:15px; padding-top:15px; border-top:1px solid var(--line); }
+  .fu-nova-focus-section-head { display:flex; align-items:center; justify-content:space-between; gap:8px; margin-bottom:9px; }
+  .fu-nova-focus-section-head strong { font-size:10px; letter-spacing:.08em; text-transform:uppercase; }
+  .fu-nova-focus-section-head span { color:var(--muted); font-size:8px; }
+  .fu-nova-note { padding:11px 12px; border:1px solid var(--line); border-radius:12px; background:color-mix(in srgb,var(--card) 82%,transparent); }
+  .fu-nova-note + .fu-nova-note { margin-top:8px; }
+  .fu-nova-note.next { border-color:color-mix(in srgb,var(--accent) 25%,var(--line)); background:linear-gradient(90deg,color-mix(in srgb,var(--accent) 10%,transparent),transparent),color-mix(in srgb,var(--card) 84%,transparent); }
+  .fu-nova-note label { display:block; color:var(--muted); font-size:8px; font-weight:780; letter-spacing:.09em; text-transform:uppercase; }
+  .fu-nova-note strong,.fu-nova-note p { display:block; margin:6px 0 0; color:var(--text); font-size:10px; line-height:1.5; white-space:pre-wrap; }
+  .fu-nova-tags { display:flex; flex-wrap:wrap; gap:5px; }
+  .fu-nova-tag { padding:4px 7px; border-radius:999px; background:color-mix(in srgb,var(--card) 88%,var(--surface)); color:var(--muted); font-size:8px; font-weight:700; }
+  .fu-nova-checklist { display:grid; gap:6px; }
+  .fu-nova-check { display:grid; grid-template-columns:auto minmax(0,1fr); gap:8px; align-items:start; padding:8px 9px; border:1px solid var(--line); border-radius:10px; background:color-mix(in srgb,var(--card) 82%,transparent); }
+  .fu-nova-check input { width:16px; height:16px; margin:0; accent-color:var(--accent); }
+  .fu-nova-check span { color:var(--text); font-size:9px; line-height:1.4; }
+  .fu-nova-check.done span { color:var(--muted); text-decoration:line-through; }
+  .fu-nova-quick-note { display:grid; gap:7px; }
+  .fu-nova-quick-note textarea { width:100%; min-height:78px; padding:9px 10px; border:1px solid var(--line-strong); border-radius:11px; resize:vertical; background:color-mix(in srgb,var(--card) 90%,var(--bg)); color:var(--text); font-size:10px; line-height:1.5; outline:none; }
+  .fu-nova-quick-note textarea:focus { border-color:var(--accent); box-shadow:0 0 0 3px rgba(var(--accent-rgb),.11); }
+  .fu-nova-quick-note-actions { display:grid; grid-template-columns:minmax(0,1fr) auto; gap:7px; }
+  .fu-nova-quick-note select { min-height:34px; border:1px solid var(--line); border-radius:9px; background:color-mix(in srgb,var(--card) 90%,var(--bg)); color:var(--text); font-size:9px; padding:6px 8px; }
+  .fu-nova-timeline { display:grid; }
+  .fu-nova-timeline-item { position:relative; display:grid; grid-template-columns:29px minmax(0,1fr); gap:9px; padding:7px 0; }
+  .fu-nova-timeline-item:not(:last-child)::before { content:""; position:absolute; left:14px; top:32px; bottom:-4px; width:1px; background:var(--line); }
+  .fu-nova-timeline-mark { width:29px; height:29px; z-index:1; display:grid; place-items:center; border:1px solid var(--line); border-radius:9px; background:var(--surface); color:var(--accent); font-size:12px; }
+  .fu-nova-timeline-copy { min-width:0; padding:3px 0 9px; }
+  .fu-nova-timeline-copy strong { display:block; font-size:9px; }
+  .fu-nova-timeline-copy p { margin:3px 0 0; color:var(--muted); font-size:8px; line-height:1.45; white-space:pre-wrap; }
+  .fu-nova-timeline-copy time { display:block; margin-top:4px; color:var(--muted-2); font-size:7px; }
+  .fu-nova-focus-actions { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:7px; margin-top:15px; }
+  .fu-nova-focus-actions .btn { width:100%; }
+
+  .fu-nova-event {
+    --fu-color:var(--accent);
+    position:relative;
+    min-width:0;
+    overflow:hidden;
+    border:1px solid var(--line);
+    border-left:4px solid var(--fu-color);
+    border-radius:11px;
+    background:color-mix(in srgb,var(--surface) 88%,var(--card));
+    color:var(--text);
+    transition:transform var(--motion) var(--ease),border-color var(--motion),background var(--motion),box-shadow var(--motion);
+  }
+  .fu-nova-event:hover { transform:translateY(-1px); border-color:color-mix(in srgb,var(--fu-color) 34%,var(--line)); box-shadow:0 8px 20px rgba(0,0,0,.10); }
+  .fu-nova-event.selected { box-shadow:0 0 0 3px rgba(var(--accent-rgb),.13); border-color:color-mix(in srgb,var(--accent) 48%,var(--line)); }
+  .fu-nova-event.overdue { --fu-color:var(--red); background:linear-gradient(90deg,rgba(239,68,68,.10),transparent 36%),color-mix(in srgb,var(--surface) 88%,var(--card)); }
+  .fu-nova-event.completed { --fu-color:var(--green); opacity:.78; }
+  .fu-nova-event.cancelled { --fu-color:var(--muted); opacity:.58; }
+  .fu-nova-event.priority-critical { --fu-color:var(--red); }
+  .fu-nova-event.priority-high { --fu-color:var(--orange); }
+  .fu-nova-event.priority-medium { --fu-color:var(--accent); }
+  .fu-nova-event.priority-low { --fu-color:var(--green); }
+  .fu-nova-event > button { width:100%; display:block; padding:9px 10px; border:0; background:transparent; color:inherit; text-align:left; }
+  .fu-nova-event-top { display:flex; justify-content:space-between; gap:7px; align-items:flex-start; }
+  .fu-nova-event-time { color:var(--muted); font-size:8px; font-weight:780; white-space:nowrap; }
+  .fu-nova-event-dot { width:7px; height:7px; margin-top:3px; flex:0 0 7px; border-radius:50%; background:var(--fu-color); }
+  .fu-nova-event h4 { margin:5px 0 0; font-size:10px; line-height:1.3; letter-spacing:-.015em; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+  .fu-nova-event p { margin:4px 0 0; color:var(--muted); font-size:8px; line-height:1.38; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden; }
+  .fu-nova-event-foot { display:flex; align-items:center; justify-content:space-between; gap:6px; margin-top:7px; color:var(--muted); font-size:7px; }
+
+  .fu-nova-day { min-width:710px; }
+  .fu-nova-day-summary { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:8px; margin-bottom:13px; }
+  .fu-nova-day-stat { padding:10px 11px; border:1px solid var(--line); border-radius:11px; background:color-mix(in srgb,var(--card) 82%,transparent); }
+  .fu-nova-day-stat span { display:block; color:var(--muted); font-size:8px; letter-spacing:.08em; text-transform:uppercase; }
+  .fu-nova-day-stat strong { display:block; margin-top:4px; font-size:15px; }
+  .fu-nova-time-row { display:grid; grid-template-columns:74px minmax(0,1fr); min-height:76px; }
+  .fu-nova-time-label { padding:12px 12px 0 0; border-right:1px solid var(--line); color:var(--muted); font-size:9px; font-weight:720; text-align:right; }
+  .fu-nova-time-slot { position:relative; min-height:76px; padding:7px 42px 7px 10px; border-bottom:1px solid var(--line); }
+  .fu-nova-time-slot.drag-over { background:color-mix(in srgb,var(--accent) 10%,transparent); box-shadow:inset 0 0 0 2px rgba(var(--accent-rgb),.24); }
+  .fu-nova-time-events { display:grid; gap:7px; }
+  .fu-nova-time-slot .fu-nova-event > button { display:grid; grid-template-columns:84px minmax(0,1fr) auto; gap:9px; align-items:center; padding:10px 11px; }
+  .fu-nova-time-slot .fu-nova-event h4 { margin:0; font-size:11px; }
+  .fu-nova-slot-add { position:absolute; right:8px; top:8px; width:27px; height:27px; display:grid; place-items:center; border:1px solid transparent; border-radius:8px; background:transparent; color:var(--muted-2); opacity:.28; }
+  .fu-nova-time-slot:hover .fu-nova-slot-add { opacity:1; border-color:var(--line); background:var(--surface); color:var(--accent); }
+  .fu-nova-slot-empty { display:block; padding:16px 2px; color:var(--muted-2); font-size:8px; }
+
+  .fu-nova-week { min-width:1120px; display:grid; grid-template-columns:repeat(7,minmax(145px,1fr)); gap:8px; align-items:start; }
+  .fu-nova-week-day { min-height:520px; display:flex; flex-direction:column; overflow:hidden; border:1px solid var(--line); border-radius:14px; background:color-mix(in srgb,var(--card) 77%,transparent); }
+  .fu-nova-week-day.today { border-color:color-mix(in srgb,var(--accent) 42%,var(--line)); box-shadow:inset 0 3px 0 var(--accent); }
+  .fu-nova-week-day.drag-over { border-color:var(--accent); background:color-mix(in srgb,var(--accent) 9%,var(--card)); box-shadow:inset 0 0 0 2px rgba(var(--accent-rgb),.15); }
+  .fu-nova-week-head { display:grid; grid-template-columns:minmax(0,1fr) auto; gap:8px; align-items:center; padding:11px; border-bottom:1px solid var(--line); background:color-mix(in srgb,var(--surface) 90%,var(--card)); }
+  .fu-nova-week-head button:first-child { min-width:0; padding:0; border:0; background:transparent; color:var(--text); text-align:left; }
+  .fu-nova-week-head span { display:block; color:var(--muted); font-size:8px; font-weight:760; letter-spacing:.08em; text-transform:uppercase; }
+  .fu-nova-week-head strong { display:block; margin-top:2px; font-size:15px; }
+  .fu-nova-week-add { width:28px; height:28px; display:grid; place-items:center; border:1px solid var(--line); border-radius:8px; background:color-mix(in srgb,var(--card) 82%,transparent); color:var(--muted); }
+  .fu-nova-week-add:hover { border-color:var(--accent); color:var(--accent); }
+  .fu-nova-week-progress { height:3px; background:color-mix(in srgb,var(--line) 80%,transparent); }
+  .fu-nova-week-progress i { display:block; height:100%; background:var(--green); }
+  .fu-nova-week-list { flex:1 1 auto; display:grid; align-content:start; gap:7px; padding:8px; }
+  .fu-nova-week-empty { min-height:135px; display:grid; place-content:center; gap:5px; color:var(--muted-2); text-align:center; font-size:8px; }
+
+  .fu-nova-month { min-width:1000px; display:grid; grid-template-columns:repeat(7,minmax(134px,1fr)); gap:1px; padding:1px; border:1px solid var(--line); border-radius:14px; overflow:hidden; background:var(--line); }
+  .fu-nova-month-weekday { padding:9px 8px; background:color-mix(in srgb,var(--card) 84%,var(--surface)); color:var(--muted); font-size:8px; font-weight:780; letter-spacing:.09em; text-align:center; text-transform:uppercase; }
+  .fu-nova-month-cell { min-height:152px; padding:8px; background:var(--surface); }
+  .fu-nova-month-cell.other { background:color-mix(in srgb,var(--card) 64%,var(--surface)); opacity:.72; }
+  .fu-nova-month-cell.today { box-shadow:inset 0 3px 0 var(--accent); }
+  .fu-nova-month-cell.drag-over { background:color-mix(in srgb,var(--accent) 10%,var(--surface)); box-shadow:inset 0 0 0 2px rgba(var(--accent-rgb),.24); }
+  .fu-nova-month-head { display:flex; align-items:center; justify-content:space-between; gap:8px; margin-bottom:7px; }
+  .fu-nova-month-date { min-width:27px; height:27px; display:grid; place-items:center; padding:0; border:0; border-radius:8px; background:transparent; color:var(--text); font-size:10px; font-weight:760; }
+  .fu-nova-month-cell.today .fu-nova-month-date { background:var(--accent); color:#fff; }
+  .fu-nova-month-add { width:24px; height:24px; display:grid; place-items:center; border:0; border-radius:7px; background:transparent; color:var(--muted-2); opacity:.5; }
+  .fu-nova-month-cell:hover .fu-nova-month-add { opacity:1; background:color-mix(in srgb,var(--card) 82%,transparent); color:var(--accent); }
+  .fu-nova-month-events { display:grid; gap:5px; }
+  .fu-nova-month-events .fu-nova-event > button { padding:7px 8px; }
+  .fu-nova-month-events .fu-nova-event h4 { margin-top:3px; font-size:8px; }
+  .fu-nova-month-events .fu-nova-event p,.fu-nova-month-events .fu-nova-event-foot { display:none; }
+  .fu-nova-more { width:100%; padding:5px 6px; border:0; border-radius:7px; background:color-mix(in srgb,var(--card) 82%,transparent); color:var(--accent); font-size:8px; font-weight:720; text-align:left; }
+
+  .fu-nova-list { display:grid; gap:13px; }
+  .fu-nova-list-group { overflow:hidden; border:1px solid var(--line); border-radius:14px; }
+  .fu-nova-list-head { display:flex; align-items:center; justify-content:space-between; gap:10px; padding:11px 13px; border-bottom:1px solid var(--line); background:color-mix(in srgb,var(--card) 80%,transparent); }
+  .fu-nova-list-head strong { font-size:11px; }
+  .fu-nova-list-head span { color:var(--muted); font-size:8px; }
+  .fu-nova-list-rows { display:grid; }
+  .fu-nova-list-row { display:grid; grid-template-columns:86px minmax(160px,.9fr) minmax(220px,1.35fr) 120px 110px auto; gap:12px; align-items:center; min-height:68px; padding:10px 13px; border-bottom:1px solid var(--line); background:color-mix(in srgb,var(--surface) 92%,var(--card)); transition:background var(--motion); }
+  .fu-nova-list-row:last-child { border-bottom:0; }
+  .fu-nova-list-row:hover,.fu-nova-list-row.selected { background:color-mix(in srgb,var(--accent) 8%,var(--surface)); }
+  .fu-nova-list-date strong,.fu-nova-list-merchant strong,.fu-nova-list-objective strong { display:block; font-size:10px; }
+  .fu-nova-list-date span,.fu-nova-list-merchant span,.fu-nova-list-objective span { display:block; margin-top:2px; color:var(--muted); font-size:8px; }
+  .fu-nova-list-objective span { white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+  .fu-nova-list-actions { display:flex; justify-content:flex-end; gap:5px; }
+
+  .fu-nova-empty { min-height:310px; display:grid; place-content:center; justify-items:center; gap:9px; padding:30px; color:var(--muted); text-align:center; }
+  .fu-nova-empty-icon { width:53px; height:53px; display:grid; place-items:center; border-radius:17px; background:color-mix(in srgb,var(--accent) 11%,var(--card)); color:var(--accent); font-size:22px; }
+  .fu-nova-empty strong { color:var(--text); font-size:13px; }
+  .fu-nova-empty p { max-width:390px; margin:0; font-size:10px; line-height:1.55; }
+
+  #modal.followup-editor-modal { width:min(980px,calc(100vw - 28px)); max-height:92vh; }
+  #modal.followup-editor-modal #modalBody { display:grid; gap:12px; }
+  .fu-editor-section { padding:15px; border:1px solid var(--line); border-radius:17px; background:color-mix(in srgb,var(--card) 80%,transparent); }
+  .fu-editor-section-head { display:flex; justify-content:space-between; gap:12px; align-items:flex-start; margin-bottom:12px; }
+  .fu-editor-section-head span { display:block; color:var(--muted); font-size:9px; font-weight:780; letter-spacing:.10em; text-transform:uppercase; }
+  .fu-editor-section-head h3 { margin:3px 0 0; font-size:15px; }
+  .fu-editor-section-head p { margin:3px 0 0; color:var(--muted); font-size:9px; }
+  .fu-editor-priority { display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:7px; }
+  .fu-editor-priority label { min-height:58px; display:grid; align-content:center; gap:5px; padding:9px; border:1px solid var(--line); border-radius:11px; background:var(--surface); color:var(--muted); cursor:pointer; text-transform:none; letter-spacing:0; }
+  .fu-editor-priority input { position:absolute; opacity:0; pointer-events:none; }
+  .fu-editor-priority label i { width:20px; height:3px; border-radius:999px; background:var(--green); }
+  .fu-editor-priority .medium i { background:var(--accent); }
+  .fu-editor-priority .high i { background:var(--orange); }
+  .fu-editor-priority .critical i { background:var(--red); }
+  .fu-editor-priority label strong { color:var(--text); font-size:9px; }
+  .fu-editor-priority input:checked + label { border-color:color-mix(in srgb,var(--accent) 45%,var(--line)); background:color-mix(in srgb,var(--accent) 11%,var(--card)); box-shadow:0 0 0 2px rgba(var(--accent-rgb),.10); }
+  .fu-editor-templates { display:flex; flex-wrap:wrap; gap:7px; margin-bottom:10px; }
+  .fu-editor-template { min-height:29px; padding:5px 9px; border:1px solid var(--line); border-radius:999px; background:var(--surface); color:var(--muted); font-size:8px; font-weight:700; }
+  .fu-editor-template:hover { border-color:color-mix(in srgb,var(--accent) 35%,var(--line)); background:color-mix(in srgb,var(--accent) 10%,var(--card)); color:var(--text); }
+  .fu-editor-checklist { display:grid; gap:7px; }
+  .fu-editor-check-row { display:grid; grid-template-columns:auto minmax(0,1fr) auto; gap:8px; align-items:center; }
+  .fu-editor-check-row > input[type="checkbox"] { width:17px; height:17px; accent-color:var(--accent); }
+  .fu-editor-check-row > input[type="text"] { min-height:38px; padding:8px 9px; border:1px solid var(--line-strong); border-radius:10px; background:var(--surface); color:var(--text); font-size:10px; outline:none; }
+  .fu-editor-check-row > input[type="text"]:focus { border-color:var(--accent); box-shadow:0 0 0 3px rgba(var(--accent-rgb),.10); }
+  .fu-editor-remove-check { width:31px; height:31px; display:grid; place-items:center; border:1px solid var(--line); border-radius:9px; background:var(--surface); color:var(--muted); }
+  .fu-editor-remove-check:hover { border-color:rgba(239,68,68,.30); color:var(--red); }
+  .fu-editor-footer { display:flex; align-items:center; justify-content:space-between; gap:12px; flex-wrap:wrap; }
+  .fu-editor-footer > div { display:flex; flex-wrap:wrap; gap:7px; }
+
+  @media (max-width:1450px) {
+    .fu-nova-filter-grid { grid-template-columns:minmax(200px,1.2fr) repeat(3,minmax(125px,.7fr)); }
+    .fu-nova-filter-grid .field:nth-child(5),.fu-nova-filter-grid .field:nth-child(6) { grid-row:2; }
+    .fu-nova-main { grid-template-columns:minmax(0,1fr) 340px; }
+    .fu-nova-list-row { grid-template-columns:78px minmax(145px,.85fr) minmax(190px,1.2fr) 105px auto; }
+    .fu-nova-list-status { display:none; }
+  }
+  @media (max-width:1180px) {
+    .fu-nova-main { grid-template-columns:1fr; }
+    .fu-nova-focus { position:relative; top:auto; max-height:none; }
+    .fu-nova-metrics { grid-template-columns:repeat(2,minmax(0,1fr)); }
+  }
+  @media (max-width:820px) {
+    .fu-nova-hero { grid-template-columns:1fr; }
+    .fu-nova-hero-actions { justify-content:flex-start; }
+    .fu-nova-range { flex:1 1 220px; text-align:left; }
+    .fu-nova-toolbar-top { align-items:flex-start; flex-direction:column; }
+    .fu-nova-filter-grid { grid-template-columns:repeat(2,minmax(0,1fr)); }
+    .fu-nova-filter-grid .field { grid-row:auto !important; }
+    .fu-nova-list-row { grid-template-columns:72px minmax(0,1fr) auto; }
+    .fu-nova-list-objective,.fu-nova-list-type,.fu-nova-list-status { display:none; }
+    .fu-editor-priority { grid-template-columns:repeat(2,minmax(0,1fr)); }
+  }
+  @media (max-width:560px) {
+    .fu-nova-hero,.fu-nova-toolbar,.fu-nova-panel-head,.fu-nova-calendar-body,.fu-nova-focus-inner { padding:13px; }
+    .fu-nova-hero h2 { font-size:28px; }
+    .fu-nova-metrics { grid-template-columns:1fr 1fr; gap:8px; }
+    .fu-nova-metric { min-height:102px; padding:13px; }
+    .fu-nova-metric strong { font-size:24px; }
+    .fu-nova-segmented { width:100%; overflow:auto; }
+    .fu-nova-segmented button { flex:1 0 auto; }
+    .fu-nova-filter-grid { grid-template-columns:1fr; }
+    .fu-nova-focus-actions { grid-template-columns:1fr; }
+    .fu-editor-priority { grid-template-columns:1fr 1fr; }
+    .fu-editor-footer { align-items:stretch; flex-direction:column; }
+    .fu-editor-footer > div,.fu-editor-footer .btn { width:100%; }
+  }
+</style>
 </head>
 <body data-motion="smooth" class="bento-light bento-booting light-ui focus-mode density-comfort desktop-x nova-ui">
   <section class="bento-boot" id="bentoBoot" aria-live="polite" aria-label="Loading DASHWORK NOVA">
@@ -10723,7 +11046,7 @@ html[data-device-mode="mobile"] body.nova-ui.desktop-x #viewHost[data-m2-view="a
   <script>
   "use strict";
 
-  const APP_VERSION = 12;
+  const APP_VERSION = 13;
   const STORAGE_KEY = "dashwork_state_v1";
   const DB_NAME = "dashwork_local_db";
   const DB_STORE = "workspace";
@@ -11249,7 +11572,7 @@ const FOLLOWUP_DELETE_SOUND_DATA_URL = "data:audio/wav;base64,UklGRsqKAABXQVZFZm
         sidebarCollapsed: false,
         workHubTab: "call",
         workHubPage: 1,
-        followupView: "month",
+        followupView: "week",
         followupAnchor: new Date().toISOString(),
         activityAnchor: new Date().toISOString(),
         selectedActivityDate: "",
@@ -11262,7 +11585,7 @@ const FOLLOWUP_DELETE_SOUND_DATA_URL = "data:audio/wav;base64,UklGRsqKAABXQVZFZm
         linkSelectedId: "",
         laneOpen: {},
         workHubFilters: { q:"", view:"uncalled", sort:"priority", market:"all", video:"all", photo:"all", contact:"all", recall:"all" },
-        followupFilters: { merchant:"all", reason:"all", status:"open" },
+        followupFilters: { q:"", merchant:"all", reason:"all", priority:"all", status:"open", quick:"all", sort:"smart" },
         resourceFilters: { q:"", type:"all", sort:"favorites" },
         linkFilters: { q:"", category:"all", sort:"favorites" },
         caseFilters: { q:"", type:"all", status:"all", category:"all" },
@@ -11278,6 +11601,7 @@ const FOLLOWUP_DELETE_SOUND_DATA_URL = "data:audio/wav;base64,UklGRsqKAABXQVZFZm
   let db = null;
   let searchTimer = null;
   let notificationTimer = null;
+  let followupEditorChecklistDraft = [];
 
   function openDatabase() {
     return new Promise((resolve, reject) => {
@@ -12015,7 +12339,7 @@ const FOLLOWUP_DELETE_SOUND_DATA_URL = "data:audio/wav;base64,UklGRsqKAABXQVZFZm
   function creditsFor(uidValue) { return state.credits.filter(x => x.uid === uidValue); }
   function lastCallFor(uidValue) { return callsFor(uidValue).sort((a,b) => String(b.completedAt).localeCompare(String(a.completedAt)))[0] || null; }
   function latestPendingFollowup(uidValue) {
-    return followupsFor(uidValue).filter(f => f.status !== "Completed").sort((a,b) => followupDateTime(a) - followupDateTime(b))[0] || null;
+    return followupsFor(uidValue).filter(f => followupIsOpen(f)).sort((a,b) => followupDateTime(a) - followupDateTime(b))[0] || null;
   }
   function followupDateTime(f) {
     const d = new Date(`${f.date || toISODate()}T${f.time || "09:00"}:00`);
@@ -12023,7 +12347,7 @@ const FOLLOWUP_DELETE_SOUND_DATA_URL = "data:audio/wav;base64,UklGRsqKAABXQVZFZm
   }
   function dueFollowupFor(uidValue, now = new Date()) {
     const today = dateKeyInZone(now);
-    return followupsFor(uidValue).filter(f => f.status !== "Completed" && String(f.date) <= today).sort((a,b) => followupDateTime(a) - followupDateTime(b))[0] || null;
+    return followupsFor(uidValue).filter(f => followupIsOpen(f) && String(f.date) <= today).sort((a,b) => followupDateTime(a) - followupDateTime(b))[0] || null;
   }
   function callIsRecent(call, now = new Date()) {
     if (!call?.completedAt) return false;
@@ -12254,7 +12578,7 @@ const FOLLOWUP_DELETE_SOUND_DATA_URL = "data:audio/wav;base64,UklGRsqKAABXQVZFZm
   function repairFollowupIds() {
     const seen = new Set();
     state.followups = state.followups.map(followup => {
-      const record = followup && typeof followup === "object" ? { ...followup } : {};
+      const record = normalizeFollowupRecord(followup);
       let id = String(record.id || "").trim();
       if (!id || seen.has(id)) id = createUniqueFollowupId(seen);
       seen.add(id);
@@ -12301,7 +12625,7 @@ const FOLLOWUP_DELETE_SOUND_DATA_URL = "data:audio/wav;base64,UklGRsqKAABXQVZFZm
     delete state.profile.wallpaperPreset;
     delete state.profile.customWallpaperId;
     delete state.profile.gifWallpaperId;
-    state.ui.followupFilters = { merchant:"all", reason:"all", status:"open", ...(state.ui.followupFilters || {}) };
+    state.ui.followupFilters = { q:"", merchant:"all", reason:"all", priority:"all", status:"open", quick:"all", sort:"smart", ...(state.ui.followupFilters || {}) };
     state.ui.followupDraftDate ||= "";
     state.ui.followupDraftTime ||= "";
     repairFollowupIds();
@@ -12398,7 +12722,7 @@ const FOLLOWUP_DELETE_SOUND_DATA_URL = "data:audio/wav;base64,UklGRsqKAABXQVZFZm
       dashboard: activeMerchants.length || "—",
       workhub: activeMerchants.length || "—",
       profile: state.selectedUid ? "1" : "—",
-      followups: state.followups.filter(f => f.status !== "Completed" && f.date <= today).length,
+      followups: state.followups.filter(f => followupIsOpen(f) && f.date <= today).length,
       activity: state.calls.filter(c => dateKeyInZone(c.completedAt) === today).length + state.photos.filter(p => dateKeyInZone(p.timestamp) === today).length,
       logs: state.calls.length + state.photos.length,
       resources: state.resources.length,
@@ -12621,6 +12945,7 @@ const FOLLOWUP_DELETE_SOUND_DATA_URL = "data:audio/wav;base64,UklGRsqKAABXQVZFZm
     const modal = document.getElementById("modal");
     modal.classList.remove("show");
     modal.classList.remove("case-modal-wide");
+    modal.classList.remove("followup-editor-modal");
     caseAttachmentDraft = [];
   }
 
@@ -12785,7 +13110,7 @@ const FOLLOWUP_DELETE_SOUND_DATA_URL = "data:audio/wav;base64,UklGRsqKAABXQVZFZm
     const st = merchantState(merchant.uid);
     const dmName = String(merchant.dm_name || merchant.store_name || "there").trim();
     const latestCall = callsFor(merchant.uid).sort((a, b) => String(b.completedAt).localeCompare(String(a.completedAt)))[0];
-    const latestFollowup = followupsFor(merchant.uid).filter(f => f.status !== "Completed").sort((a, b) => String(a.updatedAt || a.createdAt).localeCompare(String(b.updatedAt || b.createdAt))).slice(-1)[0];
+    const latestFollowup = followupsFor(merchant.uid).filter(f => followupIsOpen(f)).sort((a, b) => String(a.updatedAt || a.createdAt).localeCompare(String(b.updatedAt || b.createdAt))).slice(-1)[0];
     const latestTimeline = merchantTimeline(merchant.uid)[0];
     const subject = st.emailRecapSubject || `DoorDash campaign next steps - ${merchant.store_name}`;
     const body = st.emailRecapBody || [
@@ -12955,7 +13280,7 @@ const FOLLOWUP_DELETE_SOUND_DATA_URL = "data:audio/wav;base64,UklGRsqKAABXQVZFZm
     const queue = priority.slice(1, 8);
     const safeCount = priority.filter(x => x.local?.safe).length;
     const allDue = state.followups
-      .filter(f => f.status !== "Completed" && f.date <= today)
+      .filter(f => followupIsOpen(f) && f.date <= today)
       .sort((a,b) => followupDateTime(a) - followupDateTime(b));
     const due = allDue.slice(0, 5);
     const weekStart = startOfWeek(now);
@@ -13082,11 +13407,11 @@ const FOLLOWUP_DELETE_SOUND_DATA_URL = "data:audio/wav;base64,UklGRsqKAABXQVZFZm
 
   function followupRowCompact(f) {
     const merchant = getMerchant(f.uid);
-    const today = dateKeyInZone(new Date());
-    const overdue = f.status !== "Completed" && f.date < today;
-    return `<button class="followup-row followup-row-button ${f.status === "Completed" ? "completed" : overdue ? "overdue" : ""}" type="button" data-edit-followup="${attr(f.id)}">
+    const overdue = followupIsOverdue(f);
+    const closed = !followupIsOpen(f);
+    return `<button class="followup-row followup-row-button ${f.status === "Completed" ? "completed" : overdue ? "overdue" : closed ? "completed" : ""}" type="button" data-edit-followup="${attr(f.id)}">
       <div class="followup-row-top"><strong>${esc(merchant?.store_name || "Unassigned")}</strong><span class="pill ${f.priority === "Critical" ? "red" : f.priority === "High" ? "orange" : "blue"}">${esc(f.priority || "Medium")}</span></div>
-      <span>${esc(f.reason || "Follow-up")} · ${esc(f.date)} ${esc(formatTime12(f.time || "10:00"))}</span>
+      <span>${esc(f.summary || f.reason || "Follow-up")} · ${esc(f.date)} ${esc(formatTime12(f.time || "10:00"))}</span>
     </button>`;
   }
 
@@ -13194,7 +13519,7 @@ const FOLLOWUP_DELETE_SOUND_DATA_URL = "data:audio/wav;base64,UklGRsqKAABXQVZFZm
     const phones = splitMulti(merchant.dm_phone);
     const emails = splitMulti(merchant.dm_email);
     const openFollowups = followupsFor(merchant.uid)
-      .filter(item => item.status !== "Completed")
+      .filter(item => followupIsOpen(item))
       .sort((a, b) => followupDateTime(a) - followupDateTime(b));
     const nextFollowup = openFollowups[0];
     return `<aside class="hub-context-stack" aria-label="Merchant context">
@@ -14917,176 +15242,525 @@ const FOLLOWUP_DELETE_SOUND_DATA_URL = "data:audio/wav;base64,UklGRsqKAABXQVZFZm
     ].sort((a,b)=>String(b.timestamp).localeCompare(String(a.timestamp)));
   }
 
-  function renderFollowups() {
-    const view = state.ui.followupView || "month";
-    const anchor = new Date(state.ui.followupAnchor || new Date());
-    const selectedId = state.ui.selectedFollowupId || "";
-    const selected = state.followups.find(f=>f.id===selectedId) || null;
-    const filter = state.ui.followupFilters || { merchant:"all", reason:"all", status:"open" };
-    const merchants = state.merchants.filter(m=>!m.archived).sort((a,b)=>a.store_name.localeCompare(b.store_name));
-    const filtered = state.followups.filter(f =>
-      (filter.merchant === "all" || f.uid === filter.merchant) &&
-      (filter.reason === "all" || f.reason === filter.reason) &&
-      (filter.status === "all" || (filter.status === "open" ? f.status !== "Completed" : f.status === "Completed"))
-    );
+  const FOLLOWUP_STATUS_OPTIONS_EXT = [
+    { value:"Pending", label:"Pending" },
+    { value:"In Progress", label:"In progress" },
+    { value:"Waiting on Merchant", label:"Waiting on merchant" },
+    { value:"Completed", label:"Completed" },
+    { value:"Cancelled", label:"Cancelled" }
+  ];
 
-    return `<section class="panel">
-      <div class="card-head"><div><div class="card-kicker">Follow-up calendar</div><h2>${formatFollowupRange(anchor,view)}</h2></div><div class="button-row"><button class="btn ghost" type="button" data-followup-nav="prev">Previous</button><button class="btn blue" type="button" data-followup-nav="today">Focus today</button><button class="btn ghost" type="button" data-followup-nav="next">Next</button><button class="btn primary" type="button" data-action="newFollowup">New follow-up</button></div></div>
-      <div class="calendar-toolbar">
-        <div class="segmented">${["day","week","month"].map(v=>`<button class="${view===v?"active":""}" type="button" data-followup-view="${v}">${v[0].toUpperCase()+v.slice(1)}</button>`).join("")}</div>
-        <div class="form-grid" style="flex:1;max-width:780px">
-          <div class="field c4"><label>Merchant</label><select id="followupFilterMerchant"><option value="all">All merchants</option>${merchants.map(m=>`<option value="${attr(m.uid)}" ${filter.merchant===m.uid?"selected":""}>${esc(m.store_name)}</option>`).join("")}</select></div>
-          <div class="field c4"><label>Type</label><select id="followupFilterReason"><option value="all">All types</option>${FOLLOWUP_REASONS.map(r=>`<option ${filter.reason===r?"selected":""}>${esc(r)}</option>`).join("")}</select></div>
-          <div class="field c4"><label>Status</label><select id="followupFilterStatus"><option value="open" ${filter.status==="open"?"selected":""}>Open</option><option value="Completed" ${filter.status==="Completed"?"selected":""}>Completed</option><option value="all" ${filter.status==="all"?"selected":""}>All</option></select></div>
-        </div>
-      </div>
-    </section>
-    <div class="calendar-shell">
-      <section class="panel calendar-scroll">${renderFollowupCalendar(anchor,view,filtered)}</section>
-      <aside class="panel">${renderFollowupEditor(selected,anchor)}</aside>
-    </div>`;
-  }
+  const FOLLOWUP_OUTCOME_OPTIONS = [
+    { value:"Not contacted", label:"Not contacted yet" },
+    { value:"No answer", label:"No answer" },
+    { value:"Spoke", label:"Conversation completed" },
+    { value:"Interested", label:"Interested / receptive" },
+    { value:"Waiting on Merchant", label:"Waiting on merchant" },
+    { value:"Internal action", label:"Internal action pending" },
+    { value:"Declined", label:"Declined / not interested" },
+    { value:"Resolved", label:"Resolved" }
+  ];
 
-  function formatFollowupRange(anchor, view) {
-    if (view === "day") return formatDate(anchor,{weekday:"long"});
-    if (view === "week") {
-      const start = startOfWeek(anchor), end = addDays(start,4);
-      return `${formatDate(start,{month:"short",day:"numeric",year:undefined})} – ${formatDate(end,{month:"short",day:"numeric",year:"numeric"})}`;
+  const FOLLOWUP_REMINDER_OPTIONS = [
+    { value:0, label:"No reminder" },
+    { value:15, label:"15 minutes before" },
+    { value:30, label:"30 minutes before" },
+    { value:60, label:"1 hour before" },
+    { value:240, label:"4 hours before" },
+    { value:1440, label:"1 day before" }
+  ];
+
+  const FOLLOWUP_NOTE_TEMPLATES = {
+    no_answer:{
+      label:"No answer",
+      summary:"Retry contact with the merchant",
+      context:"The merchant did not answer the most recent contact attempt.",
+      nextAction:"Call again and send a short email explaining the reason for the follow-up.",
+      outcome:"No answer",
+      tags:["no answer","retry"]
+    },
+    ads_budget:{
+      label:"Clarify budget",
+      summary:"Clarify the Ads & Promotions budget and recommendation",
+      context:"The merchant needs a simpler explanation of budget allocation, options and expected return.",
+      nextAction:"Send two clear investment scenarios and confirm which option should be reviewed on the next call.",
+      outcome:"Spoke",
+      tags:["ads","budget"]
+    },
+    photos:{
+      label:"Photos pending",
+      summary:"Complete the missing menu photos",
+      context:"Images are still missing and the menu photo coverage is incomplete.",
+      nextAction:"Confirm the remaining count, request the files and verify the upload before closing the follow-up.",
+      outcome:"Waiting on Merchant",
+      tags:["photos","content"]
+    },
+    data_review:{
+      label:"Data review",
+      summary:"Validate information and correct discrepancies",
+      context:"A difference was found between the merchant information and the data currently recorded.",
+      nextAction:"Verify the source, document the correction and share confirmation with the merchant.",
+      outcome:"Internal action",
+      tags:["data","validation"]
+    },
+    relationship:{
+      label:"Relationship touch",
+      summary:"Complete a relationship touch and confirm current priorities",
+      context:"Preventive follow-up to review satisfaction, opportunities and possible blockers.",
+      nextAction:"Call the merchant, capture current priorities and record one concrete next step.",
+      outcome:"Not contacted",
+      tags:["relationship","touch"]
     }
-    return new Intl.DateTimeFormat("en-US",{month:"long",year:"numeric"}).format(anchor);
+  };
+
+  function followupNormalizeStatus(value) {
+    const text = normalizeText(value);
+    if (["completed","complete","done","resolved"].includes(text)) return "Completed";
+    if (["cancelled","canceled"].includes(text)) return "Cancelled";
+    if (["in progress","progress"].includes(text)) return "In Progress";
+    if (["waiting","waiting on merchant","waiting merchant"].includes(text)) return "Waiting on Merchant";
+    return "Pending";
   }
 
-  function renderFollowupCalendar(anchor, view, items) {
-    if (view === "day") return renderFollowupDay(anchor,items);
-    if (view === "week") return renderFollowupWeek(anchor,items);
-    return renderFollowupMonth(anchor,items);
+  function followupNormalizePriority(value) {
+    const text = normalizeText(value);
+    if (["critical","critica","critico"].includes(text)) return "Critical";
+    if (["high","alta","alto"].includes(text)) return "High";
+    if (["low","baja","bajo"].includes(text)) return "Low";
+    return "Medium";
+  }
+
+  function normalizeFollowupRecord(source = {}) {
+    const record = source && typeof source === "object" ? { ...source } : {};
+    const now = new Date().toISOString();
+    const createdAt = record.createdAt || record.timestamp || now;
+    const context = String(record.context ?? record.notes ?? "").trim();
+    const summary = String(record.summary ?? record.objective ?? "").trim() || (context ? context.split(/\n+/)[0].slice(0,180) : String(record.reason || "General Follow-up"));
+    const status = followupNormalizeStatus(record.status);
+    const tags = Array.isArray(record.tags)
+      ? record.tags.map(value=>String(value).trim()).filter(Boolean)
+      : String(record.tags || "").split(",").map(value=>value.trim()).filter(Boolean);
+    const checklist = Array.isArray(record.checklist)
+      ? record.checklist.map(item=>({ id:String(item?.id || uid("followup_check")), text:String(item?.text || "").trim(), done:!!item?.done })).filter(item=>item.text)
+      : [];
+    const history = Array.isArray(record.history) && record.history.length
+      ? record.history.map(item=>({
+          id:String(item?.id || uid("followup_history")),
+          type:String(item?.type || "note"),
+          text:String(item?.text || "").trim(),
+          at:item?.at || item?.timestamp || createdAt,
+          author:String(item?.author || state?.profile?.username || "Workspace user")
+        })).filter(item=>item.text)
+      : [{ id:uid("followup_history"), type:"created", text:"Follow-up created", at:createdAt, author:state?.profile?.username || "Workspace user" }];
+    return {
+      ...record,
+      uid:String(record.uid || record.merchantId || ""),
+      date:/^\d{4}-\d{2}-\d{2}$/.test(String(record.date || "")) ? String(record.date) : dateKeyInZone(new Date()),
+      time:/^\d{2}:\d{2}/.test(String(record.time || "")) ? String(record.time).slice(0,5) : "10:00",
+      reason:FOLLOWUP_REASONS.includes(record.reason) ? record.reason : "General Follow-up",
+      priority:followupNormalizePriority(record.priority),
+      status,
+      summary,
+      context,
+      notes:context,
+      nextAction:String(record.nextAction || record.next_step || "").trim(),
+      outcome:String(record.outcome || (status === "Completed" ? "Resolved" : "Not contacted")),
+      tags,
+      checklist,
+      history,
+      reminderMinutes:Number.isFinite(Number(record.reminderMinutes)) ? Math.max(0,Number(record.reminderMinutes)) : 30,
+      contact:String(record.contact || "").trim(),
+      createdAt,
+      updatedAt:record.updatedAt || createdAt,
+      completedAt:status === "Completed" ? (record.completedAt || record.updatedAt || now) : ""
+    };
+  }
+
+  function followupIsOpen(followup) {
+    return !!followup && !["Completed","Cancelled"].includes(followupNormalizeStatus(followup.status));
+  }
+
+  function followupDateTime(followup) {
+    const date = localDateFromKey(followup?.date || dateKeyInZone(new Date()));
+    const [hoursRaw,minutesRaw] = String(followup?.time || "10:00").split(":").map(Number);
+    date.setHours(Number.isFinite(hoursRaw)?hoursRaw:10,Number.isFinite(minutesRaw)?minutesRaw:0,0,0);
+    return date;
+  }
+
+  function followupIsOverdue(followup) {
+    return followupIsOpen(followup) && followupDateTime(followup).getTime() < Date.now();
+  }
+
+  function followupPriorityRank(priority) {
+    return ({ Critical:0, High:1, Medium:2, Low:3 })[followupNormalizePriority(priority)] ?? 2;
+  }
+
+  function followupStatusLabel(status) {
+    return FOLLOWUP_STATUS_OPTIONS_EXT.find(item=>item.value===followupNormalizeStatus(status))?.label || "Pending";
+  }
+
+  function followupOutcomeLabel(outcome) {
+    return FOLLOWUP_OUTCOME_OPTIONS.find(item=>normalizeText(item.value)===normalizeText(outcome))?.label || outcome || "Not contacted yet";
+  }
+
+  function followupInitials(name) {
+    return String(name || "M").split(/\s+/).filter(Boolean).slice(0,2).map(part=>part[0]).join("").toUpperCase();
+  }
+
+  function followupHistoryAdd(followup,type,text) {
+    if (!followup || !String(text || "").trim()) return;
+    followup.history = Array.isArray(followup.history) ? followup.history : [];
+    followup.history.unshift({
+      id:uid("followup_history"),
+      type:type || "note",
+      text:String(text).trim(),
+      at:new Date().toISOString(),
+      author:state.profile.username || "Workspace user"
+    });
+  }
+
+  function followupFilterItems() {
+    const filter = state.ui.followupFilters || {};
+    const query = normalizeText(filter.q || "");
+    const today = dateKeyInZone(new Date());
+    const next7 = toISODate(addDays(localDateFromKey(today),7));
+    const filtered = state.followups.map(normalizeFollowupRecord).filter(followup=>{
+      const merchant = getMerchant(followup.uid);
+      const haystack = normalizeText([
+        merchant?.store_name,merchant?.business_name,merchant?.market_name,merchant?.submarket_name,
+        merchant?.dm_name,merchant?.dm_email,merchant?.dm_phone,
+        followup.summary,followup.context,followup.nextAction,followup.reason,followup.outcome,followup.tags.join(" ")
+      ].join(" "));
+      if (query && !haystack.includes(query)) return false;
+      if (filter.merchant && filter.merchant !== "all" && followup.uid !== filter.merchant) return false;
+      if (filter.reason && filter.reason !== "all" && followup.reason !== filter.reason) return false;
+      if (filter.priority && filter.priority !== "all" && followup.priority !== filter.priority) return false;
+      if (filter.status === "open" && !followupIsOpen(followup)) return false;
+      if (filter.status && !["all","open"].includes(filter.status) && followup.status !== filter.status) return false;
+      if (filter.quick === "today" && followup.date !== today) return false;
+      if (filter.quick === "overdue" && !followupIsOverdue(followup)) return false;
+      if (filter.quick === "next7" && (!followupIsOpen(followup) || followup.date < today || followup.date > next7)) return false;
+      if (filter.quick === "high" && !["High","Critical"].includes(followup.priority)) return false;
+      if (filter.quick === "noNotes" && (followup.context || followup.nextAction)) return false;
+      return true;
+    });
+    return followupSortItems(filtered);
+  }
+
+  function followupSortItems(items) {
+    const mode = state.ui.followupFilters?.sort || "smart";
+    return [...items].sort((a,b)=>{
+      if (mode === "merchant") {
+        const merchantDelta = String(getMerchant(a.uid)?.store_name || "").localeCompare(String(getMerchant(b.uid)?.store_name || ""));
+        return merchantDelta || followupDateTime(a) - followupDateTime(b);
+      }
+      if (mode === "date") return followupDateTime(a) - followupDateTime(b);
+      const closedDelta = Number(!followupIsOpen(a)) - Number(!followupIsOpen(b));
+      if (closedDelta) return closedDelta;
+      const overdueDelta = Number(followupIsOverdue(b)) - Number(followupIsOverdue(a));
+      if (overdueDelta) return overdueDelta;
+      const dateDelta = followupDateTime(a) - followupDateTime(b);
+      if (dateDelta) return dateDelta;
+      return followupPriorityRank(a.priority) - followupPriorityRank(b.priority);
+    });
+  }
+
+  function followupStats() {
+    const now = new Date();
+    const today = dateKeyInZone(now);
+    const next7 = toISODate(addDays(localDateFromKey(today),7));
+    const weekStart = toISODate(startOfWeek(now));
+    const weekEnd = toISODate(addDays(startOfWeek(now),6));
+    const normalized = state.followups.map(normalizeFollowupRecord);
+    const open = normalized.filter(followupIsOpen);
+    return {
+      overdue:open.filter(followupIsOverdue).length,
+      today:open.filter(item=>item.date===today).length,
+      next7:open.filter(item=>item.date>=today && item.date<=next7).length,
+      completedWeek:normalized.filter(item=>item.status==="Completed" && dateKeyInZone(item.completedAt || item.updatedAt || item.date)>=weekStart && dateKeyInZone(item.completedAt || item.updatedAt || item.date)<=weekEnd).length,
+      open:open.length,
+      completed:normalized.filter(item=>item.status==="Completed").length
+    };
+  }
+
+  function formatFollowupRange(anchor,view) {
+    if (view === "day") return formatDate(anchor,{weekday:"long",month:"long",day:"numeric",year:"numeric"});
+    if (view === "week") {
+      const start = startOfWeek(anchor), end = addDays(start,6);
+      return `${formatDate(start,{month:"short",day:"numeric"})} – ${formatDate(end,{month:"short",day:"numeric",year:"numeric"})}`;
+    }
+    if (view === "month") return new Intl.DateTimeFormat("en-US",{month:"long",year:"numeric"}).format(anchor);
+    return "All follow-ups";
   }
 
   function formatTime12(value) {
-    const [hoursRaw, minutesRaw] = String(value || "10:00").split(":").map(Number);
+    const [hoursRaw,minutesRaw] = String(value || "10:00").split(":").map(Number);
     const hours = Number.isFinite(hoursRaw) ? hoursRaw : 10;
     const minutes = Number.isFinite(minutesRaw) ? minutesRaw : 0;
-    const suffix = hours >= 12 ? "PM" : "AM";
-    const display = hours % 12 || 12;
-    return `${display}:${String(minutes).padStart(2,"0")} ${suffix}`;
+    return `${hours % 12 || 12}:${String(minutes).padStart(2,"0")} ${hours>=12?"PM":"AM"}`;
   }
 
-  function renderFollowupDay(anchor, items) {
-    const key = toISODate(anchor);
-    const dayItems = items.filter(f=>f.date===key).sort((a,b)=>String(a.time).localeCompare(String(b.time)));
-    const hours = Array.from({length:15},(_,index)=>index+7);
-    const scheduled = new Set();
-    const rows = hours.map(hour => {
-      const hourItems = dayItems.filter(f => Number(String(f.time || "10:00").split(":")[0]) === hour);
-      hourItems.forEach(f=>scheduled.add(f.id));
-      const hourValue = `${String(hour).padStart(2,"0")}:00`;
-      return `<div class="agenda-hour-row">
-        <div class="agenda-hour-label">${formatTime12(hourValue)}</div>
-        <div class="agenda-hour-slot" data-drop-date="${key}" data-drop-time="${hourValue}">
-          <button class="agenda-add-button" type="button" title="Create follow-up at ${formatTime12(hourValue)}" data-new-followup-date="${key}" data-new-followup-time="${hourValue}">+</button>
-          <div class="agenda-slot-events">${hourItems.length ? hourItems.map(renderFollowupAgendaEvent).join("") : `<span class="agenda-empty">No follow-ups this hour.</span>`}</div>
+  function renderFollowups() {
+    const view = ["day","week","month","list"].includes(state.ui.followupView) ? state.ui.followupView : "week";
+    state.ui.followupView = view;
+    const anchor = new Date(state.ui.followupAnchor || new Date());
+    const filtered = followupFilterItems();
+    const selected = state.followups.find(item=>String(item.id)===String(state.ui.selectedFollowupId || "")) || null;
+    const stats = followupStats();
+    return `<div class="fu-nova">
+      <section class="fu-nova-surface fu-nova-hero">
+        <div class="fu-nova-hero-copy">
+          <div class="fu-nova-eyebrow">Follow-up command center</div>
+          <h2>Make the next step visible.</h2>
+          <p>Plan calls, agreements, notes and reminders in one workspace. Drag cards to reschedule them and use structured notes so every merchant conversation keeps its context.</p>
         </div>
-      </div>`;
+        <div class="fu-nova-hero-actions">
+          ${view!=="list"?`<button class="btn square ghost" type="button" data-followup-nav="prev" aria-label="Previous">←</button><button class="btn blue" type="button" data-followup-nav="today">Today</button><button class="btn square ghost" type="button" data-followup-nav="next" aria-label="Next">→</button>`:""}
+          <div class="fu-nova-range"><span>${view==="list"?"Work queue":"Visible period"}</span><strong>${esc(formatFollowupRange(anchor,view))}</strong></div>
+          <button class="btn primary" type="button" data-action="newFollowup">＋ New follow-up</button>
+        </div>
+      </section>
+      ${renderFollowupMetrics(stats)}
+      ${renderFollowupToolbar(filtered.length)}
+      <section class="fu-nova-main">
+        <div class="fu-nova-surface fu-nova-calendar">${renderFollowupCalendarPanel(anchor,view,filtered)}</div>
+        <aside class="fu-nova-surface fu-nova-focus">${renderFollowupFocusPanel(selected)}</aside>
+      </section>
+    </div>`;
+  }
+
+  function renderFollowupMetrics(stats) {
+    const metrics = [
+      { id:"overdue",tone:"red",label:"Overdue",value:stats.overdue,note:stats.overdue?"Require a decision today":"Everything is current" },
+      { id:"today",tone:"orange",label:"Due today",value:stats.today,note:"Actions scheduled for today" },
+      { id:"next7",tone:"",label:"Next 7 days",value:stats.next7,note:"Near-term workload" },
+      { id:"completed",tone:"green",label:"Completed this week",value:stats.completedWeek,note:"Follow-ups closed" }
+    ];
+    return `<section class="fu-nova-metrics">${metrics.map(metric=>`<button class="fu-nova-metric ${metric.tone}" type="button" data-fu-metric="${metric.id}"><span class="fu-nova-metric-head"><span>${metric.label}</span><span>↗</span></span><strong>${metric.value}</strong><small>${metric.note}</small></button>`).join("")}</section>`;
+  }
+
+  function renderFollowupToolbar(filteredCount) {
+    const filter = state.ui.followupFilters || {};
+    const merchants = state.merchants.filter(item=>!item.archived).sort((a,b)=>String(a.store_name).localeCompare(String(b.store_name)));
+    const view = state.ui.followupView;
+    return `<section class="fu-nova-surface fu-nova-toolbar">
+      <div class="fu-nova-toolbar-top">
+        <div class="fu-nova-segmented" aria-label="Follow-up view">
+          ${[["day","Day"],["week","Week"],["month","Month"],["list","List"]].map(([id,label])=>`<button class="${view===id?"active":""}" type="button" data-followup-view="${id}">${label}</button>`).join("")}
+        </div>
+        <div class="fu-nova-result-count"><strong>${filteredCount}</strong> visible results · <button class="btn small ghost" type="button" data-fu-clear-filters>Clear filters</button> <button class="btn small ghost" type="button" data-fu-export-csv>Export CSV</button></div>
+      </div>
+      <div class="fu-nova-filter-grid">
+        <div class="field"><label>Search notes</label><input id="followupSearch" value="${attr(filter.q || "")}" placeholder="Merchant, objective, next step or tag…" /></div>
+        <div class="field"><label>Merchant</label><select id="followupFilterMerchant"><option value="all">All merchants</option>${merchants.map(item=>`<option value="${attr(item.uid)}" ${filter.merchant===item.uid?"selected":""}>${esc(item.store_name)}</option>`).join("")}</select></div>
+        <div class="field"><label>Type</label><select id="followupFilterReason"><option value="all">All types</option>${FOLLOWUP_REASONS.map(reason=>`<option value="${attr(reason)}" ${filter.reason===reason?"selected":""}>${esc(reason)}</option>`).join("")}</select></div>
+        <div class="field"><label>Priority</label><select id="followupFilterPriority"><option value="all">All priorities</option>${["Low","Medium","High","Critical"].map(priority=>`<option ${filter.priority===priority?"selected":""}>${priority}</option>`).join("")}</select></div>
+        <div class="field"><label>Status</label><select id="followupFilterStatus"><option value="open" ${filter.status==="open"?"selected":""}>Open</option><option value="all" ${filter.status==="all"?"selected":""}>All</option>${FOLLOWUP_STATUS_OPTIONS_EXT.map(item=>`<option value="${attr(item.value)}" ${filter.status===item.value?"selected":""}>${esc(item.label)}</option>`).join("")}</select></div>
+        <div class="field"><label>Sort</label><select id="followupFilterSort"><option value="smart" ${filter.sort==="smart"?"selected":""}>Smart priority</option><option value="date" ${filter.sort==="date"?"selected":""}>Date and time</option><option value="merchant" ${filter.sort==="merchant"?"selected":""}>Merchant</option></select></div>
+      </div>
+      <div class="fu-nova-quick-row">${[["all","All"],["today","Today"],["overdue","Overdue"],["next7","Next 7 days"],["high","High priority"],["noNotes","Missing notes"]].map(([id,label])=>`<button class="fu-nova-quick ${filter.quick===id?"active":""}" type="button" data-fu-quick="${id}">${label}</button>`).join("")}</div>
+    </section>`;
+  }
+
+  function renderFollowupCalendarPanel(anchor,view,items) {
+    const names = { day:"Daily agenda",week:"Weekly plan",month:"Monthly calendar",list:"Follow-up work queue" };
+    const hints = { day:"Drag a card to another hour to reschedule it.",week:"Review the full workload and each merchant's next step.",month:"See the entire month and jump into any day.",list:"Work through follow-ups grouped by urgency and state." };
+    const content = view==="day"?renderFollowupDay(anchor,items):view==="week"?renderFollowupWeek(anchor,items):view==="month"?renderFollowupMonth(anchor,items):renderFollowupList(items);
+    return `<div class="fu-nova-panel-head"><div><span>${view==="list"?"Work queue":"Interactive calendar"}</span><h3>${names[view]}</h3><p>${hints[view]}</p></div><button class="btn small primary" type="button" data-new-followup-date="${attr(toISODate(anchor))}">＋ Add</button></div><div class="fu-nova-calendar-body">${content}</div>`;
+  }
+
+  function renderFollowupEventCard(followup,context="week") {
+    const record = normalizeFollowupRecord(followup);
+    const merchant = getMerchant(record.uid);
+    const selected = String(state.ui.selectedFollowupId || "") === String(record.id);
+    const classes = ["fu-nova-event",`priority-${record.priority.toLowerCase()}`,selected?"selected":"",followupIsOverdue(record)?"overdue":"",record.status==="Completed"?"completed":"",record.status==="Cancelled"?"cancelled":""].filter(Boolean).join(" ");
+    const status = followupIsOverdue(record)?"Overdue":followupStatusLabel(record.status);
+    if (context === "day") {
+      return `<div class="${classes}" draggable="true" data-followup-drag="${attr(record.id)}"><button type="button" data-select-followup="${attr(record.id)}"><span class="fu-nova-event-time">${esc(formatTime12(record.time))}</span><span><h4>${esc(merchant?.store_name || "Unassigned merchant")}</h4><p>${esc(record.summary || record.reason)}</p></span><span class="fu-nova-badge ${followupIsOverdue(record)?"red":record.status==="Completed"?"green":"blue"}">${esc(status)}</span></button></div>`;
+    }
+    return `<div class="${classes}" draggable="true" data-followup-drag="${attr(record.id)}"><button type="button" data-select-followup="${attr(record.id)}"><span class="fu-nova-event-top"><span class="fu-nova-event-time">${esc(formatTime12(record.time))}</span><i class="fu-nova-event-dot" title="${esc(record.priority)} priority"></i></span><h4>${esc(merchant?.store_name || "Unassigned merchant")}</h4><p>${esc(record.summary || record.reason)}</p><span class="fu-nova-event-foot"><span>${esc(record.reason)}</span>${context==="month"?"":`<span>${esc(status)}</span>`}</span></button></div>`;
+  }
+
+  function renderFollowupDay(anchor,items) {
+    const key = toISODate(anchor);
+    const dayItems = followupSortItems(items.filter(item=>item.date===key));
+    const hours = Array.from({length:15},(_,index)=>index+7);
+    const assigned = new Set();
+    const rows = hours.map(hour=>{
+      const hourItems = dayItems.filter(item=>Number(String(item.time || "10:00").split(":")[0])===hour);
+      hourItems.forEach(item=>assigned.add(item.id));
+      const time = `${String(hour).padStart(2,"0")}:00`;
+      return `<div class="fu-nova-time-row"><div class="fu-nova-time-label">${formatTime12(time)}</div><div class="fu-nova-time-slot" data-drop-date="${key}" data-drop-time="${time}"><button class="fu-nova-slot-add" type="button" data-new-followup-date="${key}" data-new-followup-time="${time}" title="Add at ${formatTime12(time)}">＋</button><div class="fu-nova-time-events">${hourItems.length?hourItems.map(item=>renderFollowupEventCard(item,"day")).join(""):`<span class="fu-nova-slot-empty">Available</span>`}</div></div></div>`;
     }).join("");
-    const other = dayItems.filter(f=>!scheduled.has(f.id));
-    return `<div class="card-head"><div><div class="card-kicker">Selected day</div><h3>${formatDate(anchor,{weekday:"long",month:"long",day:"numeric",year:"numeric"})}</h3></div><button class="btn small primary" type="button" data-new-followup-date="${key}" data-new-followup-time="10:00">Add follow-up</button></div>
-      <div class="day-agenda">${rows}${other.length?`<div class="agenda-hour-row"><div class="agenda-hour-label">Other</div><div class="agenda-hour-slot"><div class="agenda-slot-events">${other.map(renderFollowupAgendaEvent).join("")}</div></div></div>`:""}</div>`;
+    const other = dayItems.filter(item=>!assigned.has(item.id));
+    const open = dayItems.filter(followupIsOpen).length;
+    const high = dayItems.filter(item=>followupIsOpen(item)&&["High","Critical"].includes(item.priority)).length;
+    const completed = dayItems.filter(item=>item.status==="Completed").length;
+    if (!dayItems.length) return renderFollowupEmpty("No follow-ups on this day","Create one from any time slot or move a card here.",key);
+    return `<div class="fu-nova-day"><div class="fu-nova-day-summary"><div class="fu-nova-day-stat"><span>Open</span><strong>${open}</strong></div><div class="fu-nova-day-stat"><span>High priority</span><strong>${high}</strong></div><div class="fu-nova-day-stat"><span>Completed</span><strong>${completed}</strong></div></div>${rows}${other.length?`<div class="fu-nova-time-row"><div class="fu-nova-time-label">Other</div><div class="fu-nova-time-slot" data-drop-date="${key}"><div class="fu-nova-time-events">${other.map(item=>renderFollowupEventCard(item,"day")).join("")}</div></div></div>`:""}</div>`;
   }
 
-  function renderFollowupAgendaEvent(f) {
-    const merchant = getMerchant(f.uid);
-    const overdue = f.status !== "Completed" && f.date < dateKeyInZone(new Date());
-    return `<div class="agenda-event ${priorityTone(f.priority)} ${f.status==="Completed"?"completed":overdue?"overdue":""}" draggable="true" data-followup-drag="${attr(f.id)}" data-edit-followup="${attr(f.id)}" tabindex="0" role="button">
-      <span><strong>${esc(merchant?.store_name || "Unassigned")}</strong><span>${esc(formatTime12(f.time||"10:00"))} · ${esc(f.reason||"Follow-up")}${f.notes?` · ${esc(f.notes)}`:""}</span></span>
-      <span class="pill ${f.status==="Completed"?"green":overdue?"red":"blue"}">${esc(f.status||"Pending")}</span>
-    </div>`;
-  }
-
-  function renderFollowupWeek(anchor, items) {
+  function renderFollowupWeek(anchor,items) {
     const start = startOfWeek(anchor);
-    return `<div class="calendar-grid">${["Mon","Tue","Wed","Thu","Fri"].map(x=>`<div class="calendar-day-name">${x}</div>`).join("")}${WORK_DAYS.map((_,i)=>{
-      const date = addDays(start,i), key=toISODate(date);
-      const dayItems = items.filter(f=>f.date===key).sort((a,b)=>String(a.time).localeCompare(String(b.time)));
-      return `<div class="calendar-cell ${key===dateKeyInZone(new Date())?"today":""}" data-drop-date="${key}">
-        <div class="calendar-cell-head"><strong>${date.getDate()}</strong><button class="btn small square ghost" type="button" data-new-followup-date="${key}">+</button></div>
-        ${dayItems.map(renderFollowupChip).join("") || `<span class="metric-sub">No follow-ups</span>`}
-      </div>`;
-    }).join("")}</div>`;
-  }
-
-  function renderFollowupMonth(anchor, items) {
-    const first = new Date(anchor.getFullYear(),anchor.getMonth(),1,12);
-    const last = new Date(anchor.getFullYear(),anchor.getMonth()+1,0,12);
-    let start = new Date(first);
-    while (start.getDay() !== 1) start = addDays(start,-1);
-    let end = new Date(last);
-    while (end.getDay() !== 5) end = addDays(end,1);
-    const dates = [];
-    for (let d = new Date(start); d <= end; d = addDays(d,1)) if (WORK_DAYS.includes(d.getDay())) dates.push(new Date(d));
-    return `<div class="calendar-grid">${["Mon","Tue","Wed","Thu","Fri"].map(x=>`<div class="calendar-day-name">${x}</div>`).join("")}${dates.map(date=>{
+    const days = Array.from({length:7},(_,index)=>addDays(start,index));
+    return `<div class="fu-nova-week">${days.map(date=>{
       const key = toISODate(date);
-      const dayItems = items.filter(f=>f.date===key).sort((a,b)=>String(a.time).localeCompare(String(b.time)));
-      const other = date.getMonth()!==anchor.getMonth();
-      return `<div class="calendar-cell ${other?"other":""} ${key===dateKeyInZone(new Date())?"today":""}" data-drop-date="${key}">
-        <div class="calendar-cell-head"><strong>${date.getDate()}</strong><button class="btn small square ghost" type="button" data-new-followup-date="${key}">+</button></div>
-        ${dayItems.slice(0,4).map(renderFollowupChip).join("")}${dayItems.length>4?`<span class="pill">+${dayItems.length-4} more</span>`:""}
-      </div>`;
+      const dayItems = followupSortItems(items.filter(item=>item.date===key));
+      const completed = dayItems.filter(item=>item.status==="Completed").length;
+      const pct = dayItems.length?Math.round(completed/dayItems.length*100):0;
+      return `<section class="fu-nova-week-day ${key===dateKeyInZone(new Date())?"today":""}" data-drop-date="${key}"><div class="fu-nova-week-head"><button type="button" data-fu-go-day="${key}"><span>${formatDate(date,{weekday:"short"})}</span><strong>${formatDate(date,{month:"short",day:"numeric"})}</strong></button><button class="fu-nova-week-add" type="button" data-new-followup-date="${key}">＋</button></div><div class="fu-nova-week-progress"><i style="width:${pct}%"></i></div><div class="fu-nova-week-list">${dayItems.length?dayItems.map(item=>renderFollowupEventCard(item,"week")).join(""):`<div class="fu-nova-week-empty"><strong>Open day</strong><span>No follow-ups</span></div>`}</div></section>`;
     }).join("")}</div>`;
   }
 
-  function renderFollowupChip(f) {
-    const merchant = getMerchant(f.uid);
-    const overdue = f.status !== "Completed" && f.date < dateKeyInZone(new Date());
-    return `<div class="followup-chip ${priorityTone(f.priority)} ${f.status==="Completed"?"completed":overdue?"overdue":""}" draggable="true" data-followup-drag="${attr(f.id)}" data-edit-followup="${attr(f.id)}">
-      <strong>${esc(merchant?.store_name || "Unassigned")}</strong><span>${esc(f.time||"")} · ${esc(f.reason||"Follow-up")}</span>
+  function renderFollowupMonth(anchor,items) {
+    const first = new Date(anchor.getFullYear(),anchor.getMonth(),1,12);
+    let start = new Date(first);
+    while (start.getDay()!==1) start=addDays(start,-1);
+    const dates = Array.from({length:42},(_,index)=>addDays(start,index));
+    const weekdays = ["Mon","Tue","Wed","Thu","Fri","Sat","Sun"];
+    return `<div class="fu-nova-month">${weekdays.map(day=>`<div class="fu-nova-month-weekday">${day}</div>`).join("")}${dates.map(date=>{
+      const key = toISODate(date);
+      const dayItems = followupSortItems(items.filter(item=>item.date===key));
+      return `<div class="fu-nova-month-cell ${date.getMonth()!==anchor.getMonth()?"other":""} ${key===dateKeyInZone(new Date())?"today":""}" data-drop-date="${key}"><div class="fu-nova-month-head"><button class="fu-nova-month-date" type="button" data-fu-go-day="${key}">${date.getDate()}</button><button class="fu-nova-month-add" type="button" data-new-followup-date="${key}">＋</button></div><div class="fu-nova-month-events">${dayItems.slice(0,4).map(item=>renderFollowupEventCard(item,"month")).join("")}${dayItems.length>4?`<button class="fu-nova-more" type="button" data-fu-go-day="${key}">＋${dayItems.length-4} more</button>`:""}</div></div>`;
+    }).join("")}</div>`;
+  }
+
+  function followupListGroup(item) {
+    const today = dateKeyInZone(new Date());
+    if (followupIsOverdue(item)) return "Overdue";
+    if (item.date===today && followupIsOpen(item)) return "Today";
+    if (item.status==="Completed") return "Completed";
+    if (item.status==="Cancelled") return "Cancelled";
+    return "Upcoming";
+  }
+
+  function renderFollowupList(items) {
+    if (!items.length) return renderFollowupEmpty("No follow-ups match these filters","Clear filters or create a new follow-up.",dateKeyInZone(new Date()));
+    const order = ["Overdue","Today","Upcoming","Completed","Cancelled"];
+    const groups = new Map(order.map(key=>[key,[]]));
+    items.forEach(item=>groups.get(followupListGroup(item))?.push(item));
+    return `<div class="fu-nova-list">${order.filter(key=>groups.get(key).length).map(key=>`<section class="fu-nova-list-group"><div class="fu-nova-list-head"><strong>${key}</strong><span>${groups.get(key).length} follow-up${groups.get(key).length===1?"":"s"}</span></div><div class="fu-nova-list-rows">${groups.get(key).map(renderFollowupListRow).join("")}</div></section>`).join("")}</div>`;
+  }
+
+  function renderFollowupListRow(item) {
+    const record = normalizeFollowupRecord(item);
+    const merchant = getMerchant(record.uid);
+    const selected = String(state.ui.selectedFollowupId || "")===String(record.id);
+    return `<div class="fu-nova-list-row ${selected?"selected":""}" data-select-followup="${attr(record.id)}"><div class="fu-nova-list-date"><strong>${esc(formatDate(localDateFromKey(record.date),{month:"short",day:"numeric"}))}</strong><span>${esc(formatTime12(record.time))}</span></div><div class="fu-nova-list-merchant"><strong>${esc(merchant?.store_name || "Unassigned")}</strong><span>${esc(merchant?.market_name || merchant?.submarket_name || "")}</span></div><div class="fu-nova-list-objective"><strong>${esc(record.summary || record.reason)}</strong><span>${esc(record.nextAction || record.context || "No next step recorded")}</span></div><div class="fu-nova-list-type"><span class="fu-nova-badge blue">${esc(record.reason)}</span></div><div class="fu-nova-list-status"><span class="fu-nova-badge ${followupIsOverdue(record)?"red":record.status==="Completed"?"green":"blue"}">${esc(followupIsOverdue(record)?"Overdue":followupStatusLabel(record.status))}</span></div><div class="fu-nova-list-actions"><button class="btn small ghost" type="button" data-edit-followup="${attr(record.id)}">Edit</button>${followupIsOpen(record)?`<button class="btn small green" type="button" data-complete-followup="${attr(record.id)}">Done</button>`:""}</div></div>`;
+  }
+
+  function renderFollowupEmpty(title,text,date) {
+    return `<div class="fu-nova-empty"><div class="fu-nova-empty-icon">◫</div><strong>${esc(title)}</strong><p>${esc(text)}</p><button class="btn primary" type="button" data-new-followup-date="${attr(date || dateKeyInZone(new Date()))}">Create follow-up</button></div>`;
+  }
+
+  function renderFollowupFocusPanel(source) {
+    if (!source) return `<div class="fu-nova-focus-empty"><div class="fu-nova-focus-empty-icon">◎</div><strong>Select a follow-up</strong><p>Choose a card to see structured notes, checklist, history and quick actions.</p><button class="btn primary" type="button" data-action="newFollowup">Create follow-up</button></div>`;
+    const followup = normalizeFollowupRecord(source);
+    const merchant = getMerchant(followup.uid);
+    const overdue = followupIsOverdue(followup);
+    const timeline = Array.isArray(followup.history)?followup.history.slice(0,8):[];
+    const checked = followup.checklist.filter(item=>item.done).length;
+    return `<div class="fu-nova-focus-inner">
+      <div class="fu-nova-identity"><div class="fu-nova-identity-top"><div><div class="kicker">Selected follow-up</div><h3>${esc(merchant?.store_name || "Unassigned merchant")}</h3><p>${esc(formatDate(localDateFromKey(followup.date),{weekday:"long",month:"long",day:"numeric"}))} · ${esc(formatTime12(followup.time))}</p></div><div class="fu-nova-avatar">${esc(followupInitials(merchant?.store_name))}</div></div><div class="fu-nova-badges"><span class="fu-nova-badge ${overdue?"red":followup.status==="Completed"?"green":"blue"}">${esc(overdue?"Overdue":followupStatusLabel(followup.status))}</span><span class="fu-nova-badge ${followup.priority==="Critical"?"red":followup.priority==="High"?"orange":followup.priority==="Low"?"green":"blue"}">${esc(followup.priority)} priority</span><span class="fu-nova-badge blue">${esc(followup.reason)}</span></div></div>
+      <section class="fu-nova-focus-section"><div class="fu-nova-focus-section-head"><strong>Structured notes</strong><span>Updated ${esc(followup.updatedAt?new Intl.DateTimeFormat("en-CA",{dateStyle:"medium"}).format(new Date(followup.updatedAt)):"—")}</span></div><div class="fu-nova-note"><label>Objective</label><strong>${esc(followup.summary || "No objective recorded")}</strong></div><div class="fu-nova-note"><label>Context</label><p>${esc(followup.context || "No context recorded")}</p></div><div class="fu-nova-note next"><label>Next action</label><p>${esc(followup.nextAction || "No next action recorded")}</p></div><div class="fu-nova-note"><label>Last outcome</label><strong>${esc(followupOutcomeLabel(followup.outcome))}</strong></div>${followup.tags.length?`<div class="fu-nova-tags" style="margin-top:8px">${followup.tags.map(tag=>`<span class="fu-nova-tag">#${esc(tag)}</span>`).join("")}</div>`:""}</section>
+      <section class="fu-nova-focus-section"><div class="fu-nova-focus-section-head"><strong>Internal checklist</strong><span>${checked}/${followup.checklist.length} completed</span></div>${followup.checklist.length?`<div class="fu-nova-checklist">${followup.checklist.map(item=>`<label class="fu-nova-check ${item.done?"done":""}"><input type="checkbox" ${item.done?"checked":""} data-fu-check-toggle="${attr(followup.id)}" data-check-id="${attr(item.id)}"/><span>${esc(item.text)}</span></label>`).join("")}</div>`:`<div class="fu-nova-note"><p>No checklist items yet.</p></div>`}</section>
+      <section class="fu-nova-focus-section"><div class="fu-nova-focus-section-head"><strong>Quick note</strong><span>Add to history</span></div><div class="fu-nova-quick-note"><textarea id="fuQuickNote" placeholder="What happened during the latest contact?"></textarea><div class="fu-nova-quick-note-actions"><select id="fuQuickNoteType"><option value="note">Internal note</option><option value="call">Call result</option><option value="email">Email sent</option><option value="merchant">Merchant update</option></select><button class="btn small primary" type="button" data-fu-add-note="${attr(followup.id)}">Add note</button></div></div></section>
+      <section class="fu-nova-focus-section"><div class="fu-nova-focus-section-head"><strong>History</strong><span>${followup.history.length} entries</span></div><div class="fu-nova-timeline">${timeline.length?timeline.map(renderFollowupTimelineItem).join(""):`<div class="fu-nova-note"><p>No history entries.</p></div>`}</div></section>
+      <div class="fu-nova-focus-actions"><button class="btn primary" type="button" data-edit-followup="${attr(followup.id)}">Edit details</button>${followupIsOpen(followup)?`<button class="btn green" type="button" data-complete-followup="${attr(followup.id)}">Complete</button>`:`<button class="btn blue" type="button" data-fu-reopen="${attr(followup.id)}">Reopen</button>`}<button class="btn ghost" type="button" data-fu-snooze="${attr(followup.id)}" data-days="1">Move to tomorrow</button><button class="btn ghost" type="button" data-fu-snooze="${attr(followup.id)}" data-days="7">Move one week</button><button class="btn ghost" type="button" data-fu-duplicate="${attr(followup.id)}">Duplicate</button><button class="btn purple" type="button" data-action="goToFollowupMerchantProfile">Open merchant</button><button class="btn red" type="button" data-delete-followup="${attr(followup.id)}">Delete</button></div>
     </div>`;
   }
 
-  function renderFollowupListRow(f) {
-    const merchant = getMerchant(f.uid);
-    const overdue = f.status !== "Completed" && f.date < dateKeyInZone(new Date());
-    return `<div class="followup-row ${priorityTone(f.priority)} ${f.status==="Completed"?"completed":overdue?"overdue":""}" draggable="true" data-followup-drag="${attr(f.id)}" data-edit-followup="${attr(f.id)}">
-      <div class="followup-row-top"><strong>${esc(merchant?.store_name || "Unassigned")}</strong><span class="pill followup-priority-badge ${priorityTone(f.priority)}">${esc(f.priority || "Medium")}</span></div>
-      <span>${esc(f.reason||"Follow-up")} · ${esc(f.date)} ${esc(formatTime12(f.time||"10:00"))} · ${esc(f.status||"Pending")}</span>
-      ${f.notes?`<span>${esc(f.notes)}</span>`:""}
-      <div class="button-row"><button class="btn small ghost" type="button" data-edit-followup="${attr(f.id)}">Edit</button>${f.status!=="Completed"?`<button class="btn small green" type="button" data-complete-followup="${attr(f.id)}">Complete</button>`:""}<button class="btn small red" type="button" data-delete-followup="${attr(f.id)}">Delete</button></div>
-    </div>`;
+  function renderFollowupTimelineItem(item) {
+    const iconMap = { created:"＋",updated:"✎",completed:"✓",reopened:"↺",moved:"→",call:"☎",email:"✉",merchant:"◎",note:"•",duplicated:"⧉" };
+    return `<div class="fu-nova-timeline-item"><div class="fu-nova-timeline-mark">${iconMap[item.type] || "•"}</div><div class="fu-nova-timeline-copy"><strong>${esc(item.author || "Workspace user")}</strong><p>${esc(item.text || "")}</p><time>${esc(item.at?new Intl.DateTimeFormat("en-CA",{dateStyle:"medium",timeStyle:"short"}).format(new Date(item.at)):"—")}</time></div></div>`;
   }
 
-  function renderFollowupEditor(followup, anchor) {
-    const merchant = selectedMerchant();
-    const draft = followup || {
+  function openFollowupEditorModal(id="",preset={}) {
+    const existing = id ? state.followups.find(item=>String(item.id)===String(id)) : null;
+    const currentMerchant = selectedMerchant();
+    const anchorDate = toISODate(new Date(state.ui.followupAnchor || new Date()));
+    const draft = normalizeFollowupRecord(existing || {
       id:"",
-      uid:merchant?.uid||"",
-      date:state.ui.followupDraftDate || toISODate(anchor),
-      time:state.ui.followupDraftTime || "10:00",
-      reason:"Relationship Touch",
-      priority:"Medium",
+      uid:preset.uid || currentMerchant?.uid || state.selectedUid || "",
+      date:preset.date || state.ui.followupDraftDate || anchorDate,
+      time:preset.time || state.ui.followupDraftTime || "10:00",
+      reason:preset.reason || "Relationship Touch",
+      priority:preset.priority || "Medium",
       status:"Pending",
-      notes:""
-    };
-    const merchants = state.merchants.filter(m=>!m.archived).sort((a,b)=>a.store_name.localeCompare(b.store_name));
-    const selectedMerchantName = getMerchant(draft.uid)?.store_name || "Select a merchant";
-    const dateDisplay = formatDate(localDateFromKey(draft.date), { weekday:"long", month:"long", day:"numeric", year:"numeric" });
-    return `<div class="card-head"><div><div class="card-kicker">${followup?"Edit follow-up":"Create follow-up"}</div><h3>${followup?"Follow-up details":"New action"}</h3></div>${followup?statusPill(followup.status,followup.status==="Completed"?"green":"blue"):""}</div>
-      <div class="followup-editor-summary">
-        <div class="followup-summary-card"><span>Date</span><strong>${esc(dateDisplay)}</strong></div>
-        <div class="followup-summary-card"><span>Time</span><strong>${esc(formatTime12(draft.time||"10:00"))}</strong></div>
-      </div>
-      <div class="followup-merchant-banner"><span>Merchant</span><strong>${esc(selectedMerchantName)}</strong></div>
-      <input id="followupId" type="hidden" value="${attr(draft.id)}" />
-      <div class="form-grid">
-        <div class="field c12"><label>Merchant</label><select id="followupMerchant">${merchants.map(m=>`<option value="${attr(m.uid)}" ${m.uid===draft.uid?"selected":""}>${esc(m.store_name)}</option>`).join("")}</select></div>
-        <div class="field c6"><label>Date</label><input id="followupDate" type="date" value="${attr(draft.date)}" /></div>
-        <div class="field c6"><label>Time</label><input id="followupTime" type="time" value="${attr(draft.time||"10:00")}" /></div>
-        <div class="field c6"><label>Reason</label><select id="followupReason">${FOLLOWUP_REASONS.map(r=>`<option ${r===draft.reason?"selected":""}>${esc(r)}</option>`).join("")}</select></div>
-        <div class="field c6"><label>Priority</label><select id="followupPriority">${["Low","Medium","High","Critical"].map(x=>`<option ${x===draft.priority?"selected":""}>${x}</option>`).join("")}</select></div>
-        <div class="field c12"><label>Status</label><select id="followupStatus"><option ${draft.status==="Pending"?"selected":""}>Pending</option><option ${draft.status==="Completed"?"selected":""}>Completed</option><option ${draft.status==="Overdue"?"selected":""}>Overdue</option></select></div>
-        <div class="field c12"><label>Notes</label><textarea id="followupNotes" placeholder="What needs to happen?">${esc(draft.notes||"")}</textarea></div>
-      </div>
-      <div class="button-row" style="margin-top:11px"><button class="btn primary" type="button" data-action="saveFollowup">${followup?"Save changes":"Create follow-up"}</button>${followup&&followup.status!=="Completed"?`<button class="btn green" type="button" data-complete-followup="${attr(followup.id)}">Complete</button>`:""}${followup?`<button class="btn red" type="button" data-delete-followup="${attr(followup.id)}">Delete</button>`:""}<button class="btn purple" type="button" data-action="goToFollowupMerchantProfile">Go to profile</button><button class="btn ghost" type="button" data-action="clearFollowupEditor">← Back</button></div>
-      <div class="divider"></div>
-      <div class="tracker-summary"><strong>Browser notifications</strong><span>${state.settings.notificationsEnabled?"Enabled while DASHWORK is open.":"Enable them from Settings to receive reminders while the page is open."}</span></div>`;
+      summary:"",
+      context:"",
+      nextAction:"",
+      outcome:"Not contacted",
+      tags:[],
+      checklist:[],
+      history:[],
+      reminderMinutes:30,
+      contact:""
+    });
+    followupEditorChecklistDraft = draft.checklist.map(item=>({...item}));
+    const merchants = state.merchants.filter(item=>!item.archived).sort((a,b)=>String(a.store_name).localeCompare(String(b.store_name)));
+    const title = existing ? "Edit follow-up" : "Create follow-up";
+    openModal(title,existing?"Update the schedule, structured notes and next action.":"Build a clear action with enough context for the next conversation.",`
+      <input id="followupId" type="hidden" value="${attr(existing?.id || "")}" />
+      <section class="fu-editor-section"><div class="fu-editor-section-head"><div><span>Schedule and ownership</span><h3>When and who</h3><p>Choose the merchant, due time, type and reminder.</p></div></div><div class="form-grid">
+        <div class="field c6"><label>Merchant</label><select id="followupMerchant"><option value="">Select a merchant</option>${merchants.map(item=>`<option value="${attr(item.uid)}" ${draft.uid===item.uid?"selected":""}>${esc(item.store_name)}</option>`).join("")}</select></div>
+        <div class="field c3"><label>Date</label><input id="followupDate" type="date" value="${attr(draft.date)}" /></div>
+        <div class="field c3"><label>Time</label><input id="followupTime" type="time" value="${attr(draft.time)}" /></div>
+        <div class="field c4"><label>Type</label><select id="followupReason">${FOLLOWUP_REASONS.map(reason=>`<option ${draft.reason===reason?"selected":""}>${esc(reason)}</option>`).join("")}</select></div>
+        <div class="field c4"><label>Status</label><select id="followupStatus">${FOLLOWUP_STATUS_OPTIONS_EXT.map(item=>`<option value="${attr(item.value)}" ${draft.status===item.value?"selected":""}>${esc(item.label)}</option>`).join("")}</select></div>
+        <div class="field c4"><label>Reminder</label><select id="followupReminder">${FOLLOWUP_REMINDER_OPTIONS.map(item=>`<option value="${item.value}" ${Number(draft.reminderMinutes)===Number(item.value)?"selected":""}>${esc(item.label)}</option>`).join("")}</select></div>
+        <div class="field c12"><label>Contact / owner note</label><input id="followupContact" value="${attr(draft.contact || "")}" placeholder="Primary contact, owner or internal handoff" /></div>
+      </div><div style="margin-top:12px"><label style="display:block;margin-bottom:7px;color:var(--muted);font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.08em">Priority</label><div class="fu-editor-priority">${["Low","Medium","High","Critical"].map(priority=>`<div class="${priority.toLowerCase()}"><input id="fuPriority${priority}" name="followupPriority" type="radio" value="${priority}" ${draft.priority===priority?"checked":""}/><label for="fuPriority${priority}"><i></i><strong>${priority}</strong></label></div>`).join("")}</div></div></section>
+      <section class="fu-editor-section"><div class="fu-editor-section-head"><div><span>Structured notes</span><h3>Keep the conversation actionable</h3><p>Use a template or write the objective, context and next action directly.</p></div></div><div class="fu-editor-templates">${Object.entries(FOLLOWUP_NOTE_TEMPLATES).map(([key,item])=>`<button class="fu-editor-template" type="button" data-fu-template="${key}">${esc(item.label)}</button>`).join("")}</div><div class="form-grid">
+        <div class="field c12"><label>Objective</label><input id="followupSummary" value="${attr(draft.summary || "")}" placeholder="What outcome should this follow-up produce?" /></div>
+        <div class="field c12"><label>Context</label><textarea id="followupContext" placeholder="What happened, what matters, and what should not be forgotten?">${esc(draft.context || "")}</textarea></div>
+        <div class="field c12"><label>Next action</label><textarea id="followupNextAction" placeholder="Write the concrete next step, owner and expected result.">${esc(draft.nextAction || "")}</textarea></div>
+        <div class="field c6"><label>Latest outcome</label><select id="followupOutcome">${FOLLOWUP_OUTCOME_OPTIONS.map(item=>`<option value="${attr(item.value)}" ${normalizeText(draft.outcome)===normalizeText(item.value)?"selected":""}>${esc(item.label)}</option>`).join("")}</select></div>
+        <div class="field c6"><label>Tags</label><input id="followupTags" value="${attr(draft.tags.join(", "))}" placeholder="ads, budget, photos, renewal" /></div>
+      </div></section>
+      <section class="fu-editor-section"><div class="fu-editor-section-head"><div><span>Internal checklist</span><h3>Break the next step into tasks</h3><p>Checklist items stay attached to this merchant follow-up.</p></div><button class="btn small ghost" type="button" data-fu-add-check-item>＋ Add item</button></div><div class="fu-editor-checklist" id="followupChecklistEditor">${renderFollowupChecklistEditorRows()}</div></section>
+      <div class="fu-editor-footer"><div>${existing?`<button class="btn red" type="button" data-delete-followup="${attr(existing.id)}">Delete</button>`:""}</div><div><button class="btn ghost" type="button" data-action="closeFollowupModal">Cancel</button><button class="btn blue" type="button" data-action="saveFollowupAndAnother">Save & create another</button><button class="btn primary" type="button" data-action="saveFollowup">${existing?"Save changes":"Create follow-up"}</button></div></div>`);
+    document.getElementById("modal")?.classList.add("followup-editor-modal");
+  }
+
+  function renderFollowupChecklistEditorRows() {
+    if (!followupEditorChecklistDraft.length) return `<div class="fu-nova-note"><p>No checklist items. Add one when the follow-up requires multiple internal steps.</p></div>`;
+    return followupEditorChecklistDraft.map(item=>`<div class="fu-editor-check-row" data-fu-editor-check-row="${attr(item.id)}"><input type="checkbox" ${item.done?"checked":""}/><input type="text" value="${attr(item.text)}" placeholder="Checklist item"/><button class="fu-editor-remove-check" type="button" data-fu-remove-check-item="${attr(item.id)}" aria-label="Remove">×</button></div>`).join("");
+  }
+
+  function syncFollowupChecklistEditor() {
+    document.querySelectorAll("[data-fu-editor-check-row]").forEach(row=>{
+      const id = row.dataset.fuEditorCheckRow;
+      const item = followupEditorChecklistDraft.find(entry=>entry.id===id);
+      if (!item) return;
+      item.done = !!row.querySelector('input[type="checkbox"]')?.checked;
+      item.text = String(row.querySelector('input[type="text"]')?.value || "").trim();
+    });
+    followupEditorChecklistDraft = followupEditorChecklistDraft.filter(item=>item.text || document.querySelector(`[data-fu-editor-check-row="${CSS.escape(item.id)}"]`));
+  }
+
+  function refreshFollowupChecklistEditor() {
+    const host = document.getElementById("followupChecklistEditor");
+    if (host) host.innerHTML = renderFollowupChecklistEditorRows();
+  }
+
+  function applyFollowupNoteTemplate(templateId) {
+    const template = FOLLOWUP_NOTE_TEMPLATES[templateId];
+    if (!template) return;
+    const summary = document.getElementById("followupSummary");
+    const context = document.getElementById("followupContext");
+    const nextAction = document.getElementById("followupNextAction");
+    const outcome = document.getElementById("followupOutcome");
+    const tags = document.getElementById("followupTags");
+    if (summary) summary.value = template.summary;
+    if (context) context.value = template.context;
+    if (nextAction) nextAction.value = template.nextAction;
+    if (outcome) outcome.value = template.outcome;
+    if (tags) {
+      const current = tags.value.split(",").map(value=>value.trim()).filter(Boolean);
+      tags.value = [...new Set([...current,...template.tags])].join(", ");
+    }
+    toast(`${template.label} template applied`);
   }
 
   function renderActivity() {
@@ -15504,7 +16178,19 @@ const FOLLOWUP_DELETE_SOUND_DATA_URL = "data:audio/wav;base64,UklGRsqKAABXQVZFZm
 
     onInput("profileMerchantSelect",e=>selectMerchant(e.target.value),"change");
 
-    ["followupFilterMerchant","followupFilterReason","followupFilterStatus"].forEach(id=>onInput(id,()=>{state.ui.followupFilters={merchant:document.getElementById("followupFilterMerchant")?.value||"all",reason:document.getElementById("followupFilterReason")?.value||"all",status:document.getElementById("followupFilterStatus")?.value||"open"};scheduleSave();renderApp();},"change"));
+    onInput("followupSearch",e=>{state.ui.followupFilters={...(state.ui.followupFilters||{}),q:e.target.value};debouncedRender();});
+    ["followupFilterMerchant","followupFilterReason","followupFilterPriority","followupFilterStatus","followupFilterSort"].forEach(id=>onInput(id,()=>{
+      state.ui.followupFilters={
+        ...(state.ui.followupFilters||{}),
+        q:document.getElementById("followupSearch")?.value||"",
+        merchant:document.getElementById("followupFilterMerchant")?.value||"all",
+        reason:document.getElementById("followupFilterReason")?.value||"all",
+        priority:document.getElementById("followupFilterPriority")?.value||"all",
+        status:document.getElementById("followupFilterStatus")?.value||"open",
+        sort:document.getElementById("followupFilterSort")?.value||"smart"
+      };
+      scheduleSave();renderApp();
+    },"change"));
 
     onInput("resourceSearch",e=>{state.ui.resourceFilters={...(state.ui.resourceFilters||{}),q:e.target.value,type:document.getElementById("resourceType")?.value||"all",sort:document.getElementById("resourceSort")?.value||"favorites"};debouncedRender();});
     ["resourceType","resourceSort"].forEach(id=>onInput(id,()=>{state.ui.resourceFilters={q:document.getElementById("resourceSearch")?.value||"",type:document.getElementById("resourceType")?.value||"all",sort:document.getElementById("resourceSort")?.value||"favorites"};scheduleSave();renderApp();},"change"));
@@ -15568,10 +16254,23 @@ const FOLLOWUP_DELETE_SOUND_DATA_URL = "data:audio/wav;base64,UklGRsqKAABXQVZFZm
     const delCredit=e.target.closest("[data-delete-credit]"); if(delCredit){deleteRecord("credits",delCredit.dataset.deleteCredit);return;}
     const completeFu=e.target.closest("[data-complete-followup]"); if(completeFu){completeFollowup(completeFu.dataset.completeFollowup);return;}
     const deleteFu=e.target.closest("[data-delete-followup]"); if(deleteFu){deleteFollowup(deleteFu.dataset.deleteFollowup);return;}
-    const editFu=e.target.closest("[data-edit-followup]"); if(editFu){state.ui.selectedFollowupId=editFu.dataset.editFollowup;state.ui.followupDraftDate="";state.ui.followupDraftTime="";state.currentView="followups";const f=state.followups.find(x=>x.id===editFu.dataset.editFollowup);if(f)state.ui.followupAnchor=localDateFromKey(f.date).toISOString();scheduleSave();renderApp();return;}
-    const newFuDate=e.target.closest("[data-new-followup-date]"); if(newFuDate){const targetDate=newFuDate.dataset.newFollowupDate;const targetTime=newFuDate.dataset.newFollowupTime||"10:00";state.ui.selectedFollowupId="";state.ui.followupDraftDate=targetDate;state.ui.followupDraftTime=targetTime;state.ui.followupAnchor=localDateFromKey(targetDate).toISOString();scheduleSave();renderApp();return;}
+    const editFu=e.target.closest("[data-edit-followup]"); if(editFu){const id=editFu.dataset.editFollowup;const f=state.followups.find(item=>String(item.id)===String(id));state.currentView="followups";state.ui.selectedFollowupId=id;state.ui.followupDraftDate="";state.ui.followupDraftTime="";if(f)state.ui.followupAnchor=localDateFromKey(f.date).toISOString();scheduleSave();renderApp();requestAnimationFrame(()=>openFollowupEditorModal(id));return;}
+    const selectFu=e.target.closest("[data-select-followup]"); if(selectFu){state.ui.selectedFollowupId=selectFu.dataset.selectFollowup;scheduleSave();renderApp();return;}
+    const newFuDate=e.target.closest("[data-new-followup-date]"); if(newFuDate){const targetDate=newFuDate.dataset.newFollowupDate;const targetTime=newFuDate.dataset.newFollowupTime||"10:00";state.currentView="followups";state.ui.selectedFollowupId="";state.ui.followupDraftDate=targetDate;state.ui.followupDraftTime=targetTime;state.ui.followupAnchor=localDateFromKey(targetDate).toISOString();scheduleSave();renderApp();requestAnimationFrame(()=>openFollowupEditorModal("",{date:targetDate,time:targetTime}));return;}
     const fuView=e.target.closest("[data-followup-view]"); if(fuView){state.ui.followupView=fuView.dataset.followupView;scheduleSave();renderApp();return;}
     const fuNav=e.target.closest("[data-followup-nav]"); if(fuNav){navigateFollowup(fuNav.dataset.followupNav);return;}
+    const fuDay=e.target.closest("[data-fu-go-day]"); if(fuDay){state.ui.followupView="day";state.ui.followupAnchor=localDateFromKey(fuDay.dataset.fuGoDay).toISOString();scheduleSave();renderApp();return;}
+    const fuQuick=e.target.closest("[data-fu-quick]"); if(fuQuick){setFollowupQuickFilter(fuQuick.dataset.fuQuick);return;}
+    const fuMetric=e.target.closest("[data-fu-metric]"); if(fuMetric){applyFollowupMetricFilter(fuMetric.dataset.fuMetric);return;}
+    const fuClear=e.target.closest("[data-fu-clear-filters]"); if(fuClear){clearFollowupFilters();return;}
+    const fuExport=e.target.closest("[data-fu-export-csv]"); if(fuExport){exportFollowupsCsv();return;}
+    const fuReopen=e.target.closest("[data-fu-reopen]"); if(fuReopen){reopenFollowup(fuReopen.dataset.fuReopen);return;}
+    const fuSnooze=e.target.closest("[data-fu-snooze]"); if(fuSnooze){snoozeFollowup(fuSnooze.dataset.fuSnooze,fuSnooze.dataset.days);return;}
+    const fuDuplicate=e.target.closest("[data-fu-duplicate]"); if(fuDuplicate){duplicateFollowup(fuDuplicate.dataset.fuDuplicate);return;}
+    const fuNote=e.target.closest("[data-fu-add-note]"); if(fuNote){addQuickFollowupNote(fuNote.dataset.fuAddNote);return;}
+    const fuTemplate=e.target.closest("[data-fu-template]"); if(fuTemplate){applyFollowupNoteTemplate(fuTemplate.dataset.fuTemplate);return;}
+    const fuAddCheck=e.target.closest("[data-fu-add-check-item]"); if(fuAddCheck){syncFollowupChecklistEditor();followupEditorChecklistDraft.push({id:uid("followup_check"),text:"",done:false});refreshFollowupChecklistEditor();return;}
+    const fuRemoveCheck=e.target.closest("[data-fu-remove-check-item]"); if(fuRemoveCheck){syncFollowupChecklistEditor();followupEditorChecklistDraft=followupEditorChecklistDraft.filter(item=>item.id!==fuRemoveCheck.dataset.fuRemoveCheckItem);refreshFollowupChecklistEditor();return;}
     const activityNav=e.target.closest("[data-activity-nav]"); if(activityNav){navigateActivity(activityNav.dataset.activityNav);return;}
     const activityDate=e.target.closest("[data-activity-date]"); if(activityDate){state.ui.selectedActivityDate=activityDate.dataset.activityDate;state.ui.activityRecordPage=1;scheduleSave();renderApp();return;}
     const activityRecordPage=e.target.closest("[data-activity-record-page]"); if(activityRecordPage&&!activityRecordPage.disabled){state.ui.activityRecordPage=Math.max(1,Number(activityRecordPage.dataset.activityRecordPage||1));scheduleSave();renderApp();return;}
@@ -15595,7 +16294,12 @@ const FOLLOWUP_DELETE_SOUND_DATA_URL = "data:audio/wav;base64,UklGRsqKAABXQVZFZm
   document.getElementById("modalBackdrop").addEventListener("click",closeModal);
   document.addEventListener("keydown",e=>{if(e.key==="Escape")closeModal();});
 
-  document.addEventListener("change", e => { const status=e.target.closest("[data-case-status]"); if(status){setCaseRecordStatus(status.dataset.caseStatus,status.value);} });
+  document.addEventListener("change", e => {
+    const followupCheck=e.target.closest("[data-fu-check-toggle]");
+    if(followupCheck){toggleFollowupChecklist(followupCheck.dataset.fuCheckToggle,followupCheck.dataset.checkId,followupCheck.checked);return;}
+    const status=e.target.closest("[data-case-status]");
+    if(status){setCaseRecordStatus(status.dataset.caseStatus,status.value);}
+  });
 
   document.getElementById("merchantCsvInput").addEventListener("change",e=>{const file=e.target.files?.[0];if(file)handleCsvFile(file,"merchants");e.target.value="";});
   document.getElementById("callsCsvInput").addEventListener("change",e=>{const file=e.target.files?.[0];if(file)handleCsvFile(file,"calls");e.target.value="";});
@@ -15630,8 +16334,10 @@ const FOLLOWUP_DELETE_SOUND_DATA_URL = "data:audio/wav;base64,UklGRsqKAABXQVZFZm
       saveSaleRecordDetails,
       saveMerchantEdits,
       resetMerchantLocalState,
-      newFollowup: () => { state.ui.selectedFollowupId="";state.ui.followupDraftDate=toISODate(new Date(state.ui.followupAnchor||new Date()));state.ui.followupDraftTime="10:00";scheduleSave();renderApp(); },
-      saveFollowup,
+      newFollowup: () => openFollowupEditorModal("",{date:toISODate(new Date(state.ui.followupAnchor||new Date())),time:"10:00"}),
+      saveFollowup: () => saveFollowup(false),
+      saveFollowupAndAnother: () => saveFollowup(true),
+      closeFollowupModal: closeModal,
       goToFollowupMerchantProfile,
       clearFollowupEditor: () => { state.ui.selectedFollowupId="";state.ui.followupDraftDate="";state.ui.followupDraftTime="";scheduleSave();renderApp(); },
       downloadMonthlyActivity,
@@ -15913,100 +16619,276 @@ const FOLLOWUP_DELETE_SOUND_DATA_URL = "data:audio/wav;base64,UklGRsqKAABXQVZFZm
   }
 
   function openFollowupForSelected() {
-    if(!selectedMerchant())return toast("Select a merchant first");
-    const now=new Date();
-    const roundedMinutes=now.getMinutes()<30?"30":"00";
-    const roundedHour=now.getMinutes()<30?now.getHours():Math.min(23,now.getHours()+1);
-    state.currentView="followups";
-    state.ui.selectedFollowupId="";
-    state.ui.followupDraftDate=dateKeyInZone(now);
-    state.ui.followupDraftTime=`${String(roundedHour).padStart(2,"0")}:${roundedMinutes}`;
-    state.ui.followupAnchor=now.toISOString();
-    scheduleSave();renderApp();
+    const merchant = selectedMerchant();
+    if (!merchant) return toast("Select a merchant first");
+    const now = new Date();
+    const roundedMinutes = now.getMinutes() < 30 ? "30" : "00";
+    const roundedHour = now.getMinutes() < 30 ? now.getHours() : Math.min(23,now.getHours()+1);
+    const time = `${String(roundedHour).padStart(2,"0")}:${roundedMinutes}`;
+    state.currentView = "followups";
+    state.ui.selectedFollowupId = "";
+    state.ui.followupDraftDate = dateKeyInZone(now);
+    state.ui.followupDraftTime = time;
+    state.ui.followupAnchor = now.toISOString();
+    scheduleSave();
+    renderApp();
+    requestAnimationFrame(()=>openFollowupEditorModal("",{ uid:merchant.uid,date:dateKeyInZone(now),time }));
   }
 
-  function saveFollowup() {
-    const requestedId=String(document.getElementById("followupId")?.value||"").trim();
-    const uidValue=document.getElementById("followupMerchant")?.value||"";
-    if(!uidValue)return toast("Select a merchant");
-    const date=document.getElementById("followupDate")?.value||dateKeyInZone(new Date());
-    const time=document.getElementById("followupTime")?.value||"10:00";
-    const status=document.getElementById("followupStatus")?.value||"Pending";
-    const existing=requestedId?state.followups.find(f=>String(f.id)===requestedId):null;
-    const isEditing=!!existing;
-    const wasCompleted=existing?.status==="Completed";
-    const now=new Date().toISOString();
-    const record={
-      id:isEditing?existing.id:createUniqueFollowupId(),
+  function saveFollowup(createAnother = false) {
+    syncFollowupChecklistEditor();
+    const requestedId = String(document.getElementById("followupId")?.value || "").trim();
+    const uidValue = String(document.getElementById("followupMerchant")?.value || "").trim();
+    if (!uidValue) return toast("Select a merchant");
+    const date = document.getElementById("followupDate")?.value || dateKeyInZone(new Date());
+    const time = document.getElementById("followupTime")?.value || "10:00";
+    const reason = document.getElementById("followupReason")?.value || "General Follow-up";
+    const priority = document.querySelector('input[name="followupPriority"]:checked')?.value || "Medium";
+    const status = followupNormalizeStatus(document.getElementById("followupStatus")?.value || "Pending");
+    const context = String(document.getElementById("followupContext")?.value || "").trim();
+    const summary = String(document.getElementById("followupSummary")?.value || "").trim() || (context ? context.split(/\n+/)[0].slice(0,180) : reason);
+    const nextAction = String(document.getElementById("followupNextAction")?.value || "").trim();
+    const outcome = String(document.getElementById("followupOutcome")?.value || "Not contacted").trim();
+    const contact = String(document.getElementById("followupContact")?.value || "").trim();
+    const tags = String(document.getElementById("followupTags")?.value || "").split(",").map(value=>value.trim()).filter(Boolean);
+    const reminderMinutes = Math.max(0,Number(document.getElementById("followupReminder")?.value || 0));
+    const existing = requestedId ? state.followups.find(item=>String(item.id)===requestedId) : null;
+    const now = new Date().toISOString();
+    const previousStatus = existing ? followupNormalizeStatus(existing.status) : "";
+    const record = normalizeFollowupRecord({
+      ...(existing || {}),
+      id:existing?.id || createUniqueFollowupId(),
       uid:uidValue,
       date,
       time,
-      reason:document.getElementById("followupReason")?.value||"General Follow-up",
-      priority:document.getElementById("followupPriority")?.value||"Medium",
+      reason,
+      priority,
       status,
-      notes:document.getElementById("followupNotes")?.value.trim()||"",
-      createdAt:existing?.createdAt||now,
+      summary,
+      context,
+      notes:context,
+      nextAction,
+      outcome,
+      contact,
+      tags,
+      checklist:followupEditorChecklistDraft.map(item=>({ ...item,text:String(item.text || "").trim() })).filter(item=>item.text),
+      reminderMinutes,
+      createdAt:existing?.createdAt || now,
       updatedAt:now,
-      completedAt:status==="Completed"?(existing?.completedAt||now):""
-    };
+      completedAt:status==="Completed" ? (existing?.completedAt || now) : "",
+      history:Array.isArray(existing?.history) ? existing.history.map(item=>({...item})) : []
+    });
 
-    if(isEditing) {
-      Object.assign(existing,record);
-      state.ui.selectedFollowupId=record.id;
+    if (!existing) {
+      followupHistoryAdd(record,"created","Follow-up created");
+      state.followups = [...state.followups,record];
     } else {
-      state.followups=[...state.followups,record];
-      state.selectedUid=uidValue;
-      state.ui.selectedFollowupId="";
-      state.ui.followupDraftDate=date;
-      state.ui.followupDraftTime=time;
+      if (previousStatus !== status) {
+        if (status === "Completed") followupHistoryAdd(record,"completed","Follow-up completed");
+        else if (previousStatus === "Completed") followupHistoryAdd(record,"reopened",`Follow-up reopened as ${followupStatusLabel(status)}`);
+        else followupHistoryAdd(record,"updated",`Status changed from ${followupStatusLabel(previousStatus)} to ${followupStatusLabel(status)}`);
+      } else {
+        followupHistoryAdd(record,"updated","Follow-up details updated");
+      }
+      Object.assign(existing,record);
     }
-    state.ui.followupAnchor=localDateFromKey(date).toISOString();
-    scheduleSave();renderApp();
-    if(status==="Completed"&&!wasCompleted){playFollowupCompleteSound();celebrate();}
-    toast(isEditing?"Follow-up updated":"Follow-up created · ready for another");
+
+    state.selectedUid = uidValue;
+    state.ui.selectedFollowupId = record.id;
+    state.ui.followupDraftDate = date;
+    state.ui.followupDraftTime = time;
+    state.ui.followupAnchor = localDateFromKey(date).toISOString();
+    closeModal();
+    scheduleSave();
+    renderApp();
+    if (status === "Completed" && previousStatus !== "Completed") {
+      playFollowupCompleteSound();
+      celebrate();
+    }
+    toast(existing ? "Follow-up updated" : "Follow-up created");
+    if (createAnother) requestAnimationFrame(()=>openFollowupEditorModal("",{ uid:uidValue,date,time,reason,priority }));
   }
 
   function goToFollowupMerchantProfile() {
     const followupId = String(state.ui.selectedFollowupId || document.getElementById("followupId")?.value || "").trim();
     const merchantIdFromForm = String(document.getElementById("followupMerchant")?.value || "").trim();
-    const followup = followupId ? state.followups.find(f => String(f.id) === followupId) : null;
+    const followup = followupId ? state.followups.find(item=>String(item.id)===followupId) : null;
     const merchantId = merchantIdFromForm || followup?.uid || state.selectedUid || "";
     const merchant = getMerchant(merchantId);
-    if (!merchant) {
-      toast("Select a merchant first");
-      return;
-    }
+    if (!merchant) return toast("Select a merchant first");
+    closeModal();
     state.selectedUid = merchant.uid;
     state.currentView = "workhub";
     state.ui.workHubTab = state.ui.workHubTab || "call";
     scheduleSave();
     renderApp();
-    window.scrollTo({ top: 0, behavior: state.profile.motion === "minimal" ? "auto" : "smooth" });
+    window.scrollTo({ top:0,behavior:state.profile.motion==="minimal"?"auto":"smooth" });
     toast(`Opened ${merchant.store_name} in Work Hub`);
   }
 
   function completeFollowup(id) {
-    const f=state.followups.find(x=>x.id===id);if(!f)return;
-    f.status="Completed";f.completedAt=new Date().toISOString();f.updatedAt=f.completedAt;state.ui.selectedFollowupId=id;scheduleSave();renderApp();playFollowupCompleteSound();celebrate();toast("Follow-up completed");
+    const followup = state.followups.find(item=>String(item.id)===String(id));
+    if (!followup || followupNormalizeStatus(followup.status)==="Completed") return;
+    followup.status = "Completed";
+    followup.completedAt = new Date().toISOString();
+    followup.updatedAt = followup.completedAt;
+    if (!followup.outcome || normalizeText(followup.outcome)==="not contacted") followup.outcome = "Resolved";
+    followupHistoryAdd(followup,"completed","Follow-up completed");
+    state.ui.selectedFollowupId = followup.id;
+    closeModal();
+    scheduleSave();
+    renderApp();
+    playFollowupCompleteSound();
+    celebrate();
+    toast("Follow-up completed");
+  }
+
+  function reopenFollowup(id) {
+    const followup = state.followups.find(item=>String(item.id)===String(id));
+    if (!followup) return;
+    followup.status = "Pending";
+    followup.completedAt = "";
+    followup.updatedAt = new Date().toISOString();
+    followupHistoryAdd(followup,"reopened","Follow-up reopened");
+    state.ui.selectedFollowupId = followup.id;
+    scheduleSave();
+    renderApp();
+    toast("Follow-up reopened");
   }
 
   function deleteFollowup(id) {
-    if(!confirm("Delete this follow-up?"))return;
-    state.followups=state.followups.filter(x=>x.id!==id);if(state.ui.selectedFollowupId===id)state.ui.selectedFollowupId="";state.ui.followupDraftDate="";state.ui.followupDraftTime="";scheduleSave();renderApp();playFollowupDeleteSound();toast("Follow-up deleted");
+    const followup = state.followups.find(item=>String(item.id)===String(id));
+    if (!followup || !confirm("Delete this follow-up? This action cannot be undone.")) return;
+    state.followups = state.followups.filter(item=>String(item.id)!==String(id));
+    if (String(state.ui.selectedFollowupId || "")===String(id)) state.ui.selectedFollowupId = "";
+    state.ui.followupDraftDate = "";
+    state.ui.followupDraftTime = "";
+    closeModal();
+    scheduleSave();
+    renderApp();
+    playFollowupDeleteSound();
+    toast("Follow-up deleted");
   }
 
   function moveFollowup(id,date,time="") {
-    const f=state.followups.find(x=>x.id===id);if(!f)return;
-    f.date=date;if(time)f.time=time;f.updatedAt=new Date().toISOString();playStompSound();scheduleSave();renderApp();toast(`Follow-up moved to ${date}${time?` at ${formatTime12(time)}`:""}`);
+    const followup = state.followups.find(item=>String(item.id)===String(id));
+    if (!followup) return;
+    const previous = `${followup.date} ${formatTime12(followup.time || "10:00")}`;
+    followup.date = date;
+    if (time) followup.time = time;
+    followup.updatedAt = new Date().toISOString();
+    followupHistoryAdd(followup,"moved",`Moved from ${previous} to ${date} ${formatTime12(followup.time || "10:00")}`);
+    state.ui.selectedFollowupId = followup.id;
+    state.ui.followupAnchor = localDateFromKey(date).toISOString();
+    playStompSound();
+    scheduleSave();
+    renderApp();
+    toast(`Follow-up moved to ${date}${time?` at ${formatTime12(time)}`:""}`);
+  }
+
+  function snoozeFollowup(id,days) {
+    const followup = state.followups.find(item=>String(item.id)===String(id));
+    if (!followup) return;
+    const newDate = toISODate(addDays(localDateFromKey(followup.date),Number(days || 1)));
+    moveFollowup(id,newDate,followup.time || "10:00");
+  }
+
+  function duplicateFollowup(id) {
+    const source = state.followups.find(item=>String(item.id)===String(id));
+    if (!source) return;
+    const copy = normalizeFollowupRecord({
+      ...JSON.parse(JSON.stringify(source)),
+      id:createUniqueFollowupId(),
+      date:toISODate(addDays(localDateFromKey(source.date),1)),
+      status:"Pending",
+      completedAt:"",
+      createdAt:new Date().toISOString(),
+      updatedAt:new Date().toISOString(),
+      history:[]
+    });
+    followupHistoryAdd(copy,"duplicated",`Duplicated from follow-up ${source.id}`);
+    followupHistoryAdd(copy,"created","Follow-up created");
+    state.followups = [...state.followups,copy];
+    state.ui.selectedFollowupId = copy.id;
+    state.ui.followupAnchor = localDateFromKey(copy.date).toISOString();
+    scheduleSave();
+    renderApp();
+    toast("Follow-up duplicated");
+  }
+
+  function addQuickFollowupNote(id) {
+    const followup = state.followups.find(item=>String(item.id)===String(id));
+    const textarea = document.getElementById("fuQuickNote");
+    const text = String(textarea?.value || "").trim();
+    if (!followup || !text) return toast("Write a note first");
+    const type = document.getElementById("fuQuickNoteType")?.value || "note";
+    followupHistoryAdd(followup,type,text);
+    followup.updatedAt = new Date().toISOString();
+    scheduleSave();
+    renderApp();
+    toast("Note added to follow-up history");
+  }
+
+  function toggleFollowupChecklist(id,checkId,done) {
+    const followup = state.followups.find(item=>String(item.id)===String(id));
+    const item = followup?.checklist?.find(entry=>String(entry.id)===String(checkId));
+    if (!followup || !item) return;
+    item.done = !!done;
+    followup.updatedAt = new Date().toISOString();
+    followupHistoryAdd(followup,"updated",`${item.done?"Completed":"Reopened"} checklist item: ${item.text}`);
+    scheduleSave();
+    renderApp();
+  }
+
+  function setFollowupQuickFilter(value) {
+    state.ui.followupFilters = { ...(state.ui.followupFilters || {}),quick:value || "all" };
+    if (value === "today") {
+      state.ui.followupView = "day";
+      state.ui.followupAnchor = new Date().toISOString();
+    }
+    scheduleSave();
+    renderApp();
+  }
+
+  function applyFollowupMetricFilter(metric) {
+    const base = { q:"",merchant:"all",reason:"all",priority:"all",status:"open",quick:"all",sort:state.ui.followupFilters?.sort || "smart" };
+    if (metric === "overdue") base.quick = "overdue";
+    if (metric === "today") { base.quick = "today"; state.ui.followupView = "day"; state.ui.followupAnchor = new Date().toISOString(); }
+    if (metric === "next7") base.quick = "next7";
+    if (metric === "completed") base.status = "Completed";
+    state.ui.followupFilters = base;
+    scheduleSave();
+    renderApp();
+  }
+
+  function clearFollowupFilters() {
+    state.ui.followupFilters = { q:"",merchant:"all",reason:"all",priority:"all",status:"open",quick:"all",sort:"smart" };
+    scheduleSave();
+    renderApp();
+  }
+
+  function exportFollowupsCsv() {
+    const rows = [["Merchant","Date","Time","Type","Priority","Status","Objective","Context","Next action","Outcome","Tags","Checklist completed","Checklist total","Contact","Reminder minutes"]];
+    followupFilterItems().forEach(item=>{
+      const merchant = getMerchant(item.uid);
+      rows.push([
+        merchant?.store_name || "Unassigned",item.date,item.time,item.reason,item.priority,item.status,item.summary,item.context,item.nextAction,item.outcome,item.tags.join(" | "),item.checklist.filter(check=>check.done).length,item.checklist.length,item.contact,item.reminderMinutes
+      ]);
+    });
+    downloadFile(`dashwork-followups-${dateKeyInZone(new Date())}.csv`,rows.map(row=>row.map(csvEscape).join(",")).join("\n"),"text/csv");
+    toast("Follow-ups exported to CSV");
   }
 
   function navigateFollowup(direction) {
-    let anchor=new Date(state.ui.followupAnchor||new Date());const view=state.ui.followupView||"month";
-    if(direction==="today")anchor=new Date();
-    else if(view==="day")anchor=addDays(anchor,direction==="next"?1:-1);
-    else if(view==="week")anchor=addDays(anchor,direction==="next"?7:-7);
-    else anchor=new Date(anchor.getFullYear(),anchor.getMonth()+(direction==="next"?1:-1),1,12);
-    state.ui.followupAnchor=anchor.toISOString();scheduleSave();renderApp();
+    let anchor = new Date(state.ui.followupAnchor || new Date());
+    const view = state.ui.followupView || "week";
+    if (direction === "today") anchor = new Date();
+    else if (view === "day") anchor = addDays(anchor,direction==="next"?1:-1);
+    else if (view === "week") anchor = addDays(anchor,direction==="next"?7:-7);
+    else if (view === "month") anchor = new Date(anchor.getFullYear(),anchor.getMonth()+(direction==="next"?1:-1),1,12);
+    state.ui.followupAnchor = anchor.toISOString();
+    scheduleSave();
+    renderApp();
   }
 
   function navigateActivity(direction) {
@@ -16238,12 +17120,17 @@ const FOLLOWUP_DELETE_SOUND_DATA_URL = "data:audio/wav;base64,UklGRsqKAABXQVZFZm
 
   function checkFollowupNotifications() {
     if(!state.settings.notificationsEnabled||!("Notification" in window)||Notification.permission!=="granted")return;
-    const now=new Date(),today=dateKeyInZone(now),current=now.getHours()*60+now.getMinutes();
-    state.followups.filter(f=>f.status!=="Completed"&&f.date<=today).forEach(f=>{
-      const [h,m]=String(f.time||"09:00").split(":").map(Number);const dueMin=h*60+m;const key=`${f.id}_${f.date}_${f.time}`;
-      const should=f.date<today||(f.date===today&&current>=dueMin-10);
+    const now = new Date();
+    state.followups.filter(followupIsOpen).forEach(f=>{
+      const reminder = Math.max(0,Number(f.reminderMinutes ?? 10));
+      const due = followupDateTime(f);
+      const key = `${f.id}_${f.date}_${f.time}_${reminder}`;
+      const should = now.getTime() >= due.getTime() - reminder * 60000;
       if(should&&!state.notifiedFollowups[key]){
-        const merchant=getMerchant(f.uid);new Notification("DASHWORK follow-up",{body:`${merchant?.store_name||"Merchant"} · ${f.reason} · ${f.date} ${f.time||""}`});state.notifiedFollowups[key]=new Date().toISOString();scheduleSave();
+        const merchant=getMerchant(f.uid);
+        new Notification("DASHWORK follow-up",{body:`${merchant?.store_name||"Merchant"} · ${f.summary||f.reason} · ${f.date} ${f.time||""}`});
+        state.notifiedFollowups[key]=new Date().toISOString();
+        scheduleSave();
       }
     });
   }
@@ -16425,7 +17312,7 @@ const FOLLOWUP_DELETE_SOUND_DATA_URL = "data:audio/wav;base64,UklGRsqKAABXQVZFZm
     document.getElementById("bentoNotificationButton")?.addEventListener("click", () => {
       try {
         const today = dateKeyInZone(new Date());
-        const pending = state.followups.filter(item => item.status !== "Completed" && item.date <= today).length;
+        const pending = state.followups.filter(item => followupIsOpen(item) && item.date <= today).length;
         if (pending > 0) {
           setView("followups");
           toast(`${pending} follow-up${pending === 1 ? " requires" : "s require"} attention.`);
