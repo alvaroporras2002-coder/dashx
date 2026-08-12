@@ -15666,7 +15666,7 @@ const FOLLOWUP_DELETE_SOUND_DATA_URL = "data:audio/wav;base64,UklGRsqKAABXQVZFZm
       <section class="fu-nova-focus-section"><div class="fu-nova-focus-section-head"><strong>Internal checklist</strong><span>${checked}/${followup.checklist.length} completed</span></div>${followup.checklist.length?`<div class="fu-nova-checklist">${followup.checklist.map(item=>`<label class="fu-nova-check ${item.done?"done":""}"><input type="checkbox" ${item.done?"checked":""} data-fu-check-toggle="${attr(followup.id)}" data-check-id="${attr(item.id)}"/><span>${esc(item.text)}</span></label>`).join("")}</div>`:`<div class="fu-nova-note"><p>No checklist items yet.</p></div>`}</section>
       <section class="fu-nova-focus-section"><div class="fu-nova-focus-section-head"><strong>Quick note</strong><span>Add to history</span></div><div class="fu-nova-quick-note"><textarea id="fuQuickNote" placeholder="What happened during the latest contact?"></textarea><div class="fu-nova-quick-note-actions"><select id="fuQuickNoteType"><option value="note">Internal note</option><option value="call">Call result</option><option value="email">Email sent</option><option value="merchant">Merchant update</option></select><button class="btn small primary" type="button" data-fu-add-note="${attr(followup.id)}">Add note</button></div></div></section>
       <section class="fu-nova-focus-section"><div class="fu-nova-focus-section-head"><strong>History</strong><span>${followup.history.length} entries</span></div><div class="fu-nova-timeline">${timeline.length?timeline.map(renderFollowupTimelineItem).join(""):`<div class="fu-nova-note"><p>No history entries.</p></div>`}</div></section>
-      <div class="fu-nova-focus-actions"><button class="btn primary" type="button" data-edit-followup="${attr(followup.id)}">Edit details</button>${followupIsOpen(followup)?`<button class="btn green" type="button" data-complete-followup="${attr(followup.id)}">Complete</button>`:`<button class="btn blue" type="button" data-fu-reopen="${attr(followup.id)}">Reopen</button>`}<button class="btn ghost" type="button" data-fu-snooze="${attr(followup.id)}" data-days="1">Move to tomorrow</button><button class="btn ghost" type="button" data-fu-snooze="${attr(followup.id)}" data-days="7">Move one week</button><button class="btn ghost" type="button" data-fu-duplicate="${attr(followup.id)}">Duplicate</button><button class="btn purple" type="button" data-action="goToFollowupMerchantProfile">Open merchant</button><button class="btn red" type="button" data-delete-followup="${attr(followup.id)}">Delete</button></div>
+      <div class="fu-nova-focus-actions"><button class="btn primary" type="button" data-edit-followup="${attr(followup.id)}">Edit details</button>${followupIsOpen(followup)?`<button class="btn green" type="button" data-complete-followup="${attr(followup.id)}">Complete</button>`:`<button class="btn blue" type="button" data-fu-reopen="${attr(followup.id)}">Reopen</button>`}<button class="btn ghost" type="button" data-fu-snooze="${attr(followup.id)}" data-days="1">Move to tomorrow</button><button class="btn ghost" type="button" data-fu-snooze="${attr(followup.id)}" data-days="7">Move one week</button><button class="btn ghost" type="button" data-fu-duplicate="${attr(followup.id)}">Duplicate</button><button class="btn purple" type="button" data-action="goToFollowupMerchantProfile" data-followup-id="${attr(followup.id)}">Open merchant</button><button class="btn red" type="button" data-delete-followup="${attr(followup.id)}">Delete</button></div>
     </div>`;
   }
 
@@ -16709,13 +16709,18 @@ const FOLLOWUP_DELETE_SOUND_DATA_URL = "data:audio/wav;base64,UklGRsqKAABXQVZFZm
     if (createAnother) requestAnimationFrame(()=>openFollowupEditorModal("",{ uid:uidValue,date,time,reason,priority }));
   }
 
-  function goToFollowupMerchantProfile() {
-    const followupId = String(state.ui.selectedFollowupId || document.getElementById("followupId")?.value || "").trim();
-    const merchantIdFromForm = String(document.getElementById("followupMerchant")?.value || "").trim();
+  function goToFollowupMerchantProfile(trigger) {
+    const explicitFollowupId = String(trigger?.dataset?.followupId || "").trim();
+    const modalOpen = document.getElementById("modal")?.classList.contains("show");
+    const formFollowupId = modalOpen ? String(document.getElementById("followupId")?.value || "").trim() : "";
+    const selectedFollowupId = String(state.ui.selectedFollowupId || "").trim();
+    const followupId = explicitFollowupId || formFollowupId || selectedFollowupId;
     const followup = followupId ? state.followups.find(item=>String(item.id)===followupId) : null;
-    const merchantId = merchantIdFromForm || followup?.uid || state.selectedUid || "";
+    const merchantIdFromForm = modalOpen ? String(document.getElementById("followupMerchant")?.value || "").trim() : "";
+    const merchantId = String(followup?.uid || merchantIdFromForm || "").trim();
+    if (!merchantId) return toast("This follow-up has no assigned merchant");
     const merchant = getMerchant(merchantId);
-    if (!merchant) return toast("Select a merchant first");
+    if (!merchant) return toast("The merchant assigned to this follow-up could not be found");
     closeModal();
     state.selectedUid = merchant.uid;
     state.currentView = "workhub";
