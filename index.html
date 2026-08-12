@@ -11269,6 +11269,88 @@ body.nova-ui.desktop-x.sidebar-collapsed .brand-copy span {
 }
 
 </style>
+
+<style id="gif-full-dimension-final">
+/* FINAL GIF HEADER FIX: show the uploaded GIF at its natural proportions. */
+body.nova-ui.desktop-x .brand {
+  position: relative !important;
+  width: 100% !important;
+  min-height: 0 !important;
+  display: block !important;
+  margin: 0 0 12px !important;
+  padding: 4px 40px 10px 4px !important;
+  border: 0 !important;
+  background: transparent !important;
+  text-align: center !important;
+  overflow: visible !important;
+}
+body.nova-ui.desktop-x .brand-mark {
+  width: 100% !important;
+  height: auto !important;
+  min-width: 0 !important;
+  min-height: 0 !important;
+  aspect-ratio: auto !important;
+  flex: none !important;
+  display: block !important;
+  margin: 0 auto !important;
+  padding: 0 !important;
+  overflow: visible !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+}
+body.nova-ui.desktop-x .brand-mark::before,
+body.nova-ui.desktop-x .brand-mark::after {
+  display: none !important;
+  content: none !important;
+}
+body.nova-ui.desktop-x .brand-mark > * {
+  opacity: 1 !important;
+}
+body.nova-ui.desktop-x .brand-mark img {
+  display: block !important;
+  width: 100% !important;
+  height: auto !important;
+  max-width: 100% !important;
+  max-height: none !important;
+  object-fit: contain !important;
+  object-position: center center !important;
+  transform: none !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+}
+body.nova-ui.desktop-x .brand-copy {
+  display: none !important;
+}
+body.nova-ui.desktop-x .side-collapse {
+  position: absolute !important;
+  right: 2px !important;
+  top: 6px !important;
+  margin: 0 !important;
+  z-index: 5 !important;
+}
+body.nova-ui.desktop-x.sidebar-collapsed .brand {
+  grid-template-columns: 1fr !important;
+  display: block !important;
+  padding: 4px 4px 10px !important;
+}
+body.nova-ui.desktop-x.sidebar-collapsed .brand-mark {
+  width: 100% !important;
+  height: auto !important;
+}
+@media (max-width: 1100px) {
+  body.nova-ui.desktop-x .brand {
+    padding-right: 38px !important;
+  }
+}
+@media (max-width: 720px) {
+  body.nova-ui.desktop-x .brand {
+    padding-right: 36px !important;
+  }
+}
+</style>
 </head>
 <body data-motion="smooth" class="bento-light bento-booting light-ui focus-mode density-comfort desktop-x nova-ui">
   <section class="bento-boot" id="bentoBoot" aria-live="polite" aria-label="Loading DASHWORK NOVA">
@@ -18645,3 +18727,107 @@ const FOLLOWUP_DELETE_SOUND_DATA_URL = "data:audio/wav;base64,UklGRsqKAABXQVZFZm
 
 </body>
 </html>
+<style id="gif-only-large-override">
+/* GIF-only brand header: hide text and give the GIF the full header space */
+.brand-copy,
+.brand-copy strong,
+.brand-copy span { display:none !important; }
+.brand {
+  min-height: 205px !important;
+  padding: 14px 10px 16px !important;
+  display:flex !important;
+  align-items:center !important;
+  justify-content:center !important;
+  border-bottom:0 !important;
+}
+.brand-mark {
+  width: 220px !important;
+  height: 165px !important;
+  max-width: calc(100% - 8px) !important;
+  flex: 0 0 auto !important;
+  margin: 0 auto !important;
+  padding: 0 !important;
+  border: 0 !important;
+  border-radius: 10px !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  overflow: hidden !important;
+}
+.brand-mark::before,
+.brand-mark::after { display:none !important; content:none !important; }
+.brand-mark img,
+.brand-mark .brand-mark-img {
+  width:100% !important;
+  height:100% !important;
+  display:block !important;
+  object-fit:contain !important;
+  object-position:center !important;
+  transform:none !important;
+  border:0 !important;
+  border-radius:10px !important;
+  background:transparent !important;
+}
+.brand-mark .workspace-gif-placeholder {
+  width:100% !important;
+  height:100% !important;
+  display:flex !important;
+  align-items:center !important;
+  justify-content:center !important;
+  font-size:24px !important;
+}
+body.sidebar-collapsed .brand-copy { display:none !important; }
+body.sidebar-collapsed .brand { min-height:132px !important; padding:10px 6px !important; }
+body.sidebar-collapsed .brand-mark { width:92px !important; height:112px !important; max-width:92px !important; }
+</style>
+<style id="gif-responsive-110-fix">
+/* Keep the GIF inside its own header area at browser zoom levels such as 110%. */
+.brand {
+  box-sizing: border-box !important;
+  min-height: 0 !important;
+  height: clamp(150px, 17vh, 190px) !important;
+  padding: 12px 14px !important;
+  overflow: hidden !important;
+  position: relative !important;
+}
+.brand-mark {
+  box-sizing: border-box !important;
+  width: min(100%, 218px) !important;
+  height: 100% !important;
+  max-height: 166px !important;
+  aspect-ratio: auto !important;
+  margin: 0 auto !important;
+  overflow: hidden !important;
+  border: 0 !important;
+  border-radius: 8px !important;
+}
+.brand-mark img,
+.brand-mark .brand-mark-img {
+  width: 100% !important;
+  height: 100% !important;
+  max-width: 100% !important;
+  max-height: 100% !important;
+  object-fit: contain !important;
+  object-position: center center !important;
+  transform: none !important;
+}
+.brand-copy,
+.brand-copy strong,
+.brand-copy span { display: none !important; }
+/* Prevent workspace labels/navigation from sliding under the GIF when zoomed. */
+.sidebar-section:first-of-type,
+.nav-section:first-of-type { clear: both !important; }
+@media (max-height: 760px) {
+  .brand { height: 150px !important; padding: 8px 12px !important; }
+  .brand-mark { width: min(100%, 205px) !important; max-height: 134px !important; }
+}
+body.sidebar-collapsed .brand {
+  height: 118px !important;
+  min-height: 118px !important;
+  padding: 8px 6px !important;
+}
+body.sidebar-collapsed .brand-mark {
+  width: 92px !important;
+  height: 102px !important;
+  max-height: 102px !important;
+}
+</style>
