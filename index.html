@@ -12216,7 +12216,7 @@ const FOLLOWUP_DELETE_SOUND_DATA_URL = "data:audio/wav;base64,UklGRsqKAABXQVZFZm
         resourceSelectedId: "",
         linkSelectedId: "",
         laneOpen: {},
-        workHubFilters: { q:"", view:"uncalled", sort:"priority", market:"all", video:"all", photo:"all", contact:"all", recall:"all", localTimeBand:"all", photoCoverage:"all" },
+        workHubFilters: { q:"", view:"uncalled", sort:"priority", market:"all", video:"all", photo:"all", contact:"all", recall:"all", localTimeBand:"all", photoCoverage:"all", lastInteraction:"all" },
         followupFilters: { q:"", merchant:"all", reason:"all", priority:"all", status:"open", quick:"all", sort:"smart" },
         resourceFilters: { q:"", type:"all", sort:"favorites" },
         linkFilters: { q:"", category:"all", sort:"favorites" },
@@ -13249,7 +13249,7 @@ const FOLLOWUP_DELETE_SOUND_DATA_URL = "data:audio/wav;base64,UklGRsqKAABXQVZFZm
     state.settings.callGoal = Math.max(1, Number(state.settings.callGoal || 70));
     state.settings.photoGoal = Math.max(1, Number(state.settings.photoGoal || DEFAULT_PHOTO_GOAL));
     state.settings.callAttemptGoal = Math.max(1, Number(state.settings.callAttemptGoal || DEFAULT_CALL_ATTEMPT_GOAL));
-    state.ui.workHubFilters = { q:"", view:"uncalled", sort:"priority", market:"all", video:"all", photo:"all", contact:"all", recall:"all", localTimeBand:"all", photoCoverage:"all", ...(state.ui.workHubFilters || {}) };
+    state.ui.workHubFilters = { q:"", view:"uncalled", sort:"priority", market:"all", video:"all", photo:"all", contact:"all", recall:"all", localTimeBand:"all", photoCoverage:"all", lastInteraction:"all", ...(state.ui.workHubFilters || {}) };
     state.ui.workHubPage = Math.max(1, Math.floor(Number(state.ui.workHubPage || 1)));
     state.ui.activityRecordPage = Math.max(1, Math.floor(Number(state.ui.activityRecordPage || 1)));
     delete state.wallpaperLibrary;
@@ -14123,6 +14123,37 @@ const FOLLOWUP_DELETE_SOUND_DATA_URL = "data:audio/wav;base64,UklGRsqKAABXQVZFZm
     return merchantLocalTimeBand(merchant, now) === filter;
   }
 
+  const LAST_INTERACTION_OPTIONS = [
+    { value:"all", label:"All last interactions" },
+    { value:"voicemail", label:"Last interaction = Voicemail" },
+    { value:"notvoicemail", label:"Last interaction ≠ Voicemail" },
+    { value:"none", label:"No call history" }
+  ];
+
+  function isVoicemailDisposition(value) {
+    const normalized = normalizeText(String(value || ""));
+    return normalized === "voicemail" ||
+      normalized.includes("left voicemail") ||
+      normalized.includes("left voice mail") ||
+      normalized.includes("voice mail") ||
+      normalized.includes("voicemail");
+  }
+
+  function lastInteractionFor(uidValue) {
+    return lastCallFor(uidValue);
+  }
+
+  function lastInteractionFilterMatches(merchant, filter) {
+    if (filter === "all") return true;
+    const last = lastInteractionFor(merchant.uid);
+    if (!last) return filter === "none";
+    const voicemail = isVoicemailDisposition(last.disposition || last.outcome || last.state);
+    if (filter === "voicemail") return voicemail;
+    if (filter === "notvoicemail") return !voicemail;
+    if (filter === "none") return false;
+    return true;
+  }
+
   function readWorkHubFilters() {
     return {
       q: document.getElementById("workHubSearch")?.value || "",
@@ -14134,7 +14165,8 @@ const FOLLOWUP_DELETE_SOUND_DATA_URL = "data:audio/wav;base64,UklGRsqKAABXQVZFZm
       contact: document.getElementById("workHubContactFilter")?.value || "all",
       recall: document.getElementById("workHubRecallFilter")?.value || "all",
       localTimeBand: document.getElementById("workHubLocalTimeFilter")?.value || "all",
-      photoCoverage: document.getElementById("workHubPhotoCoverageFilter")?.value || "all"
+      photoCoverage: document.getElementById("workHubPhotoCoverageFilter")?.value || "all",
+      lastInteraction: document.getElementById("workHubLastInteractionFilter")?.value || "all"
     };
   }
 
@@ -14261,7 +14293,7 @@ const FOLLOWUP_DELETE_SOUND_DATA_URL = "data:audio/wav;base64,UklGRsqKAABXQVZFZm
   function renderWorkHub() {
     const activeMerchants = state.merchants.filter(m => !m.archived);
     if (!activeMerchants.length) return `<section class="panel">${emptyWorkspace()}</section>`;
-    const filters = { q:"", view:"uncalled", sort:"priority", market:"all", video:"all", photo:"all", contact:"all", recall:"all", localTimeBand:"all", photoCoverage:"all", ...(state.ui.workHubFilters || {}) };
+    const filters = { q:"", view:"uncalled", sort:"priority", market:"all", video:"all", photo:"all", contact:"all", recall:"all", localTimeBand:"all", photoCoverage:"all", lastInteraction:"all", ...(state.ui.workHubFilters || {}) };
     const now = new Date();
     let selected = selectedMerchant();
     if (!selected || selected.archived) {
@@ -14289,6 +14321,7 @@ const FOLLOWUP_DELETE_SOUND_DATA_URL = "data:audio/wav;base64,UklGRsqKAABXQVZFZm
       const recallOk = recallWindowMatches(d.recall, filters.recall);
       const localTimeOk = localTimeBandMatches(m, filters.localTimeBand, now);
       const photoCoverageOk = photoCoverageMatches(m, filters.photoCoverage);
+      const lastInteractionOk = lastInteractionFilterMatches(m, filters.lastInteraction);
       return (!q || hay.includes(q)) &&
         (filters.market === "all" || m.market_name === filters.market) &&
         (filters.video === "all" || content.video === filters.video) &&
@@ -14297,6 +14330,7 @@ const FOLLOWUP_DELETE_SOUND_DATA_URL = "data:audio/wav;base64,UklGRsqKAABXQVZFZm
         recallOk &&
         localTimeOk &&
         photoCoverageOk &&
+        lastInteractionOk &&
         viewOk;
     });
     let queue = buildQueue(false)
@@ -14343,11 +14377,12 @@ const FOLLOWUP_DELETE_SOUND_DATA_URL = "data:audio/wav;base64,UklGRsqKAABXQVZFZm
               <strong>Merchant filters</strong>
               <span>Combine call status, local time and photo coverage before you call.</span>
             </div>
-            ${(filters.localTimeBand !== "all" || filters.photoCoverage !== "all") ? `<button class="btn small ghost" type="button" data-action="clearMerchantBoardFilters">Clear smart filters</button>` : ""}
+            ${(filters.localTimeBand !== "all" || filters.photoCoverage !== "all" || filters.lastInteraction !== "all") ? `<button class="btn small ghost" type="button" data-action="clearMerchantBoardFilters">Clear smart filters</button>` : ""}
           </div>
           <div class="tracker-filter-grid">
             <div class="field"><label>Local time</label><select id="workHubLocalTimeFilter">${LOCAL_TIME_BAND_OPTIONS.map(option => `<option value="${attr(option.value)}" ${String(filters.localTimeBand || "all") === option.value ? "selected" : ""}>${esc(option.label)}</option>`).join("")}</select></div>
             <div class="field"><label>Photo coverage</label><select id="workHubPhotoCoverageFilter">${PHOTO_COVERAGE_OPTIONS.map(option => `<option value="${attr(option.value)}" ${String(filters.photoCoverage || "all") === option.value ? "selected" : ""}>${esc(option.label)}</option>`).join("")}</select></div>
+            <div class="field"><label>Last interaction</label><select id="workHubLastInteractionFilter">${LAST_INTERACTION_OPTIONS.map(option => `<option value="${attr(option.value)}" ${String(filters.lastInteraction || "all") === option.value ? "selected" : ""}>${esc(option.label)}</option>`).join("")}</select></div>
             <div class="field"><label>Video status</label><select id="workHubVideoFilter">${optionList(VIDEO_STATUS_OPTIONS, filters.video, "All video statuses")}</select></div>
             <div class="field"><label>Photo status</label><select id="workHubPhotoFilter">${optionList(PHOTO_STATUS_OPTIONS, filters.photo, "All photo statuses")}</select></div>
             <div class="field"><label>Contact status</label><select id="workHubContactFilter">${optionList(CONTACT_STATUS_OPTIONS, filters.contact, "All contact statuses")}</select></div>
@@ -14357,7 +14392,9 @@ const FOLLOWUP_DELETE_SOUND_DATA_URL = "data:audio/wav;base64,UklGRsqKAABXQVZFZm
             <span class="smart-filter-label">Showing</span>
             <span class="smart-filter-chip ${filters.localTimeBand !== "all" ? "active" : ""}">◷ ${esc(localTimeBandLabel(filters.localTimeBand))}</span>
             <span class="smart-filter-chip ${filters.photoCoverage !== "all" ? "active" : ""}">▣ ${esc(PHOTO_COVERAGE_OPTIONS.find(option => option.value === filters.photoCoverage)?.label || "All photo coverage")}</span>
+            <span class="smart-filter-chip ${filters.lastInteraction !== "all" ? "active" : ""}">☎ ${esc(LAST_INTERACTION_OPTIONS.find(option => option.value === filters.lastInteraction)?.label || "All last interactions")}</span>
             ${filters.photoCoverage === "under50" ? `<span class="smart-filter-hint">Includes merchants with numeric photo coverage below 50%.</span>` : ""}
+            ${filters.lastInteraction === "voicemail" ? `<span class="smart-filter-hint">Shows merchants whose most recent call was marked as a voicemail.</span>` : ""}
           </div>
         </div>
         <div class="queue-scroll call-board-page" style="margin-top:10px">${queue.length ? visibleQueue.map(x=>merchantRowHTML(x)).join("") : `<div class="empty-state"><strong>No matches</strong><span>Change the queue filters.</span></div>`}</div>
@@ -16866,7 +16903,7 @@ const FOLLOWUP_DELETE_SOUND_DATA_URL = "data:audio/wav;base64,UklGRsqKAABXQVZFZm
     };
 
     onInput("workHubSearch",e=>{state.ui.workHubPage=1;state.ui.workHubFilters={...(state.ui.workHubFilters||{}),q:e.target.value};debouncedRender();});
-    ["workHubView","workHubSort","workHubMarket","workHubVideoFilter","workHubPhotoFilter","workHubContactFilter","workHubRecallFilter","workHubLocalTimeFilter","workHubPhotoCoverageFilter"].forEach(id=>onInput(id,()=>{state.ui.workHubPage=1;state.ui.workHubFilters=readWorkHubFilters();scheduleSave();renderApp();},"change"));
+    ["workHubView","workHubSort","workHubMarket","workHubVideoFilter","workHubPhotoFilter","workHubContactFilter","workHubRecallFilter","workHubLocalTimeFilter","workHubPhotoCoverageFilter","workHubLastInteractionFilter"].forEach(id=>onInput(id,()=>{state.ui.workHubPage=1;state.ui.workHubFilters=readWorkHubFilters();scheduleSave();renderApp();},"change"));
 
     onInput("caseSearch", e => { state.ui.caseFilters = { ...(state.ui.caseFilters || {}), q:e.target.value }; debouncedRender(); });
     ["caseTypeFilter","caseStatusFilter","caseCategoryFilter"].forEach(id => onInput(id, () => { state.ui.caseFilters = readCaseFilters(); scheduleSave(); renderApp(); }, "change"));
@@ -16956,7 +16993,7 @@ const FOLLOWUP_DELETE_SOUND_DATA_URL = "data:audio/wav;base64,UklGRsqKAABXQVZFZm
     const clearSmart=e.target.closest('[data-action="clearMerchantBoardFilters"]');
     if(clearSmart){
       state.ui.workHubPage=1;
-      state.ui.workHubFilters={...(state.ui.workHubFilters||{}),localTimeBand:"all",photoCoverage:"all"};
+      state.ui.workHubFilters={...(state.ui.workHubFilters||{}),localTimeBand:"all",photoCoverage:"all",lastInteraction:"all"};
       scheduleSave();renderApp();return;
     }
     const hubPage=e.target.closest("[data-workhub-page]");
@@ -17973,7 +18010,7 @@ const FOLLOWUP_DELETE_SOUND_DATA_URL = "data:audio/wav;base64,UklGRsqKAABXQVZFZm
     notificationTimer=setInterval(checkFollowupNotifications,30000);
     setInterval(() => {
       const filters = state.ui?.workHubFilters || {};
-      if (state.currentView === "workhub" && filters.localTimeBand && filters.localTimeBand !== "all") {
+      if (state.currentView === "workhub" && ((filters.localTimeBand && filters.localTimeBand !== "all") || (filters.lastInteraction && filters.lastInteraction !== "all"))) {
         renderApp();
       }
     },60000);
