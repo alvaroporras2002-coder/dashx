@@ -11980,6 +11980,12 @@ function canonicalSalesforceUrl(url) {
     "dm name": "dm_name",
     "dm email": "dm_email",
     "dm phone": "dm_phone",
+    "dm mobile phone": "dm_mobile_phone",
+    "dm work phone": "dm_work_phone",
+    "mobile phone": "dm_mobile_phone",
+    "work phone": "dm_work_phone",
+    "dm phone type": "dm_phone_type",
+    "phone type": "dm_phone_type",
     "mx portal link": "mx_portal_link",
     "ddmx link": "ddmx_link",
     "photo coverage": "photo_coverage",
@@ -12729,6 +12735,9 @@ const FOLLOWUP_DELETE_SOUND_DATA_URL = "data:audio/wav;base64,UklGRsqKAABXQVZFZm
       dm_name: raw.dm_name || "",
       dm_email: raw.dm_email || "",
       dm_phone: raw.dm_phone || "",
+      dm_mobile_phone: raw.dm_mobile_phone || "",
+      dm_work_phone: raw.dm_work_phone || "",
+      dm_phone_type: raw.dm_phone_type || "",
       mx_portal_link: /^https?:\/\//i.test(raw.mx_portal_link || "") ? raw.mx_portal_link : "",
       ddmx_link: /^https?:\/\//i.test(raw.ddmx_link || "") ? raw.ddmx_link : "",
       photo_coverage: percentValue(raw.photo_coverage),
@@ -12856,6 +12865,8 @@ const FOLLOWUP_DELETE_SOUND_DATA_URL = "data:audio/wav;base64,UklGRsqKAABXQVZFZm
       prospectName: [raw.prospect_first_name, raw.prospect_last_name].filter(Boolean).join(" "),
       prospectCompany: raw.prospect_company || "",
       prospectEmail: raw.prospect_email || "",
+      prospectMobilePhone: raw.prospect_mobile_phone || "",
+      prospectWorkPhone: raw.prospect_work_phone || "",
       prospectPhones: callPhones(raw),
       userName: [raw.user_first_name, raw.user_last_name].filter(Boolean).join(" "),
       source: "CSV",
@@ -13249,7 +13260,7 @@ const FOLLOWUP_DELETE_SOUND_DATA_URL = "data:audio/wav;base64,UklGRsqKAABXQVZFZm
     state.settings.callGoal = Math.max(1, Number(state.settings.callGoal || 70));
     state.settings.photoGoal = Math.max(1, Number(state.settings.photoGoal || DEFAULT_PHOTO_GOAL));
     state.settings.callAttemptGoal = Math.max(1, Number(state.settings.callAttemptGoal || DEFAULT_CALL_ATTEMPT_GOAL));
-    state.ui.workHubFilters = { q:"", view:"uncalled", sort:"priority", market:"all", video:"all", photo:"all", contact:"all", recall:"all", localTimeBand:"all", photoCoverage:"all", lastInteraction:"all", ...(state.ui.workHubFilters || {}) };
+    state.ui.workHubFilters = { q:"", view:"uncalled", sort:"priority", market:"all", video:"all", photo:"all", contact:"all", phoneType:"all", recall:"all", localTimeBand:"all", photoCoverage:"all", lastInteraction:"all", ...(state.ui.workHubFilters || {}) };
     state.ui.workHubPage = Math.max(1, Math.floor(Number(state.ui.workHubPage || 1)));
     state.ui.activityRecordPage = Math.max(1, Math.floor(Number(state.ui.activityRecordPage || 1)));
     delete state.wallpaperLibrary;
@@ -13528,7 +13539,8 @@ const FOLLOWUP_DELETE_SOUND_DATA_URL = "data:audio/wav;base64,UklGRsqKAABXQVZFZm
     const phones = splitMulti(merchant?.dm_phone);
     const cards = [];
     emails.forEach((email, i) => cards.push({ type:"Email", label:i === 0 ? "Primary email" : `Email ${i+1}`, value:email }));
-    phones.forEach((phone, i) => cards.push({ type:"Phone", label:i === 0 ? "Primary phone" : `Phone ${i+1}`, value:phone }));
+    const phoneType = merchantPhoneType(merchant);
+    phones.forEach((phone, i) => cards.push({ type:"Phone", label:i === 0 ? merchantPhoneTypeShort(phoneType) : `${merchantPhoneTypeShort(phoneType)} ${i+1}`, value:phone }));
     if (!cards.length) return `<div class="empty-state"><div class="icon">⌁</div><strong>No usable contacts</strong><span>Add a phone or email in Merchant Profile.</span></div>`;
     return `<div class="contact-grid">${cards.map(c => {
       const isEmail = c.type === "Email";
@@ -13859,9 +13871,89 @@ const FOLLOWUP_DELETE_SOUND_DATA_URL = "data:audio/wav;base64,UklGRsqKAABXQVZFZm
     return "";
   }
 
+  function normalizePhoneType(value) {
+    const v = normalizeText(value || "");
+    if (!v) return "unknown";
+    if ((v.includes("mobile") || v.includes("cell") || v.includes("cellular")) && (v.includes("work") || v.includes("office") || v.includes("business"))) return "multiple";
+    if (v.includes("mobile") || v.includes("cell") || v.includes("cellular")) return "mobile";
+    if (v.includes("work") || v.includes("office") || v.includes("business")) return "work";
+    if (v.includes("voip")) return "unknown";
+    return "unknown";
+  }
+
+  function phonesMatch(a, b) {
+    const x = digits(a), y = digits(b);
+    return !!x && !!y && (x === y || x.endsWith(y.slice(-10)) || y.endsWith(x.slice(-10)));
+  }
+
+  function merchantPhoneType(merchant) {
+    if (!merchant) return "unknown";
+
+    const explicitType = normalizePhoneType(merchant.dm_phone_type);
+    if (explicitType !== "unknown") return explicitType;
+
+    const mobile = splitMulti(merchant.dm_mobile_phone);
+    const work = splitMulti(merchant.dm_work_phone);
+    const merchantPhones = splitMulti(merchant.dm_phone);
+
+    if (mobile.length || work.length) {
+      const primary = merchantPhones[0] || "";
+      const matched = [];
+      if (mobile.some(p => !primary || phonesMatch(p, primary))) matched.push("mobile");
+      if (work.some(p => !primary || phonesMatch(p, primary))) matched.push("work");
+      if (matched.length === 1) return matched[0];
+      if (matched.length > 1) return "multiple";
+      if (mobile.length && !work.length) return "mobile";
+      if (work.length && !mobile.length) return "work";
+      return "multiple";
+    }
+
+    // Use explicit phone-type columns from matched call records when available.
+    const linkedCalls = state.calls
+      .filter(c => String(c.uid || "") === String(merchant.uid))
+      .sort((a,b) => String(b.completedAt || b.createdAt || "").localeCompare(String(a.completedAt || a.createdAt || "")));
+
+    const evidence = [];
+    const candidates = merchantPhones.length ? merchantPhones : [];
+    linkedCalls.forEach(call => {
+      const callMobile = splitMulti(call.prospectMobilePhone || call.prospect_mobile_phone);
+      const callWork = splitMulti(call.prospectWorkPhone || call.prospect_work_phone);
+      if (candidates.length) {
+        if (callMobile.some(p => candidates.some(mp => phonesMatch(p, mp)))) evidence.push("mobile");
+        if (callWork.some(p => candidates.some(mp => phonesMatch(p, mp)))) evidence.push("work");
+      } else {
+        if (callMobile.length) evidence.push("mobile");
+        if (callWork.length) evidence.push("work");
+      }
+    });
+
+    const uniqueEvidence = unique(evidence);
+    if (uniqueEvidence.length === 1) return uniqueEvidence[0];
+    if (uniqueEvidence.length > 1) return "multiple";
+    return "unknown";
+  }
+
+  function merchantPhoneTypeLabel(type) {
+    return ({ mobile: "Mobile", work: "Work Phone", multiple: "Mobile + Work", unknown: "Phone type unknown" })[type] || "Phone type unknown";
+  }
+
+  function merchantPhoneTypeShort(type) {
+    return ({ mobile: "Mobile", work: "Work Phone", multiple: "Mobile + Work", unknown: "Type unknown" })[type] || "Type unknown";
+  }
+
+  function merchantPhoneTypeClass(type) {
+    return `merchant-phone-type merchant-phone-${type || "unknown"}`;
+  }
+
+  function phoneTypeFilterMatches(merchant, filter) {
+    if (!filter || filter === "all") return true;
+    return merchantPhoneType(merchant) === filter;
+  }
+
   function merchantRowHTML(item, openView = "") {
     const d = item.merchant ? item : deriveMerchant(item);
     const m = d.merchant;
+    const phoneType = merchantPhoneType(m);
     const st = merchantState(m.uid);
     const recall = merchantCallBackInfo(m);
     const content = resolvedContentStatuses(m.uid);
@@ -13875,7 +13967,7 @@ const FOLLOWUP_DELETE_SOUND_DATA_URL = "data:audio/wav;base64,UklGRsqKAABXQVZFZm
     ].filter(Boolean).join(" · ");
     return `<div class="merchant-row ${state.selectedUid === m.uid ? "selected" : ""}">
       <button class="merchant-row-main" type="button" data-select-merchant="${attr(m.uid)}" data-open-view="${attr(openView)}">
-        <strong>${esc(m.store_name)}</strong>
+        <strong class="merchant-row-title">${esc(m.store_name)} <span class="${merchantPhoneTypeClass(phoneType)}">${esc(merchantPhoneTypeShort(phoneType))}</span></strong>
         <span class="merchant-row-sub">${esc(rowMeta || m.store_id || "No market")}</span>
         <span class="merchant-row-sub merchant-row-sub-2">${esc(rowDetail || "Ready to work")}</span>
       </button>
@@ -14163,6 +14255,7 @@ const FOLLOWUP_DELETE_SOUND_DATA_URL = "data:audio/wav;base64,UklGRsqKAABXQVZFZm
       video: document.getElementById("workHubVideoFilter")?.value || "all",
       photo: document.getElementById("workHubPhotoFilter")?.value || "all",
       contact: document.getElementById("workHubContactFilter")?.value || "all",
+      phoneType: document.getElementById("workHubPhoneTypeFilter")?.value || "all",
       recall: document.getElementById("workHubRecallFilter")?.value || "all",
       localTimeBand: document.getElementById("workHubLocalTimeFilter")?.value || "all",
       photoCoverage: document.getElementById("workHubPhotoCoverageFilter")?.value || "all",
@@ -14272,9 +14365,9 @@ const FOLLOWUP_DELETE_SOUND_DATA_URL = "data:audio/wav;base64,UklGRsqKAABXQVZFZm
       </section>
 
       <section class="context-panel">
-        <div class="context-heading"><div><span>Decision maker</span><h3>${esc(merchant.dm_name || "No contact name")}</h3></div></div>
+        <div class="context-heading"><div><span>Decision maker</span><h3>${esc(merchant.dm_name || "No contact name")}</h3></div><span class="${merchantPhoneTypeClass(merchantPhoneType(merchant))}">${esc(merchantPhoneTypeLabel(merchantPhoneType(merchant)))}</span></div>
         <div class="context-contact-list">
-          <div><span>Phone</span><strong>${esc(phones[0] || "Not available")}</strong></div>
+          <div><span>${esc(merchantPhoneTypeLabel(merchantPhoneType(merchant)))}</span><strong>${esc(phones[0] || "Not available")}</strong></div>
           <div><span>Email</span><strong>${esc(emails[0] || "Not available")}</strong></div>
         </div>
         <div class="button-row">
@@ -14293,7 +14386,7 @@ const FOLLOWUP_DELETE_SOUND_DATA_URL = "data:audio/wav;base64,UklGRsqKAABXQVZFZm
   function renderWorkHub() {
     const activeMerchants = state.merchants.filter(m => !m.archived);
     if (!activeMerchants.length) return `<section class="panel">${emptyWorkspace()}</section>`;
-    const filters = { q:"", view:"uncalled", sort:"priority", market:"all", video:"all", photo:"all", contact:"all", recall:"all", localTimeBand:"all", photoCoverage:"all", lastInteraction:"all", ...(state.ui.workHubFilters || {}) };
+    const filters = { q:"", view:"uncalled", sort:"priority", market:"all", video:"all", photo:"all", contact:"all", phoneType:"all", recall:"all", localTimeBand:"all", photoCoverage:"all", lastInteraction:"all", ...(state.ui.workHubFilters || {}) };
     const now = new Date();
     let selected = selectedMerchant();
     if (!selected || selected.archived) {
@@ -14327,6 +14420,7 @@ const FOLLOWUP_DELETE_SOUND_DATA_URL = "data:audio/wav;base64,UklGRsqKAABXQVZFZm
         (filters.video === "all" || content.video === filters.video) &&
         (filters.photo === "all" || content.photo === filters.photo) &&
         (filters.contact === "all" || content.contact === filters.contact) &&
+        phoneTypeFilterMatches(m, filters.phoneType) &&
         recallOk &&
         localTimeOk &&
         photoCoverageOk &&
@@ -14386,6 +14480,7 @@ const FOLLOWUP_DELETE_SOUND_DATA_URL = "data:audio/wav;base64,UklGRsqKAABXQVZFZm
             <div class="field"><label>Video status</label><select id="workHubVideoFilter">${optionList(VIDEO_STATUS_OPTIONS, filters.video, "All video statuses")}</select></div>
             <div class="field"><label>Photo status</label><select id="workHubPhotoFilter">${optionList(PHOTO_STATUS_OPTIONS, filters.photo, "All photo statuses")}</select></div>
             <div class="field"><label>Contact status</label><select id="workHubContactFilter">${optionList(CONTACT_STATUS_OPTIONS, filters.contact, "All contact statuses")}</select></div>
+            <div class="field"><label>Phone type</label><select id="workHubPhoneTypeFilter"><option value="all" ${filters.phoneType === "all" ? "selected" : ""}>All phone types</option><option value="mobile" ${filters.phoneType === "mobile" ? "selected" : ""}>Mobile</option><option value="work" ${filters.phoneType === "work" ? "selected" : ""}>Work Phone</option><option value="multiple" ${filters.phoneType === "multiple" ? "selected" : ""}>Mobile + Work</option><option value="unknown" ${filters.phoneType === "unknown" ? "selected" : ""}>Type unknown</option></select></div>
             <div class="field"><label>Recall window</label><select id="workHubRecallFilter">${CALL_BACK_WINDOW_OPTIONS.map(option => `<option value="${attr(option.value)}" ${String(filters.recall || "all") === String(option.value) ? "selected" : ""}>${esc(option.label)}</option>`).join("")}</select></div>
           </div>
           <div class="smart-filter-summary">
@@ -14393,6 +14488,7 @@ const FOLLOWUP_DELETE_SOUND_DATA_URL = "data:audio/wav;base64,UklGRsqKAABXQVZFZm
             <span class="smart-filter-chip ${filters.localTimeBand !== "all" ? "active" : ""}">◷ ${esc(localTimeBandLabel(filters.localTimeBand))}</span>
             <span class="smart-filter-chip ${filters.photoCoverage !== "all" ? "active" : ""}">▣ ${esc(PHOTO_COVERAGE_OPTIONS.find(option => option.value === filters.photoCoverage)?.label || "All photo coverage")}</span>
             <span class="smart-filter-chip ${filters.lastInteraction !== "all" ? "active" : ""}">☎ ${esc(LAST_INTERACTION_OPTIONS.find(option => option.value === filters.lastInteraction)?.label || "All last interactions")}</span>
+            <span class="smart-filter-chip ${filters.phoneType !== "all" ? "active" : ""}">◉ ${esc(merchantPhoneTypeLabel(filters.phoneType))}</span>
             ${filters.photoCoverage === "under50" ? `<span class="smart-filter-hint">Includes merchants with numeric photo coverage below 50%.</span>` : ""}
             ${filters.lastInteraction === "voicemail" ? `<span class="smart-filter-hint">Shows merchants whose most recent call was marked as a voicemail.</span>` : ""}
           </div>
@@ -16903,7 +16999,7 @@ const FOLLOWUP_DELETE_SOUND_DATA_URL = "data:audio/wav;base64,UklGRsqKAABXQVZFZm
     };
 
     onInput("workHubSearch",e=>{state.ui.workHubPage=1;state.ui.workHubFilters={...(state.ui.workHubFilters||{}),q:e.target.value};debouncedRender();});
-    ["workHubView","workHubSort","workHubMarket","workHubVideoFilter","workHubPhotoFilter","workHubContactFilter","workHubRecallFilter","workHubLocalTimeFilter","workHubPhotoCoverageFilter","workHubLastInteractionFilter"].forEach(id=>onInput(id,()=>{state.ui.workHubPage=1;state.ui.workHubFilters=readWorkHubFilters();scheduleSave();renderApp();},"change"));
+    ["workHubView","workHubSort","workHubMarket","workHubVideoFilter","workHubPhotoFilter","workHubContactFilter","workHubPhoneTypeFilter","workHubRecallFilter","workHubLocalTimeFilter","workHubPhotoCoverageFilter","workHubLastInteractionFilter"].forEach(id=>onInput(id,()=>{state.ui.workHubPage=1;state.ui.workHubFilters=readWorkHubFilters();scheduleSave();renderApp();},"change"));
 
     onInput("caseSearch", e => { state.ui.caseFilters = { ...(state.ui.caseFilters || {}), q:e.target.value }; debouncedRender(); });
     ["caseTypeFilter","caseStatusFilter","caseCategoryFilter"].forEach(id => onInput(id, () => { state.ui.caseFilters = readCaseFilters(); scheduleSave(); renderApp(); }, "change"));
@@ -18947,6 +19043,7 @@ const FOLLOWUP_DELETE_SOUND_DATA_URL = "data:audio/wav;base64,UklGRsqKAABXQVZFZm
 
 </script>
 
+\n<style id="dashworkPhoneTypeFeature">\n  .merchant-row-title {\n    display:flex !important;\n    align-items:center !important;\n    gap:7px !important;\n    min-width:0 !important;\n  }\n  .merchant-phone-type {\n    display:inline-flex !important;\n    align-items:center !important;\n    min-height:19px !important;\n    padding:2px 7px !important;\n    border-radius:999px !important;\n    border:1px solid var(--bento-line, #e2e8f0) !important;\n    background:var(--bento-surface-soft, #f8fafc) !important;\n    color:var(--bento-muted, #64748b) !important;\n    font-size:8px !important;\n    font-weight:700 !important;\n    letter-spacing:0 !important;\n    line-height:1 !important;\n    white-space:nowrap !important;\n    vertical-align:middle !important;\n  }\n  .merchant-phone-mobile {\n    border-color:rgba(14,165,233,.20) !important;\n    background:rgba(14,165,233,.08) !important;\n    color:#0369a1 !important;\n  }\n  .merchant-phone-work {\n    border-color:rgba(16,185,129,.20) !important;\n    background:rgba(16,185,129,.08) !important;\n    color:#047857 !important;\n  }\n  .merchant-phone-multiple {\n    border-color:rgba(124,58,237,.20) !important;\n    background:rgba(124,58,237,.08) !important;\n    color:#6d28d9 !important;\n  }\n  .merchant-phone-unknown {\n    border-color:rgba(100,116,139,.18) !important;\n    background:rgba(100,116,139,.07) !important;\n    color:var(--bento-muted, #64748b) !important;\n  }\n  body:not(.bento-light) .merchant-phone-type {\n    border-color:rgba(148,163,184,.22) !important;\n    background:rgba(148,163,184,.07) !important;\n    color:#b7c2d2 !important;\n  }\n  body:not(.bento-light) .merchant-phone-mobile {\n    border-color:rgba(14,165,233,.28) !important;\n    background:rgba(14,165,233,.11) !important;\n    color:#7dd3fc !important;\n  }\n  body:not(.bento-light) .merchant-phone-work {\n    border-color:rgba(16,185,129,.28) !important;\n    background:rgba(16,185,129,.11) !important;\n    color:#6ee7b7 !important;\n  }\n  body:not(.bento-light) .merchant-phone-multiple {\n    border-color:rgba(124,58,237,.30) !important;\n    background:rgba(124,58,237,.12) !important;\n    color:#c4b5fd !important;\n  }\n  body:not(.bento-light) .merchant-phone-unknown {\n    color:#9aa7ba !important;\n  }\n\n  @media (max-width: 760px) {\n    .merchant-row-title { gap:5px !important; }\n    .merchant-phone-type { font-size:7px !important; padding-inline:6px !important; }\n  }\n</style>\n
 </body>
 </html>
 <style id="gif-only-large-override">
