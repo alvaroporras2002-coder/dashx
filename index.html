@@ -392,7 +392,40 @@ html[data-device-mode=mobile] .workspace-wallpaper,html[data-device-mode=mobile]
 @media(min-width:1591px){html[data-device-mode=pc] .hub-layout{grid-template-columns:280px minmax(0,1fr) 340px}}
 @media(min-width:1221px) and (max-width:1590px){html[data-device-mode=pc] .hub-layout{grid-template-columns:270px minmax(0,1fr)}}
 @media(min-width:1081px) and (max-width:1220px){html[data-device-mode=pc] .hub-layout{grid-template-columns:250px minmax(0,1fr)}}
-</style></head>
+</style><style id="outreachCallLayout">
+.hub-main-call-documentation{margin-top:24px;padding-top:24px;border-top:1px solid var(--line);min-width:0}
+.hub-main-call-documentation>.card-head{flex-wrap:wrap;gap:12px}
+.hub-main-call-documentation .outreach-builder{grid-column:1/-1}
+
+.outreach-builder{container-type:inline-size;min-width:0;width:100%;padding-top:18px;gap:18px}
+.outreach-builder>.card-head{align-items:flex-start;flex-wrap:wrap;margin-bottom:0;gap:12px}
+.outreach-builder>.card-head>div{flex:1 1 180px;min-width:0}
+.outreach-builder .card-head h3{font-size:26px;line-height:1.15;margin-bottom:8px}
+.outreach-builder .card-head .muted{display:block;font-size:12px;line-height:1.6}
+.outreach-builder #outreachProgress{flex:0 0 auto;border-radius:20px;padding:6px 10px;white-space:nowrap}
+.outreach-layout{display:flex;flex-direction:column;gap:24px;min-width:0;width:100%}
+.outreach-questions{display:grid;grid-template-columns:minmax(0,1fr);gap:0;min-width:0;width:100%}
+.outreach-question{min-width:0;padding:17px 0;border:0;border-bottom:1px solid var(--line);border-radius:0;background:transparent;gap:9px}
+.outreach-question label{display:flex;align-items:flex-start;gap:9px;color:var(--text);font-size:12px;line-height:1.5;overflow-wrap:normal;word-break:normal}
+.outreach-question label .pill{flex:0 0 auto;border-radius:50%;width:25px;height:25px;padding:0;justify-content:center;font-size:10px}
+.outreach-builder .outreach-question select{min-width:0;width:100%;max-width:100%;min-height:43px;border-radius:10px;padding:10px 30px 10px 12px;font-size:12px;text-overflow:ellipsis}
+.outreach-question small{display:block;padding:0 0 0 34px;border:0;border-radius:0;background:transparent;color:var(--muted);font-size:11px;line-height:1.65;word-break:normal;overflow-wrap:break-word}
+.outreach-question small strong{font-size:10px;font-weight:600;color:var(--muted)}
+.outreach-questions>.field:last-child{grid-column:1/-1;padding-top:20px;gap:9px}
+.outreach-questions #outreachDetails{min-height:110px;border-radius:10px}
+.outreach-preview{position:static;top:auto;min-width:0;width:100%;padding:20px;border:1px solid var(--line);border-radius:16px;background:var(--surface-2);box-shadow:none}
+.outreach-preview h3{font-size:25px;margin-bottom:9px}
+.outreach-preview p{font-size:12px;line-height:1.6;margin-bottom:16px}
+.outreach-preview #manualCallNote{display:block;width:100%;max-width:100%;min-width:0;min-height:220px;height:260px;max-height:520px;margin-bottom:15px;padding:14px;border:1px solid var(--line);border-radius:10px;outline:none;background:var(--surface);font:12px/1.75 Arial,sans-serif;box-shadow:none;white-space:pre-wrap;overflow-wrap:break-word;resize:vertical}
+.outreach-preview .button-row{display:flex;gap:9px;flex-wrap:wrap}
+.outreach-preview .btn{min-height:42px;border-radius:10px;padding:10px 15px}
+.outreach-preview #outreachCopy{flex:1 1 180px}
+.outreach-preview small{display:block;margin-top:14px;font-size:10px;line-height:1.65}
+.outreach-preview [role=status]{color:var(--muted);font-size:11px;margin-top:9px}
+@container(min-width:620px){.outreach-questions{grid-template-columns:repeat(2,minmax(0,1fr));column-gap:24px}.outreach-preview{padding:24px}.outreach-preview #outreachCopy{flex:0 1 auto}}
+@container(max-width:330px){.outreach-preview{padding:14px}.outreach-preview h3{font-size:23px}.outreach-preview .button-row .btn{width:100%}.outreach-question small{padding-left:0}}
+</style>
+</head>
 <body data-motion="smooth" class="bento-light light-ui density-comfort desktop-x nova-ui operative-ui bento-ready">
   
 
@@ -3330,6 +3363,9 @@ const FOLLOWUP_DELETE_SOUND_DATA_URL = "data:audio/wav;base64,UklGRsqKAABXQVZFZm
           </div>
           ${renderWorkHubContext(selected)}
         </div>
+        <div class="hub-main-call-documentation" aria-label="Call documentation">
+          ${renderManualCallEntry(selected)}
+        </div>
       </section>
 
       <aside class="panel hub-tools" aria-label="Merchant tools">
@@ -4168,15 +4204,6 @@ const FOLLOWUP_DELETE_SOUND_DATA_URL = "data:audio/wav;base64,UklGRsqKAABXQVZFZm
         </div>
       </div>
 
-      <div class="divider"></div>
-      <div class="card-head"><div><div class="card-kicker">Manual call</div><h3>Register an attempt</h3></div><span class="pill purple">Completed = duration + 1 minute</span></div>
-      <div class="form-grid">
-        <div class="field c3"><label>State</label><select id="manualCallState"><option value="completed">Completed</option><option value="no_answer">No Answer</option><option value="canceled">Canceled</option></select></div>
-        <div class="field c3"><label>Duration seconds</label><input id="manualCallDuration" type="number" min="0" value="0" /></div>
-        <div class="field c3"><label>Disposition</label><select id="manualCallDisposition"><option>Completed Call</option><option>No Answer</option><option>Left Voicemail</option><option>Left Message</option><option>Wrong Number</option></select></div>
-        <div class="field c3"><label>Save</label><button class="btn primary" type="button" data-action="saveManualCall">Add call</button></div>
-        <div class="field c12"><label>Call note template<span class="manual-note-hint">Complete each line before saving the manual attempt.</span></label><textarea class="manual-call-note" id="manualCallNote">${esc(DEFAULT_MANUAL_CALL_NOTE)}</textarea></div>
-      </div>
       <div class="divider"></div>
       <div class="card-head"><div><div class="card-kicker">Merchant access</div><h3>Tools and contacts</h3></div></div>
       ${quickLinkButtons(merchant)}
@@ -6129,16 +6156,67 @@ const FOLLOWUP_DELETE_SOUND_DATA_URL = "data:audio/wav;base64,UklGRsqKAABXQVZFZm
     renderApp();toast("Status note saved");
   }
 
+  const OUTREACH_CALL_FIELDS = [["What Was Your Goal For This Call?", ["Solve an Issue", "Activate a Product", "Discover Growth Opportunity", "Improve Menu", "Provide Active Campaign Visibility", "Scheduled Check In", "Requested Call or Returning Missed Call"], ["Address a merchant issue.", "Help activate a product.", "Identify a way to grow the business.", "Review and improve the menu.", "Review performance of an active campaign.", "Complete a planned check-in.", "Respond to a merchant request or missed call."]], ["Priority For This Call", ["P1 - Support - Immediate Blocker", "P2 - Marketing - Growth Opportunity", "P3 - Optimization - Improve Setup", "P4 - No Growth Opportunity"], ["An immediate issue blocks operations.", "The merchant has a marketing growth opportunity.", "Improve the existing setup or menu.", "No growth opportunity was identified."]], ["Growth Opportunity Identified or Discussed", ["Yes", "No"], ["A specific growth opportunity was identified or discussed.", "No growth opportunity was identified or discussed."]], ["MXP AI Assistant Education", ["MX Educated During The Call", "MX Was Educated On a Previous Interaction", "Failed To Educate", "Not Applicable"], ["Explain the MXP AI Assistant during this call.", "Education was completed during an earlier interaction.", "Education was intended but could not be completed.", "Education does not apply to this interaction."]], ["If Marketing Was Not Discussed, Why?", ["Marketing Was Discussed", "Not Relevant Today", "Support Needed First", "Menu Help Needed First", "No Decision-Maker", "No Portal Access", "Follow-Up Requested", "Merchant Declined"], ["Marketing was discussed during this call.", "Marketing was not relevant to this interaction.", "Resolve a support issue before discussing marketing.", "Address menu needs first.", "The decision-maker was unavailable.", "The merchant could not access the portal.", "The merchant requested a later conversation.", "The merchant declined a marketing discussion."]], ["Marketing Solution Discussed", ["Ads For Visibility", "Promotions For Orders", "Loyalty For Repeat Customers", "More Than One Solution", "No Marketing Solution Discussed"], ["Discuss ads to increase visibility.", "Discuss promotions to drive orders.", "Discuss loyalty to encourage repeat customers.", "Discuss multiple marketing solutions.", "No marketing solution was discussed."]], ["Co-Funding Status", ["No Co-Funding Offered", "Co-Funding Offered - Denied", "Co-Funding Offered - Negotiating", "Co-Funding Offered - Accepted", "Co-Funding Activated"], ["Co-funding was not offered.", "Co-funding was offered and declined.", "Co-funding terms are being discussed.", "The merchant accepted the offer; activation is pending.", "Co-funding is activated."]], ["What Did You Do?", ["Resolved It", "Created or Escalated Case", "Helped With Activation", "Presented Marketing Option", "Updated or Recommended Menu Change", "Scheduled Follow-Up", "No Action Required"], ["Resolve the issue during the call.", "Create or escalate a support case.", "Help the merchant activate a product or campaign.", "Present a marketing option.", "Update the menu or recommend a menu change.", "Agree on a follow-up.", "No action was needed."]], ["Result", ["Updated or Activated Campaign", "Merchant Will Complete Action", "Merchant Declined", "Discussed Marketing", "Follow-Up Needed (Identified Marketing Need)", "Presented Solution (No Marketing)", "Follow-Up Needed (No Marketing)", "Could Not Complete", "Not Applicable"], ["A campaign was updated or activated.", "The merchant will complete the agreed action.", "The merchant declined the proposed action.", "Marketing was discussed.", "Follow up on the identified marketing need.", "Present a solution outside marketing.", "Follow up on a non-marketing issue.", "The intended interaction or action could not be completed.", "No applicable outcome."]], ["Did You Achieve Your Goal", ["Yes", "Partially", "No", "Follow-Up Needed", "Not Applicable"], ["The call goal was achieved.", "Some of the call goal was achieved.", "The call goal was not achieved.", "Another interaction is needed to achieve the goal.", "The goal does not apply to this interaction."]], ["If Not Achieved, What Stopped It?", ["Nothing Stopped It", "No Decision Maker", "No Portal Access or Technical Issue", "Merchant Timing", "Priority Changed", "Program Not Available", "Other"], ["No barrier prevented completion.", "The decision-maker was unavailable.", "Portal access or a technical issue blocked completion.", "The timing did not work for the merchant.", "A different priority took precedence.", "The required program was unavailable.", "Describe another barrier in the additional details."]]];
+
+  function outreachNote(draft) {
+    return OUTREACH_CALL_FIELDS.flatMap((f,i)=>draft[i] ? [f[0]+"\n"+draft[i]] : []).join("\n\n") + (draft.details?.trim() ? "\n\nAdditional Details / Next Steps\n"+draft.details.trim() : "");
+  }
+  function renderManualCallEntry(merchant) {
+    const st = merchantState(merchant.uid);
+    return `      <div class="card-head"><div><div class="card-kicker">Manual call</div><h3>Register an attempt</h3></div><span class="pill purple">Completed = duration + 1 minute</span></div>
+      <div class="form-grid">
+        <div class="field c3"><label>State</label><select id="manualCallState"><option value="completed">Completed</option><option value="no_answer">No Answer</option><option value="canceled">Canceled</option></select></div>
+        <div class="field c3"><label>Duration seconds</label><input id="manualCallDuration" type="number" min="0" value="0" /></div>
+        <div class="field c3"><label>Disposition</label><select id="manualCallDisposition"><option>Completed Call</option><option>No Answer</option><option>Left Voicemail</option><option>Left Message</option><option>Wrong Number</option></select></div>
+        <div class="field c3"><label>Save</label><button class="btn primary" type="button" data-action="saveManualCall">Add call</button></div>
+        ${renderOutreachBuilder(st)}
+      </div>
+`;
+  }
+
+  function renderOutreachBuilder(st) {
+    const d=st.outreachCallDraft||{};
+    const count=OUTREACH_CALL_FIELDS.filter((f,i)=>d[i]).length;
+    return `<section class="outreach-builder field c12"><div class="card-head"><div><div class="card-kicker">Outreach call note</div><h3>Document your call</h3><span class="muted">Choose one response per question. Your note updates automatically.</span></div><span class="pill" id="outreachProgress">${count} / 11 completed</span></div><div class="outreach-layout"><div class="outreach-questions">${OUTREACH_CALL_FIELDS.map((f,i)=>`<div class="outreach-question field"><label for="outreachQ${i}"><span class="pill purple">${String(i+1).padStart(2,'0')}</span> ${esc(f[0])}</label><select id="outreachQ${i}" onchange="updateOutreachCallDraft()"><option value="">Select one response…</option>${f[1].map(v=>`<option ${d[i]===v?'selected':''}>${esc(v)}</option>`).join('')}</select><small><strong>When to use</strong><br><span id="outreachHelp${i}">${esc(d[i]?f[2][f[1].indexOf(d[i])]:'Choose a response above to see when to use it.')}</span></small></div>`).join('')}<div class="field"><label for="outreachDetails">Additional details / next steps (optional)</label><textarea id="outreachDetails" oninput="updateOutreachCallDraft()" placeholder="Merchant concerns, case ID, commitments, follow-up date…">${esc(d.details||'')}</textarea></div></div><aside class="outreach-preview"><div class="card-kicker">Live preview</div><h3>Your completed note</h3><p class="muted">Complete all 11 questions to copy your note into Outreach.</p><textarea id="manualCallNote" readonly aria-label="Generated Outreach call note" placeholder="Your selected responses will appear here.">${esc(outreachNote(d))}</textarea><div class="button-row"><button id="outreachCopy" class="btn primary" type="button" onclick="copyOutreachCallNote()" ${count<11?'disabled':''}>Copy completed note</button><button class="btn" type="button" onclick="resetOutreachCallDraft()">New call</button></div><small class="muted">Draft saved for this merchant. “Add call” saves the generated note in your call history.</small><div role="status" id="outreachFeedback"></div></aside></div></section>`;
+  }
+  function updateOutreachCallDraft() {
+    const m=selectedMerchant(); if(!m)return;
+    const d={details:document.getElementById('outreachDetails')?.value||''};
+    OUTREACH_CALL_FIELDS.forEach((f,i)=>{
+      d[i]=document.getElementById('outreachQ'+i)?.value||'';
+      document.getElementById('outreachHelp'+i).textContent=d[i]?f[2][f[1].indexOf(d[i])]:'Choose a response above to see when to use it.';
+    });
+    setMerchantState(m.uid,{outreachCallDraft:d});
+    document.getElementById('manualCallNote').value=outreachNote(d);
+    const count=OUTREACH_CALL_FIELDS.filter((f,i)=>d[i]).length;
+    document.getElementById('outreachProgress').textContent=count+' / 11 completed';
+    document.getElementById('outreachCopy').disabled=count<11;
+    document.getElementById('outreachFeedback').textContent='Draft saved';
+  }
+  function copyOutreachCallNote() {
+    const d=merchantState(selectedMerchant()?.uid).outreachCallDraft||{};
+    if(OUTREACH_CALL_FIELDS.some((f,i)=>!d[i]))return toast('Complete all 11 questions first');
+    copyText(outreachNote(d),'Outreach note copied');
+  }
+  function resetOutreachCallDraft() {
+    const m=selectedMerchant();if(!m)return;
+    if(!confirm('Clear the current call draft for this merchant? Saved call history will remain available.'))return;
+    setMerchantState(m.uid,{outreachCallDraft:{}});renderApp();
+  }
+  Object.assign(window,{updateOutreachCallDraft,copyOutreachCallNote,resetOutreachCallDraft});
+
   function saveManualCall() {
     const merchant=selectedMerchant();if(!merchant)return;
     const callState=document.getElementById("manualCallState")?.value||"completed";
     const duration=Math.max(0,Number(document.getElementById("manualCallDuration")?.value||0));
     const disposition=document.getElementById("manualCallDisposition")?.value||callState;
     const note=document.getElementById("manualCallNote")?.value.trim()||"";
+    const draft=merchantState(merchant.uid).outreachCallDraft||{};
+    if(OUTREACH_CALL_FIELDS.some((f,i)=>draft[i]) && OUTREACH_CALL_FIELDS.some((f,i)=>!draft[i]))return toast("Complete all 11 questions before saving the note");
     const now=new Date().toISOString();
     state.calls.unshift({id:uid("call"),uid:merchant.uid,state:callState,createdAt:now,completedAt:now,durationSec:duration,creditedSec:duration+(callState==="completed"?60:0),direction:"outbound",from:"",to:splitMulti(merchant.dm_phone)[0]||"",outcome:disposition,disposition,purpose:"Manual call",note,prospectId:"",prospectName:merchant.dm_name||"",prospectCompany:merchant.store_name,prospectEmail:splitMulti(merchant.dm_email)[0]||"",prospectPhones:splitMulti(merchant.dm_phone).map(digits),userName:state.profile.username||"Workspace user",source:"Manual",manual:true,importedAt:now,matchMethod:"manual",matchConfidence:100});
     setMerchantState(merchant.uid,{status:callState==="completed"?"Called":callState==="no_answer"?"No Answer":"To Call",statusDate:dateKeyInZone(new Date())});
-    scheduleSave();renderApp();toast(`Manual call added · Credited ${mmss(duration+(callState==="completed"?60:0))}`);
+    setMerchantState(merchant.uid,{outreachCallDraft:{}});scheduleSave();renderApp();toast(`Manual call added · Credited ${mmss(duration+(callState==="completed"?60:0))}`);
   }
 
   function savePhotoLog() {
