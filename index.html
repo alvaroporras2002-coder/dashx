@@ -3240,17 +3240,8 @@ const FOLLOWUP_DELETE_SOUND_DATA_URL = "data:audio/wav;base64,UklGRsqKAABXQVZFZm
     </aside>`;
   }
 
-  function renderWorkHub() {
+  function filteredWorkHubQueue(filters, now = new Date()) {
     const activeMerchants = state.merchants.filter(m => !m.archived);
-    if (!activeMerchants.length) return `<section class="panel">${emptyWorkspace()}</section>`;
-    const filters = { q:"", view:"uncalled", sort:"priority", market:"all", video:"all", photo:"all", contact:"all", phoneType:"all", recall:"all", localTimeBand:"all", photoCoverage:"all", lastInteraction:"all", ...(state.ui.workHubFilters || {}) };
-    const now = new Date();
-    let selected = selectedMerchant();
-    if (!selected || selected.archived) {
-      selected = activeMerchants[0];
-      state.selectedUid = selected.uid;
-    }
-    const markets = unique(activeMerchants.map(m=>m.market_name)).sort();
     const baseQueue = activeMerchants.map(m=>{
       const d = deriveMerchant(m, now);
       return { ...d, recall: merchantCallBackInfo(m, now) };
@@ -3293,17 +3284,59 @@ const FOLLOWUP_DELETE_SOUND_DATA_URL = "data:audio/wav;base64,UklGRsqKAABXQVZFZm
         if (scoreDiff !== 0) return scoreDiff;
         return a.merchant.store_name.localeCompare(b.merchant.store_name, undefined, { sensitivity: "base" });
       });
-    if (filters.view === "uncalled" && queue.length === 0) {
-      queue = buildQueue(true)
-        .sort((a, b) => {
-          if (filters.view === "az" || filters.sort === "az") {
-            return a.merchant.store_name.localeCompare(b.merchant.store_name, undefined, { sensitivity: "base" });
-          }
-          const scoreDiff = b.score - a.score;
-          if (scoreDiff !== 0) return scoreDiff;
-          return a.merchant.store_name.localeCompare(b.merchant.store_name, undefined, { sensitivity: "base" });
-        });
+    return queue;
+  }
+
+  const bulkOpenedMerchantIds = new Set();
+  function bulkMerchantTargets(filters, destination) {
+    const seen = new Set();
+    return filteredWorkHubQueue(filters).filter(d => merchantIsUntouched(d.merchant))
+      .map(d => ({ merchant: d.merchant, url: destination === "portal" ? merchantPortalUrl(d.merchant) : salesforceUrl(d.merchant) }))
+      .filter(item => {
+        if (bulkOpenedMerchantIds.has(item.merchant.uid) || seen.has(item.url)) return false;
+        try { if (!/^https?:$/.test(new URL(item.url).protocol)) return false; } catch { return false; }
+        seen.add(item.url);
+        return true;
+      }).slice(0, 30);
+  }
+
+  function openFilteredMerchantTabs() {
+    const filters = readWorkHubFilters();
+    const destination = document.getElementById("bulkMerchantDestination")?.value || "salesforce";
+    const targets = bulkMerchantTargets(filters, destination);
+    const status = document.getElementById("bulkMerchantStatus");
+    if (!targets.length) {
+      status.textContent = "No uncalled merchants match all current filters with a valid link. Try View: Uncalled or All merchants. Previously opened merchants are skipped during this session.";
+      return;
     }
+    let opened = 0;
+    for (const item of targets) {
+      let tab;
+      try { tab = window.open("about:blank", "_blank"); } catch { break; }
+      if (!tab) break;
+      try {
+        tab.opener = null;
+        tab.location.replace(item.url);
+        bulkOpenedMerchantIds.add(item.merchant.uid);
+        opened++;
+      } catch { try { tab.close(); } catch {} break; }
+    }
+    status.textContent = `Opened ${opened} of ${targets.length} tabs. ` +
+      (opened < targets.length ? "Chrome blocked additional tabs. Allow pop-ups for this page, then click again to open the remaining merchants." : "Click again for the next matching merchants. Opening a tab does not mark a merchant as called.");
+  }
+
+  function renderWorkHub() {
+    const activeMerchants = state.merchants.filter(m => !m.archived);
+    if (!activeMerchants.length) return `<section class="panel">${emptyWorkspace()}</section>`;
+    const filters = { q:"", view:"uncalled", sort:"priority", market:"all", video:"all", photo:"all", contact:"all", phoneType:"all", recall:"all", localTimeBand:"all", photoCoverage:"all", lastInteraction:"all", ...(state.ui.workHubFilters || {}) };
+    const now = new Date();
+    let selected = selectedMerchant();
+    if (!selected || selected.archived) {
+      selected = activeMerchants[0];
+      state.selectedUid = selected.uid;
+    }
+    const markets = unique(activeMerchants.map(m=>m.market_name)).sort();
+    const queue = filteredWorkHubQueue(filters, now);
 
     const totalPages = Math.max(1, Math.ceil(queue.length / WORK_HUB_PAGE_SIZE));
     const requestedPage = Math.max(1, Math.floor(Number(state.ui.workHubPage || 1)));
@@ -3349,6 +3382,11 @@ const FOLLOWUP_DELETE_SOUND_DATA_URL = "data:audio/wav;base64,UklGRsqKAABXQVZFZm
             ${filters.photoCoverage === "under50" ? `<span class="smart-filter-hint">Includes merchants with numeric photo coverage below 50%.</span>` : ""}
             ${filters.lastInteraction === "voicemail" ? `<span class="smart-filter-hint">Shows merchants whose most recent call was marked as a voicemail.</span>` : ""}
           </div>
+        </div>
+        <div class="smart-filter-panel" style="margin-top:12px">
+          <div class="field"><label for="bulkMerchantDestination">Open merchant tabs in</label><select id="bulkMerchantDestination"><option value="salesforce">Salesforce</option><option value="portal">Merchant Portal</option></select></div>
+          <button class="btn primary" style="width:100%;margin-top:10px;white-space:normal" type="button" data-action="openFilteredMerchantTabs">↗ Open 30 uncalled merchants</button>
+          <p id="bulkMerchantStatus" role="status" aria-live="polite" style="font-size:12px;line-height:1.5;margin:8px 0 0">Opens up to 30 matching merchants across all pages, in the current sort order. All filters, including View, apply. Uncalled follows your existing recent-call window. Allow pop-ups in Chrome to open multiple tabs.</p>
         </div>
         <div class="queue-scroll call-board-page" style="margin-top:10px">${queue.length ? visibleQueue.map(x=>merchantRowHTML(x)).join("") : `<div class="empty-state"><strong>No matches</strong><span>Change the queue filters.</span></div>`}</div>
         ${renderWorkHubPagination(currentPage, totalPages, queue.length)}
@@ -5937,6 +5975,8 @@ const FOLLOWUP_DELETE_SOUND_DATA_URL = "data:audio/wav;base64,UklGRsqKAABXQVZFZm
     if(lane){const key=lane.dataset.toggleLane;state.ui.laneOpen[key]=state.ui.laneOpen[key]===false?true:false;scheduleSave();renderApp();return;}
     const tab=e.target.closest("[data-workhub-tab]");
     if(tab){state.ui.workHubTab=tab.dataset.workhubTab;scheduleSave();renderApp();return;}
+    const bulkTabs=e.target.closest('[data-action="openFilteredMerchantTabs"]');
+    if(bulkTabs){e.preventDefault();openFilteredMerchantTabs();return;}
     const clearSmart=e.target.closest('[data-action="clearMerchantBoardFilters"]');
     if(clearSmart){
       state.ui.workHubPage=1;
