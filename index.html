@@ -392,7 +392,15 @@ html[data-device-mode=mobile] .workspace-wallpaper,html[data-device-mode=mobile]
 @media(min-width:1591px){html[data-device-mode=pc] .hub-layout{grid-template-columns:280px minmax(0,1fr) 340px}}
 @media(min-width:1221px) and (max-width:1590px){html[data-device-mode=pc] .hub-layout{grid-template-columns:270px minmax(0,1fr)}}
 @media(min-width:1081px) and (max-width:1220px){html[data-device-mode=pc] .hub-layout{grid-template-columns:250px minmax(0,1fr)}}
-.merchant-row{flex-wrap:wrap}.merchant-row-salesforce{display:block;flex:0 0 100%;box-sizing:border-box;margin-top:10px;padding:8px 10px;border:1px solid var(--line);border-radius:7px;color:var(--accent);background:var(--surface-2);text-align:center;text-decoration:none;font:600 11px/1.4 Arial,sans-serif}.merchant-row-salesforce:hover{border-color:var(--accent)}.merchant-row-salesforce:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+/* Compact merchant queue: intrinsic heights, no flex growth. */
+.merchant-list,.queue-scroll{align-content:start;grid-auto-rows:max-content}
+.merchant-row{display:flex;flex-direction:column;flex-wrap:nowrap;align-items:flex-start;justify-content:flex-start;gap:7px;height:auto;min-height:0;box-sizing:border-box;padding:11px 12px}
+.merchant-row>.merchant-row-main{display:flex;flex:0 0 auto;flex-direction:column;align-items:flex-start;justify-content:flex-start;gap:4px;width:100%;height:auto;min-height:0;margin:0;padding:0;border:0;background:transparent;text-align:left}
+.merchant-row>.merchant-row-main>.merchant-row-title{font:600 12px/1.4 Arial,sans-serif;margin:0;color:var(--text)}
+.merchant-row>.merchant-row-main>.merchant-row-sub{font:10px/1.4 Arial,sans-serif;margin:0;color:var(--muted)}
+.merchant-row>.merchant-row-salesforce{display:inline-flex;flex:0 0 auto;align-self:flex-start;align-items:center;justify-content:center;box-sizing:border-box;width:auto;height:auto;min-height:0;max-width:100%;margin:0;padding:4px 8px;border:1px solid var(--line);border-radius:5px;color:var(--accent);background:var(--surface-2);text-decoration:none;font:500 10px/1.4 Arial,sans-serif}
+.merchant-row>.merchant-row-salesforce:hover{border-color:var(--accent)}
+.merchant-row>.merchant-row-salesforce:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
 </style><style id="outreachCallLayout">
 .hub-main-call-documentation{margin-top:24px;padding-top:24px;border-top:1px solid var(--line);min-width:0}
 .hub-main-call-documentation>.card-head{flex-wrap:wrap;gap:12px}
@@ -2831,7 +2839,7 @@ const FOLLOWUP_DELETE_SOUND_DATA_URL = "data:audio/wav;base64,UklGRsqKAABXQVZFZm
         ${rowMeta ? `<span class="merchant-row-sub">${esc(rowMeta)}</span>` : ""}
         ${storeId ? `<span class="merchant-row-sub">Store ID: ${esc(storeId)}</span>` : ""}
       </button>
-      ${safeSfUrl ? `<a class="merchant-row-salesforce" href="${attr(safeSfUrl)}" target="_blank" rel="noopener noreferrer" aria-label="${attr(`Abrir ${m.store_name} en Salesforce`)}">Abrir Salesforce ↗</a>` : ""}
+      ${safeSfUrl ? `<a class="merchant-row-salesforce" href="${attr(safeSfUrl)}" target="_blank" rel="noopener noreferrer" aria-label="${attr(`Abrir ${m.store_name} en Salesforce`)}">Open Salesforce</a>` : ""}
     </div>`;
   }
 
